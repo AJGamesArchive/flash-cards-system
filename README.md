@@ -1,0 +1,74 @@
+# TestVar - Flash Cards System Monorepo
+
+- API Specification: ``openapi.yaml``
+- Pack Manager: [Yarn](https://yarnpkg.com)
+- Workspace Manager: [Turborepo](https://turbo.build)
+- Client Web App Code: ``./client``
+- API Server Code: ``./server``
+- Author: **Alex Ward**
+
+# Setup & Commands
+
+## Setup
+
+- Install Yarn Package Manager: ``npm install -g yarn`` or ``choco install yarn``
+- Clone Repo: ``git clone <repo-link>``
+- Install Dependencies: ``yarn install``
+- Run DEV Server(s): ``yarn all:dev``
+- - This will run a **client** DEV build on: [localhost:5173](http://localhost:5173)
+- - This will run a **server** DEV build on: [localhost:3000](http://localhost:3000)
+
+## Commands
+
+### Global
+
+- ``yarn all:build``: Build both the Client and the Server for production.
+- ``yarn all:lint``: Run ESLint on both the Client and the Server.
+- ``yarn all:dev``: Run DEB builds of both the Client (on port [5173](http://localhost:5173)) and the Server (on port [3000](http://localhost:3000)).
+
+### Server
+
+- ``yarn server:start``: Run the most recent production build of the server.
+- ``yarn server:build``: Build the server for production.
+- ``yarn server:dev``: Run a DEV build of the server.
+- ``yarn server:lint``: Run ESLint on the server.
+- ``yarn server:lint-fix``: Try to fix any present ESLint issues on the server.
+- ``yarn server:test``: Run Jest tests on the server.
+- ``yarn server:test-majestic``: Run Jest tests on the server using the Majestic UI tool.
+
+### Client
+
+- ``yarn client:build``: Build the client for production.
+- ``yarn client:dev``: Run a DEV build of the client on localhost.
+- ``yarn client:dev-h``: Run a DEV build of the client on localhost and expose a URL for other devices to connect to the build.
+- ``yarn client:lint``: Run ESLint on the client.
+- ``yarn client:lint-fix``: Try to fix any present ESLint issues on the client.
+- ``yarn client:preview``: Preview the most recent production build of the client.
+- ``yarn client:test``: Run tests on the client.
+- ``yarn client:test-majestic``: Run tests on the client using the Majestic UI tool.
+
+# Technical Specification
+
+The following section outlines the technology used for client and server code-bases respectively.
+
+## Server
+
+- Language: [TypeScript](https://www.typescriptlang.org/docs/)
+- Framework: [Fastify](https://fastify.dev)
+- Dev-Tools: [ts-node-dev](https://www.npmjs.com/package/ts-node-dev)
+- Test Framework: [Jest](https://jestjs.io)
+- Additional Test Tools: [Majestic](https://github.com/Raathigesh/majestic)
+- Code Checker: [ESLint](https://eslint.org)
+- Code Formatter: [Prettier](https://prettier.io)
+
+## Client
+
+- Languages: [TypeScript](https://www.typescriptlang.org/docs/) & [JSX/TSX](https://www.typescriptlang.org/docs/handbook/jsx.html)
+- Framework: [React](https://reactnative.dev)
+- UI Framework: [PrimeReact](https://primereact.org)
+- Build Tool: [Vite](https://vite.dev)
+- Additional Compiler: [Babel](https://babeljs.io)
+- Test Frameworks: [Jest](https://jestjs.io) & [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
+- Additional Jest Environment: [JSDom](https://www.npmjs.com/package/jest-environment-jsdom)
+- Additional Test Tools: [Majestic](https://github.com/Raathigesh/majestic)
+- Code Checker: [ESLint](https://eslint.org)

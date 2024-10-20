@@ -1,0 +1,44 @@
+{
+  "name": "flash-cards-system",
+  "repository": {
+    "url": "",
+    "type": "git"
+  },
+  "author": "Alex Ward",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "client",
+      "server"
+    ]
+  },
+  "scripts": {
+    "//////// Global ////////": "",
+    "all:build": "turbo run build",
+    "all:lint": "turbo run lint",
+    "all:dev": "turbo run dev",
+    "//////// Server ////////": "",
+    "server:start": "turbo run start --filter=@flash-cards-system/server",
+    "server:build": "turbo run build --filter=@flash-cards-system/server --parallel --no-cache",
+    "server:dev": "turbo run dev --filter=@flash-cards-system/server --parallel --no-cache",
+    "server:lint": "turbo run lint --filter=@flash-cards-system/server --parallel --no-cache",
+    "server:lint-fix": "turbo run lint-fix --filter=@flash-cards-system/server --parallel --no-cache",
+    "server:test": "turbo run test --filter=@flash-cards-system/server --parallel --no-cache",
+    "server:test-majestic": "turbo run test-majestic --filter=@flash-cards-system/server --parallel --no-cache",
+    "//////// Client ////////": "",
+    "client:build": "turbo run build --filter=@flash-cards-system/client --parallel --no-cache",
+    "client:dev": "turbo run dev --filter=@flash-cards-system/client --parallel --no-cache",
+    "client:dev-h": "turbo run dev-h --filter=@flash-cards-system/client --parallel --no-cache",
+    "client:lint": "turbo run lint --filter=@flash-cards-system/client --parallel --no-cache",
+    "client:lint-fix": "turbo run lint-fix --filter=@flash-cards-system/client --parallel --no-cache",
+    "client:preview": "turbo run preview --filter=@flash-cards-system/client --parallel --no-cache",
+    "client:test": "turbo run test --filter=@flash-cards-system/client --parallel --no-cache",
+    "client:test-majestic": "turbo run test-majestic --filter=@flash-cards-system/client --parallel --no-cache"
+  },
+  "packageManager": "yarn@1.22.22",
+  "devDependencies": {
+    "turbo": "^2.1.3"
+  }
+}
