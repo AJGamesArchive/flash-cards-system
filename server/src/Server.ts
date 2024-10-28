@@ -7,15 +7,15 @@ const server = Fastify({
 });
 
 // Define GET endpoint
-server.get("/", async (req, res) => {
+server.get("/", async (req, rep) => {
   return { message: "Hello, Fastify!" };
 });
 
 // Start server
 const start = async () => {
   try {
-    await server.listen({ port: 3000 });
-    console.log(`Server is running at http://localhost:3000`);
+    await server.listen({ port: 80 });
+    console.log(`API ready on: http://localhost:80`);
   } catch (err) {
     server.log.error(err);
     process.exit(1);

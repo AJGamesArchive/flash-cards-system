@@ -24,7 +24,7 @@
 
 - ``yarn all:build``: Build both the Client and the Server for production.
 - ``yarn all:lint``: Run ESLint on both the Client and the Server.
-- ``yarn all:dev``: Run DEB builds of both the Client (on port [5173](http://localhost:5173)) and the Server (on port [3000](http://localhost:3000)).
+- ``yarn all:dev``: Run DEB builds of both the Client (on port [5173](http://localhost:5173)) and the Server (on port [80](http://localhost:80)).
 
 ### Server
 
@@ -46,6 +46,16 @@
 - ``yarn client:preview``: Preview the most recent production build of the client.
 - ``yarn client:test``: Run tests on the client.
 - ``yarn client:test-majestic``: Run tests on the client using the Majestic UI tool.
+
+### Docker
+
+- ``docker-compose build`` - Build the DOcker containers.
+- ``docker-compose up --build`` - Build and run all Docker containers.
+- ``docker-compose up`` - Start Docker containers without rebuilding.
+- ``docker-compose down`` - Stop Docker containers.
+- ``docker-compose logs -f <service-name>`` - View logs for a given service.
+- - ``<service-name>`` = ``server`` or ``client``.
+- ``docker system prune -a`` - Remove all unused Docker; Images, Containers, and Networks from machine.
 
 # Technical Specification
 
