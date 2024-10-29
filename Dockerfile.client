@@ -12,6 +12,7 @@ RUN yarn install --frozen-lockfile
 # Copy monorepo in and prune dependencies
 COPY . .
 RUN turbo prune --scope=@flash-cards-system/client --docker
+
 # RUN yarn install --dev
 RUN cd client && yarn add typescript --dev
 RUN cd client && yarn add vite --dev

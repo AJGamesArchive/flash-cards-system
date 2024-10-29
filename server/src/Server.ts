@@ -8,6 +8,7 @@ const server = Fastify({
 
 // Define GET endpoint
 server.get("/", async (req, rep) => {
+  console.info(req, rep);
   return { message: "Hello, Fastify!" };
 });
 

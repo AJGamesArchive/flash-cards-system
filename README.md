@@ -16,7 +16,7 @@
 - Install Dependencies: ``yarn install``
 - Run DEV Server(s): ``yarn all:dev``
 - - This will run a **client** DEV build on: [localhost:5173](http://localhost:5173)
-- - This will run a **server** DEV build on: [localhost:3000](http://localhost:3000)
+- - This will run a **server** DEV build on: [localhost:80](http://localhost:80)
 
 ## Commands
 

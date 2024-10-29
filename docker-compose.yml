@@ -21,5 +21,6 @@ services:
       - "81:81"
     environment:
       NODE_ENV: production
+      # Add DB env if required later
     depends_on:
       - server
