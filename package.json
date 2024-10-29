@@ -21,7 +21,7 @@
     "all:dev": "turbo run dev",
     "//////// Server ////////": "",
     "server:start": "turbo run start --filter=@flash-cards-system/server",
-    "server:build": "turbo run build --filter=@flash-cards-system/server --parallel --no-cache",
+    "server:build": "turbo run build --filter=@flash-cards-system/server",
     "server:dev": "turbo run dev --filter=@flash-cards-system/server --parallel --no-cache",
     "server:lint": "turbo run lint --filter=@flash-cards-system/server --parallel --no-cache",
     "server:lint-fix": "turbo run lint-fix --filter=@flash-cards-system/server --parallel --no-cache",

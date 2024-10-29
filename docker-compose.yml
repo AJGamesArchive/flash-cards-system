@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+      target: production
+    ports:
+      - "80:80"
+    environment:
+      NODE_ENV: production
+      # Add DB env if required later
+
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+      target: production
+    ports:
+      - "81:81"
+    environment:
+      NODE_ENV: production
+    depends_on:
+      - server

@@ -1,0 +1,30 @@
+# Node modules & package files
+node_modules
+*.log
+*.lock
+!yarn.lock
+
+# Turbo chache & build files
+.cache/
+turbo/
+out/
+dist/
+lib/
+
+# Git stuff
+.git
+.gitignore
+
+# Local environment files
+.env
+
+# Docker files
+Dockerfile
+docker-compose.yml
+
+# Temporary files and editor settings
+*.swp
+*~
+.idea/
+.vscode/
+.DS_Store

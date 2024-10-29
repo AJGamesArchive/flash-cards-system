@@ -1,0 +1,34 @@
+# Build Depdendancies
+FROM node:20-alpine AS builder
+
+# Create directory and install Turbo
+WORKDIR /app
+RUN npm install -g turbo@2.1.3
+
+# Install dependancies
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
+
+# Copy monorepo in and prune dependencies
+COPY . .
+RUN turbo prune --scope=@flash-cards-system/server --docker
+RUN cd server && yarn add typescript --dev
+
+# Compile production build
+RUN yarn server:build
+
+# Create Production Image
+FROM node:20-alpine as production
+
+# Setup production dir
+WORKDIR /app
+
+# Copy in built files & install dependencies
+COPY --from=builder /app /app
+RUN yarn install --production --frozen-lockfile
+
+# Expose port
+EXPOSE 80
+
+# Start server
+CMD ["node", "server/dist/Server.js"]
