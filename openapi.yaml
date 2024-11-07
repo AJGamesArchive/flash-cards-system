@@ -576,6 +576,9 @@ components:
     FlashCard:
       type: "object"
       properties:
+        uuid:
+          type: "string"
+          example: "00000000-0000-0000-0000-000000000000"
         question:
           type: "string"
           example: "What is the capital of France?"
@@ -585,12 +588,20 @@ components:
         difficulty:
           $ref: "#/components/schemas/Difficulty"
           nullable: true
+        created_at:
+          type: "string"
+          format: "date-time"
+          example: "2024-10-14T12:00:00Z"
+        updated_at:
+          type: "string"
+          format: "date-time"
+          example: "2024-10-15T12:00:00Z"
     FlashcardSet:
       type: "object"
       properties:
-        id:
-          type: "number"
-          example: 1
+        uuid:
+          type: "string"
+          example: "00000000-0000-0000-0000-000000000000"
         name:
           type: "string"
           example: "European Capitals"
@@ -621,12 +632,15 @@ components:
     User:
       type: "object"
       properties:
-        id:
-          type: "number"
-          example: 1
+        uuid:
+          type: "string"
+          example: "00000000-0000-0000-0000-000000000000"
         username:
           type: "string"
           example: "johndoe"
+        password:
+          type: "string"
+          example: "password1"
         admin:
           type: "boolean"
           example: false
