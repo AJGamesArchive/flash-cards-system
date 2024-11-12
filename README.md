@@ -33,6 +33,11 @@ DATABASE_URL="file:./dev.db"
 - - This will run a **client** DEV build on: [localhost:5173](http://localhost:5173)
 - - This will run a **server** DEV build on: [localhost:80](http://localhost:80)
 
+## Default Admin Login
+
+- Username: **TestVar Admin**
+- Password: **TestVar@395012**
+
 ## Commands
 
 ### Global
@@ -69,7 +74,7 @@ DATABASE_URL="file:./dev.db"
 
 ### Docker
 
-- ``docker-compose build`` - Build the DOcker containers.
+- ``docker-compose build`` - Build the Docker containers.
 - ``docker-compose up --build`` - Build and run all Docker containers.
 - ``docker-compose up`` - Start Docker containers without rebuilding.
 - ``docker-compose down`` - Stop Docker containers.
