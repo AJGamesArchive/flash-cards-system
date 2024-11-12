@@ -5,6 +5,7 @@
 - Workspace Manager: [Turborepo](https://turbo.build)
 - Client Web App Code: ``./client``
 - API Server Code: ``./server``
+- Database Schema & Migrations: ``./database``
 - Author: **Alex Ward**
 
 # Setup & Commands
@@ -14,6 +15,20 @@
 - Install Yarn Package Manager: ``npm install -g yarn`` or ``choco install yarn``
 - Clone Repo: ``git clone <repo-link>``
 - Install Dependencies: ``yarn install``
+- Create a ``.env`` file in the ``./database`` workspace: 
+
+```bash
+$ cd database
+$ touch .env
+```
+
+- Add the following ENV to ``./database/.env``:
+
+```env
+DATABASE_URL="file:./dev.db"
+```
+
+- Init Database: ``yarn db:migrate``
 - Run DEV Server(s): ``yarn all:dev``
 - - This will run a **client** DEV build on: [localhost:5173](http://localhost:5173)
 - - This will run a **server** DEV build on: [localhost:80](http://localhost:80)
@@ -47,6 +62,11 @@
 - ``yarn client:test``: Run tests on the client.
 - ``yarn client:test-majestic``: Run tests on the client using the Majestic UI tool.
 
+### Database
+
+- ``yarn db:generate``: Generate Prisma Database Client.
+- ``yarn db:migrate``: Migrate database to update schema.
+
 ### Docker
 
 - ``docker-compose build`` - Build the DOcker containers.
@@ -65,7 +85,7 @@ The following section outlines the technology used for client and server code-ba
 
 - Language: [TypeScript](https://www.typescriptlang.org/docs/)
 - Framework: [Fastify](https://fastify.dev)
-- Dev-Tools: [ts-node-dev](https://www.npmjs.com/package/ts-node-dev)
+- Dev-Tools: [tsc-watch](https://www.npmjs.com/package/tsc-watch)
 - Test Framework: [Jest](https://jestjs.io)
 - Additional Test Tools: [Majestic](https://github.com/Raathigesh/majestic)
 - Code Checker: [ESLint](https://eslint.org)
@@ -82,3 +102,8 @@ The following section outlines the technology used for client and server code-ba
 - Additional Jest Environment: [JSDom](https://www.npmjs.com/package/jest-environment-jsdom)
 - Additional Test Tools: [Majestic](https://github.com/Raathigesh/majestic)
 - Code Checker: [ESLint](https://eslint.org)
+
+## Database
+
+- DBMS: [Prisma](https://pris.ly/d/prisma-schema)
+- Database: [SQLite3](https://www.sqlite.org/docs.html)

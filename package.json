@@ -1,17 +1,22 @@
 {
   "name": "flash-cards-system",
   "repository": {
-    "url": "",
+    "url": "https://github.com/AJGamesArchive/flash-cards-system.git",
     "type": "git"
   },
   "author": "Alex Ward",
   "version": "1.0.0",
   "license": "MIT",
   "private": true,
+  "type": "module",
+  "prisma": {
+    "schema": "./database/prisma/schema.prisma"
+  },
   "workspaces": {
     "packages": [
       "client",
-      "server"
+      "server",
+      "database"
     ]
   },
   "scripts": {
@@ -35,7 +40,10 @@
     "client:lint-fix": "turbo run lint-fix --filter=@flash-cards-system/client --parallel --no-cache",
     "client:preview": "turbo run preview --filter=@flash-cards-system/client --parallel --no-cache",
     "client:test": "turbo run test --filter=@flash-cards-system/client --parallel --no-cache",
-    "client:test-majestic": "turbo run test-majestic --filter=@flash-cards-system/client --parallel --no-cache"
+    "client:test-majestic": "turbo run test-majestic --filter=@flash-cards-system/client --parallel --no-cache",
+    "//////// Database ////////": "",
+    "db:generate": "turbo run database:generate --filter=@flash-cards-system/database",
+    "db:migrate": "turbo run database:migrate --filter=@flash-cards-system/database"
   },
   "packageManager": "yarn@1.22.22",
   "devDependencies": {

@@ -19,18 +19,16 @@
       "cache": false
     },
     "dev": {
-      "dependsOn": [
-        "^build"
-      ],
+      "dependsOn": [],
       "outputs": [],
-      "cache": false
+      "cache": false,
+      "persistent": true
     },
     "dev-h": {
-      "dependsOn": [
-        "^build"
-      ],
+      "dependsOn": [],
       "outputs": [],
-      "cache": false
+      "cache": false,
+      "persistent": true
     },
     "preview": {
       "dependsOn": [
@@ -52,6 +50,12 @@
       ],
       "outputs": [],
       "cache": false
+    },
+    "database:generate": {
+      "outputs": ["database/node_modules/.prisma"]
+    },
+    "database:migrate": {
+      "outputs": []
     }
   }
 }

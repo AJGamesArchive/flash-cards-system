@@ -1,0 +1,117 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Users {
+  userUUID              String    @id @unique
+  username              String    @unique
+  password              String
+  adminFlag             Boolean   @default(false)
+  loginToken            String?
+  userSince             DateTime  @default(now())
+  sets                  Sets[]
+  setReview             SetReivews[]
+  collections           Collections[]
+  collectionReviews     CollectionReviews[]
+  hiddenCardAllocation  HiddenCardAllocation[]
+}
+
+model Sets {
+  setUUID               String    @id @unique
+  name                  String
+  description           String
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  authorUUID            String
+  author                Users     @relation(fields: [authorUUID], references: [userUUID])
+  setReview             SetReivews[]
+  collectionAllocation  CollectionAllocations[]
+  flashCards            FlashCards[]
+}
+
+model SetReivews {
+  reviewUUID  String    @id @unique
+  review      String
+  starRating  Int
+  reviewDate  DateTime  @default(now())
+  authorUUID    String
+  setUUID     String
+  author      Users     @relation(fields: [authorUUID], references: [userUUID])
+  set         Sets      @relation(fields: [setUUID], references: [setUUID])
+}
+
+model Collections {
+  collectionUUID        String    @id @unique
+  name                  String
+  description           String
+  createdOn             DateTime  @default(now())
+  authorUUID            String
+  author                Users     @relation(fields: [authorUUID], references: [userUUID])
+  collectionReviews     CollectionReviews[]
+  collectionAllocation  CollectionAllocations[]
+}
+
+model CollectionReviews {
+  reviewUUID      String      @id @unique
+  starRating      Int
+  collectionUUID  String
+  authorUUID      String
+  reviewDate      DateTime    @default(now())
+  collection      Collections @relation(fields: [collectionUUID], references: [collectionUUID])
+  author          Users       @relation(fields: [authorUUID], references: [userUUID])
+}
+
+model CollectionAllocations {
+  allocationUUID  String      @id @unique
+  setUUID         String
+  collectionUUID  String
+  set             Sets        @relation(fields: [setUUID], references: [setUUID])
+  collection      Collections @relation(fields: [collectionUUID], references: [collectionUUID])
+}
+
+model Difficulties {
+  difficultyUUID  String  @id @unique
+  value           String
+  flashCards      FlashCards[]
+}
+
+model FlashCards {
+  cardUUID              String        @id @unique
+  question              String
+  answer                String
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+  setUUID               String
+  difficultyUUID        String
+  set                   Sets          @relation(fields: [setUUID], references: [setUUID])
+  difficulty            Difficulties  @relation(fields: [difficultyUUID], references: [difficultyUUID])
+  hiddenCardAllocation  HiddenCardAllocation[]
+  flashCardUsageLog     FlashCardUsageLogs[]
+}
+
+model HiddenCardAllocation {
+  allocationUUID  String      @id @unique
+  userUUID        String
+  cardUUID        String
+  user            Users       @relation(fields: [userUUID], references: [userUUID])
+  card            FlashCards  @relation(fields: [cardUUID], references: [cardUUID])
+}
+
+model FlashCardUsageLogs {
+  logUUID       String      @id @unique
+  faceDownTime  Int
+  revisionTime  Int
+  timesFlipped  Int
+  cardUUID      String
+  card          FlashCards  @relation(fields: [cardUUID], references: [cardUUID])
+}
+
+model SystemConfig {
+  configUUID        String  @id @unique
+  setCreationLimit  Int
+}
