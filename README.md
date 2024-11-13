@@ -74,6 +74,8 @@ DATABASE_URL="file:./dev.db"
 
 ### Docker
 
+**NOTE:** The ``server`` Docker container currently does not access the database properly.
+
 - ``docker-compose build`` - Build the Docker containers.
 - ``docker-compose up --build`` - Build and run all Docker containers.
 - ``docker-compose up`` - Start Docker containers without rebuilding.

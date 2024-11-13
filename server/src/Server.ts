@@ -1,5 +1,5 @@
 // Imports
-import Fastify from 'fastify';
+import Fastify, { FastifyRequest, FastifyReply } from 'fastify';
 import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
@@ -12,13 +12,14 @@ const server = Fastify({
 export const db = new PrismaClient();
 
 // Define GET endpoint
-server.get("/", async (req, rep) => {
-  console.info(req, rep);
-  return { message: "Hello, Fastify!" };
+server.get("/", async (req: FastifyRequest, rep: FastifyReply) => {
+  console.info(req);
+  rep.status(200).send({ message: "Hello, Fastify!" });
+  return;
 });
 
 // Endpoint to test adding database data
-server.post('/addUser', async (req, rep) => {
+server.post('/addUser', async (req: FastifyRequest, rep: FastifyReply) => {
   try {
     const user = req.body as {
       userUUID: string;
@@ -36,7 +37,7 @@ server.post('/addUser', async (req, rep) => {
 });
 
 // Endpoint to test fetching database data
-server.get('/getUsers', async (req, rep) => {
+server.get('/getUsers', async (req: FastifyRequest, rep: FastifyReply) => {
   console.log(req);
   const users = await db.users.findMany();
   rep.status(200).send(users);
@@ -44,7 +45,7 @@ server.get('/getUsers', async (req, rep) => {
 });
 
 // Endpoint to test hashing
-server.post('/hash', async (req, rep) => {
+server.post('/hash', async (req: FastifyRequest, rep: FastifyReply) => {
   const string = req.body as {
     string: string;
   };
@@ -54,22 +55,17 @@ server.post('/hash', async (req, rep) => {
 });
 
 // Start server
-const start = async () => {
-  try {
-    await server.listen({ port: 80 });
-    console.log(`API ready on: http://localhost:80`);
-  } catch (err) {
-    server.log.error(err);
+server.listen({ port: 80, host: '0.0.0.0' }, (error: Error | null, address: string) => {
+  if(error) {
+    server.log.error(error);
     db.$disconnect();
     process.exit(1);
   };
-};
+  console.log(`API ready on: ${address}`);
+});
 
 // Export server object for use in testing
 export default server;
-
-// Function to start the API
-start();
 
 // Listen for process termination signals to close the server
 process.on('SIGTERM', () => {

@@ -17,6 +17,9 @@ lib/
 
 # Local environment files
 .env
+dev.db
+dev.db-journal
+.rest
 
 # Docker files
 Dockerfile

@@ -10,7 +10,7 @@ services:
       - "80:80"
     environment:
       NODE_ENV: production
-      # Add DB env if required later
+      DATABASE_URL: "file:./dev.db"
 
   client:
     build:
@@ -18,9 +18,8 @@ services:
       dockerfile: Dockerfile.client
       target: production
     ports:
-      - "81:81"
+      - "81:80"
     environment:
       NODE_ENV: production
-      # Add DB env if required later
     depends_on:
       - server
