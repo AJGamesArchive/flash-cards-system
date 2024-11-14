@@ -76,7 +76,7 @@ model CollectionAllocations {
 
 model Difficulties {
   difficultyUUID  String  @id @unique
-  value           String
+  value           String  @unique
   flashCards      FlashCards[]
 }
 
