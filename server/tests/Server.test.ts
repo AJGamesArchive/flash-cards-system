@@ -1,5 +1,8 @@
-import server from '../src/Server'
+// Imports
+import server from '../src/Server';
+import buildNum from '../src/static/Build';
 
+// Endpoint tests
 describe('API Endpoints', () => {
   // Start server before testing
   beforeAll(async () => {
@@ -12,13 +15,12 @@ describe('API Endpoints', () => {
   });
 
   // Test root endpoint
-  it('should return a 200 status code for the root endpoint', async () => {
+  it('should return active API endpoint', async () => {
     const response = await server.inject({
       method: 'GET',
       url: '/'
     });
-    
     expect(response.statusCode).toBe(200);
-    expect(response.json()).toEqual({ message: "Hello, Fastify!" });
+    expect(response.json()).toEqual({ version: buildNum });
   });
 });

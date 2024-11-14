@@ -18,9 +18,12 @@
   "dependencies": {
     "bcrypt": "^5.1.1",
     "database": "*",
-    "fastify": "^5.0.0"
+    "dotenv": "^16.4.5",
+    "fastify": "^5.0.0",
+    "fastify-jwt": "^4.2.0"
   },
   "devDependencies": {
+    "@fastify/jwt": "^9.0.1",
     "@types/bcrypt": "^5.0.2",
     "@types/jest": "^29.5.13",
     "@types/node": "^22.7.6",

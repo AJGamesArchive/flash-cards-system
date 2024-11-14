@@ -15,6 +15,19 @@
 - Install Yarn Package Manager: ``npm install -g yarn`` or ``choco install yarn``
 - Clone Repo: ``git clone <repo-link>``
 - Install Dependencies: ``yarn install``
+- Create a ``.env`` file in the ``./server`` workspace:
+
+```bash
+$ cd server
+$ touch .env
+```
+
+- Add the following ENV to ``./server/.env``:
+
+```env
+JWT_SECRET=9jzInZSfM3UbtdL1J1cbm20dy6VqvrfLtzQHFZxv
+```
+
 - Create a ``.env`` file in the ``./database`` workspace: 
 
 ```bash
@@ -74,7 +87,7 @@ DATABASE_URL="file:./dev.db"
 
 ### Docker
 
-**NOTE:** The ``server`` Docker container currently does not access the database properly.
+**NOTE:** *The ``server`` Docker container currently does not access the database properly.*
 
 - ``docker-compose build`` - Build the Docker containers.
 - ``docker-compose up --build`` - Build and run all Docker containers.

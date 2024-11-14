@@ -4,14 +4,14 @@ info:
   description: "A revolutionaly REST API for flashcards"
   version: 1.0.0
 servers:
-  - url: http://localhost:3000/api
+  - url: http://localhost:80/api
     description: Development server
   - url: http://testvar.difcsi.hu/api
     description: Reference server
 paths:
   /:
     get:
-      summary: "Return the active API version"
+      summary: "Return the active API version - COMPLETE"
       tags:
         - "General"
       responses:
@@ -25,6 +25,71 @@ paths:
                   version:
                     type: "string"
                     example: "1.0.0"
+  /login:
+    post:
+      summary: "Validates a users username and password and returns a JWT - COMPLETE"
+      tags:
+        - "Authentication"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                username:
+                  type: "string"
+                password:
+                  type: "string"
+      responses:
+        "200":
+          description: "A JSON Web Token"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  token:
+                    type: "string"
+        "401":
+          description: "Invalid login credentials"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /confirmLogin:
+    get:
+      summary: "Confirm a user is logged in by validating their JWT - COMPLETE"
+      tags:
+        - "Authentication"
+      responses:
+        "200":
+          description: "Valid login session - returns user JWT payload"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  loggedIn:
+                    type: "boolean"
+                  user:
+                    type: "object"
+                    properties:
+                      username:
+                        type: "string"
+                      uuid:
+                        type: "string"
+                      isAdmin:
+                        type: "boolean"
+        "401":
+          description: "Invalid login session"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  loggedIn:
+                    type: "boolean"
   /sets:
     get:
       summary: "Get all flashcard sets"
@@ -97,11 +162,6 @@ paths:
                               example: "I love this set!"
                             author:
                               $ref: "#/components/schemas/User"
-                             
-                      
-                            
-
-                
         "404":
           description: "The flashcard set was not found"
           content:
@@ -172,7 +232,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Comment"
+                $ref: "#/components/schemas/CollectionReview"
         "404":
           description: "The flashcard set was not found"
           content:
@@ -576,7 +636,7 @@ components:
     FlashCard:
       type: "object"
       properties:
-        uuid:
+        cardUUID:
           type: "string"
           example: "00000000-0000-0000-0000-000000000000"
         question:
@@ -587,36 +647,46 @@ components:
           example: "Paris"
         difficulty:
           $ref: "#/components/schemas/Difficulty"
-          nullable: true
-        created_at:
+        createdAt:
           type: "string"
           format: "date-time"
           example: "2024-10-14T12:00:00Z"
-        updated_at:
+        updatedAt:
           type: "string"
           format: "date-time"
           example: "2024-10-15T12:00:00Z"
+        setUUID:
+          type: "string"
+          format: "string"
+          example: "00000000-0000-0000-0000-000000000000"
     FlashcardSet:
       type: "object"
       properties:
-        uuid:
+        setUUID:
           type: "string"
           example: "00000000-0000-0000-0000-000000000000"
         name:
           type: "string"
           example: "European Capitals"
+        description:
+          type: "string"
+          example: "Capital cities of European countries."
         cards:
           type: "array"
           items:
             $ref: "#/components/schemas/FlashCard"
-        created_at:
+        createdAt:
           type: "string"
           format: "date-time"
           example: "2024-10-14T12:00:00Z"
-        updated_at:
+        updatedAt:
           type: "string"
           format: "date-time"
           example: "2024-10-15T12:00:00Z"
+        authorUUID:
+          type: "string"
+          format: "string"
+          example: "00000000-0000-0000-0000-000000000000"
     Error:
       type: "object"
       properties:
@@ -632,7 +702,7 @@ components:
     User:
       type: "object"
       properties:
-        uuid:
+        userUUID:
           type: "string"
           example: "00000000-0000-0000-0000-000000000000"
         username:
@@ -645,17 +715,87 @@ components:
           type: "boolean"
           example: false
           default: false
-          nullable: true
           description: "The set creation limit should only apply to non-admin users"
-    Comment:
+        userSince:
+          type: "string"
+          format: "date-time"
+          example: "2024-10-14T12:00:00Z"
+        hiddenFlashcardUUID:
+          type: "array"
+          items:
+            type: "string"
+    FlashcardCollection:
       type: "object"
       properties:
-        comment:
+        collectionUUID:
           type: "string"
-          example: "I love this set!"
-        set:
-          $ref: "#/components/schemas/FlashcardSet"
-          nullable: true
-        author:
-          $ref: "#/components/schemas/User"
-          nullable: true
+          example: "00000000-0000-0000-0000-000000000000"
+        name:
+          type: "string"
+          example: "French Beginner Sets"
+        description:
+          type: "string"
+          example: "Sets to help beginners start to learn French"
+        createdOn:
+          type: "string"
+          format: "date-time"
+          example: "2024-10-14T12:00:00Z"
+        authorUUID:
+          type: "string"
+          example: "00000000-0000-0000-0000-000000000000"
+    CollectionReview:
+      type: "object"
+      properties:
+        reviewUUID:
+          type: "string"
+          example: "00000000-0000-0000-0000-000000000000"
+        starRating:
+          type: "number"
+          example: "5"
+        reviewDate:
+          type: "string"
+          format: "date-time"
+          example: "2024-10-14T12:00:00Z"
+        authorUUID:
+          type: "string"
+          example: "00000000-0000-0000-0000-000000000000"
+        collectionUUID:
+          type: "string"
+          example: "00000000-0000-0000-0000-000000000000"
+    SetReview:
+      type: "object"
+      properties:
+        reviewUUID:
+          type: "string"
+          example: "00000000-0000-0000-0000-000000000000"
+        starRating:
+          type: "number"
+          example: "5"
+        reviewDate:
+          type: "string"
+          format: "date-time"
+          example: "2024-10-14T12:00:00Z"
+        authorUUID:
+          type: "string"
+          example: "00000000-0000-0000-0000-000000000000"
+        setUUID:
+          type: "string"
+          example: "00000000-0000-0000-0000-000000000000"
+    FlashcardUsageLogs:
+      type: "object"
+      properties:
+        logUUID:
+          type: "string"
+          example: "00000000-0000-0000-0000-000000000000"
+        cardUUID:
+          type: "string"
+          example: "00000000-0000-0000-0000-000000000000"
+        faceDownTime:
+          type: "number"
+          description: "Log of duration in seconds"
+        revisionTime:
+          type: "number"
+          description: "Log of duration in seconds"
+        timesFlipped:
+          type: "number"
+          description: "Log of duration in seconds"
