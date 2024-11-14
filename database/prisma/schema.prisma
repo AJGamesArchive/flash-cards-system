@@ -112,6 +112,8 @@ model FlashCardUsageLogs {
 }
 
 model SystemConfig {
-  configUUID        String  @id @unique
+  configUUID        String    @id @unique
   setCreationLimit  Int
+  creationCounter   Int       @default(0)
+  currentDate       DateTime  @default(now())
 }
