@@ -1,6 +1,6 @@
 // Imports
-import server from '../src/Server';
-import buildNum from '../src/static/Build';
+import server from '../src/Server.js';
+import buildNum from '../src/static/Build.js';
 
 // Endpoint tests
 describe('API Endpoints', () => {
@@ -15,7 +15,7 @@ describe('API Endpoints', () => {
   });
 
   // Test root endpoint
-  it('should return active API endpoint', async () => {
+  it('should return active API version', async () => {
     const response = await server.inject({
       method: 'GET',
       url: '/'

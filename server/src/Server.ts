@@ -17,6 +17,8 @@ import routeLogin from "./routes/Auth/RouteLogin.js";
 import schemaLogin from "./schemas/Auth/SchemaLogin.js";
 import routeConfirmLogin from "./routes/Auth/RouteConfirmLogin.js";
 import schemaConfirmLogin from "./schemas/Auth/SchemaConfirmLogin.js";
+import routeLogout from "./routes/Auth/RouteLogout.js";
+import schemaLogout from "./schemas/Auth/SchemaLogout.js";
 
 // Load ENVs
 dotenv.config();
@@ -26,9 +28,13 @@ const server = Fastify({ logger: true }); //TODO Disable logger for production
 export const db = new PrismaClient();
 
 // Setup Fastify JWT & corresponding secret
-server.register(fastifyJWT, {
-  secret: process.env.JWT_SECRET || "[Error Loading Secret]",
-});
+const jwtSecret: string | undefined = process.env.JWT_SECRET;
+if(!jwtSecret) {
+  console.error('Failed to load JWT secret ENV.');
+  db.$disconnect();
+  process.exit(1);
+};
+server.register(fastifyJWT, { secret: jwtSecret });
 
 // Route guards
 server.decorate("/authenticate", guardAuthenticate); //! Remove later if still unused
@@ -40,6 +46,7 @@ server.get("/", { schema: schemaAPIBuild }, routeAPIBuild);
 // Auth endpoints
 server.post("/login", { schema: schemaLogin }, routeLogin);
 server.get("/confirmLogin", { schema: schemaConfirmLogin }, routeConfirmLogin);
+server.delete('/logout', { schema: schemaLogout, preHandler: [guardAuthenticate] }, routeLogout);
 
 // // Endpoint to test adding database data
 // server.post('/addUser', async (req: FastifyRequest, rep: FastifyReply) => {
@@ -85,9 +92,9 @@ server.listen(
       server.log.error(error);
       db.$disconnect();
       process.exit(1);
-    }
+    };
     console.log(`API ready on: ${address}`);
-  }
+  },
 );
 
 // Listen for process termination signals to close the server

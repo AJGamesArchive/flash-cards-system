@@ -57,6 +57,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+        "500":
+          description: "Failed to generate login token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /confirmLogin:
     get:
       summary: "Confirm a user is logged in by validating their JWT - COMPLETE"
@@ -90,6 +96,30 @@ paths:
                 properties:
                   loggedIn:
                     type: "boolean"
+  /logout:
+    delete:
+      summary: "Logout a user by removing their JWT from the DB - COMPLETE"
+      tags:
+        - "Authentication"
+      responses:
+        "202":
+          description: "Starting Logout Process"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: "string"
+        "401":
+          description: "User not logged in"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  message:
+                    type: "string"
   /sets:
     get:
       summary: "Get all flashcard sets"

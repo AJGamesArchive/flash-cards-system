@@ -17,7 +17,9 @@ const routeLogin = async (
 ): Promise<void> => {
   // Fetch user
   const user = await db.users.findUnique({
-    where: { username: req.body.username },
+    where: {
+      username: req.body.username
+    },
   });
 
   // Return unauthorized if no user is found
@@ -41,16 +43,31 @@ const routeLogin = async (
   }
 
   // Generate token
-  const token: string = server.jwt.sign(
-    {
-      username: user.username,
-      uuid: user.userUUID,
-      isAdmin: user.adminFlag,
-    },
-    {
-      expiresIn: 604800, // 1 week
-    }
-  );
+  const token: string = server.jwt.sign({
+    username: user.username,
+    uuid: user.userUUID,
+    isAdmin: user.adminFlag,
+  }, {
+    expiresIn: 604800, // 1 week
+  });
+
+  // Save token to DB
+  try {
+    await db.users.update({
+      where: {
+        userUUID: user.userUUID
+      },
+      data: {
+        loginToken: token
+      }
+    });
+  } catch (error: any) {
+    console.error(error);
+    rep.status(500).send({
+      message: 'Failed to generate login token.',
+    } as LoginReplyError);
+    return;
+  };
 
   // Successful login
   rep.status(200).send({ token } as LoginReply200);

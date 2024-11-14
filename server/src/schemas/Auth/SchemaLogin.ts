@@ -36,6 +36,12 @@ const schemaLogin: FastifySchema = {
         message: { type: "string" },
       },
     },
+    500: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
   },
 };
 
