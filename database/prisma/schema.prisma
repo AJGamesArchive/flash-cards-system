@@ -15,7 +15,7 @@ model Users {
   loginToken            String?
   userSince             DateTime  @default(now())
   sets                  Sets[]
-  setReview             SetReivews[]
+  setReview             SetReview[]
   collections           Collections[]
   collectionReviews     CollectionReviews[]
   hiddenCardAllocation  HiddenCardAllocation[]
@@ -29,12 +29,12 @@ model Sets {
   updatedAt             DateTime  @updatedAt
   authorUUID            String
   author                Users     @relation(fields: [authorUUID], references: [userUUID])
-  setReview             SetReivews[]
+  setReview             SetReview[]
   collectionAllocation  CollectionAllocations[]
   flashCards            FlashCards[]
 }
 
-model SetReivews {
+model SetReview {
   reviewUUID  String    @id @unique
   review      String
   starRating  Int
