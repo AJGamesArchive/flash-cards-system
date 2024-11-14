@@ -1,14 +1,14 @@
 // Imports
 import { FastifyRequest, FastifyReply } from "fastify";
 import { AuthenticateReplyError } from "../../schemas/guards/SchemaIsAuthenticated.js";
-import JWTData from "../../types/RequestUser.js";
+import JWTData from "../../types/JWTData.js";
 import isUserTokenCurrent from "../../queries/IsUserTokenCurrent.js";
 
 /**
  * Guard Route to authenticate a request by validating the JWT
  */
-const guardAuthenticate = async (
-  req: FastifyRequest,
+const guardAuthenticate = async <T>(
+  req: FastifyRequest<{ Body: T }>,
   rep: FastifyReply
 ): Promise<void> => {
   // Try to auth the JWT

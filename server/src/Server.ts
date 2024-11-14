@@ -9,16 +9,22 @@ import guardAuthenticate from "./routes/guards/GuardIsAuthenticated.js";
 import guardIsAdmin from "./routes/guards/GuardIsAdmin.js";
 
 // General routes & schemas
-import routeAPIBuild from "./routes/General/RouteAPIBuild.js";
-import schemaAPIBuild from "./schemas/General/SchemaAPIBuild.js";
+import routeAPIBuild from "./routes/general/RouteAPIBuild.js";
+import schemaAPIBuild from "./schemas/general/SchemaAPIBuild.js";
 
 // Auth routes & schemas
-import routeLogin from "./routes/Auth/RouteLogin.js";
-import schemaLogin from "./schemas/Auth/SchemaLogin.js";
-import routeConfirmLogin from "./routes/Auth/RouteConfirmLogin.js";
-import schemaConfirmLogin from "./schemas/Auth/SchemaConfirmLogin.js";
-import routeLogout from "./routes/Auth/RouteLogout.js";
-import schemaLogout from "./schemas/Auth/SchemaLogout.js";
+import routeLogin from "./routes/auth/RouteLogin.js";
+import schemaLogin from "./schemas/auth/SchemaLogin.js";
+import routeConfirmLogin from "./routes/auth/RouteConfirmLogin.js";
+import schemaConfirmLogin from "./schemas/auth/SchemaConfirmLogin.js";
+import routeLogout from "./routes/auth/RouteLogout.js";
+import schemaLogout from "./schemas/auth/SchemaLogout.js";
+
+// Flashcard set routes & schemas
+import routeGETSets from "./routes/sets/RouteGETSets.js";
+import schemaGETSets from "./schemas/sets/SchemaGETSets.js";
+import routePOSTSets from "./routes/sets/RoutePOSTSets.js";
+import schemaPOSTSets, { POSTSetsRequest } from "./schemas/sets/SchemaPOSTSets.js";
 
 // Load ENVs
 dotenv.config();
@@ -40,13 +46,19 @@ server.register(fastifyJWT, { secret: jwtSecret });
 server.decorate("/authenticate", guardAuthenticate); //! Remove later if still unused
 server.decorate("/isAdmin", guardIsAdmin); //! Remove later if still unused
 
+//TODO Update all endpoints to use errorHandler functions to clean up error hading if time permits
+
 // General endpoints
 server.get("/", { schema: schemaAPIBuild }, routeAPIBuild);
 
 // Auth endpoints
 server.post("/login", { schema: schemaLogin }, routeLogin);
 server.get("/confirmLogin", { schema: schemaConfirmLogin }, routeConfirmLogin);
-server.delete('/logout', { schema: schemaLogout, preHandler: [guardAuthenticate] }, routeLogout);
+server.delete('/logout', { schema: schemaLogout, preHandler: [guardAuthenticate<any>] }, routeLogout);
+
+// Flashcard set endpoints
+server.get('/sets', { schema: schemaGETSets }, routeGETSets);
+server.post('/sets', { schema: schemaPOSTSets, preHandler: [guardAuthenticate<POSTSetsRequest>] }, routePOSTSets);
 
 // // Endpoint to test adding database data
 // server.post('/addUser', async (req: FastifyRequest, rep: FastifyReply) => {

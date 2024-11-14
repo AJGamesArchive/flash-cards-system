@@ -5,7 +5,7 @@ import {
   LoginRequest,
   LoginReply200,
   LoginReplyError,
-} from "../../schemas/Auth/SchemaLogin.js";
+} from "../../schemas/auth/SchemaLogin.js";
 import server, { db } from "../../Server.js";
 
 /**

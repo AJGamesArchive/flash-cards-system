@@ -3,8 +3,8 @@ import { FastifyRequest, FastifyReply } from "fastify";
 import {
   ConfirmLoginReply200,
   ConfirmLoginReply401,
-} from "../../schemas/Auth/SchemaConfirmLogin.js";
-import JWTData from "../../types/RequestUser.js";
+} from "../../schemas/auth/SchemaConfirmLogin.js";
+import JWTData from "../../types/JWTData.js";
 import isUserTokenCurrent from "../../queries/IsUserTokenCurrent.js";
 
 /**

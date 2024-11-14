@@ -1,10 +1,11 @@
 // Imports
 import { FastifyRequest, FastifyReply } from "fastify";
-import { LogoutReply } from "../../schemas/Auth/SchemaLogout.js";
-import JWTData from "../../types/RequestUser.js";
+import { LogoutReply } from "../../schemas/auth/SchemaLogout.js";
+import JWTData from "../../types/JWTData.js";
 import { db } from "../../Server.js";
 
 /**
+ * @Protected
  * Route to logout a user by removing their JWT from the DB
  */
 const routeLogout = async (
