@@ -1,5 +1,5 @@
 // Imports
-import { db } from "../Server.js";
+import { db } from "../../Server.js";
 
 /**
  * Async function to validate that a users JWT is their most recent token

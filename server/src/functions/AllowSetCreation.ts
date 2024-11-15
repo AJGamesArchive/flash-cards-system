@@ -1,7 +1,7 @@
 // Imports
-import { FastifyReply } from 'fastify';
-import { POSTSetsReplyError } from '../schemas/sets/SchemaPOSTSets.js';
 import JWTData from '../types/JWTData.js';
+import getSetCreationLimitConfig from '../queries/system-config/GetSetCreationLimitConfig.js';
+import SystemConfig from '../types/SystemConfig.js';
 import { db } from '../Server.js';
 
 /**
@@ -10,34 +10,20 @@ import { db } from '../Server.js';
  * @param rep Fastify Reply object
  * @returns True if creation is permitted, otherwise false
  */
-async function allowSetCreation(userDate: JWTData, rep: FastifyReply): Promise<boolean> {
+async function allowSetCreation(userDate: JWTData): Promise<number> {
   // Permit set creation is user is an admin
-  if(userDate.isAdmin) return true;
+  if(userDate.isAdmin) return 200;
 
   // Fetch card limit config data
-  const setLimitConfig = await db.systemConfig.findUnique({
-    where: {
-      configUUID: "7d6456e7-53f9-4d23-a547-a2590dd5bc30",
-    },
-  });
-  if(!setLimitConfig) {
-    rep.status(404).send({
-      message: 'Flashcard creation config could not be loaded.',
-    } as POSTSetsReplyError);
-    return false;
-  };
+  const setLimitConfig: SystemConfig | null = await getSetCreationLimitConfig();
+  if(!setLimitConfig) return 404;
 
   // Create current date object
   const today = new Date();
 
   if(setLimitConfig.currentDate === today) {
     // Return error if set creation counter for today has been reached
-    if(setLimitConfig.creationCounter >= setLimitConfig.setCreationLimit) {
-      rep.status(429).send({
-        message: 'You have reached the maximum number of flashcard set creations allowed today.'
-      } as POSTSetsReplyError);
-      return false;
-    };
+    if(setLimitConfig.creationCounter >= setLimitConfig.setCreationLimit) return 429;
 
     // Increment creation counter
     try {
@@ -50,10 +36,8 @@ async function allowSetCreation(userDate: JWTData, rep: FastifyReply): Promise<b
         },
       });
     } catch (error: any) {
-      rep.status(500).send({
-        message: 'Something went wrong, please try again.',
-      } as POSTSetsReplyError);
-      return false;
+      console.error(error);
+      return 500;
     };
   } else {
     // Reset the creation counter for the new day
@@ -68,15 +52,13 @@ async function allowSetCreation(userDate: JWTData, rep: FastifyReply): Promise<b
         },
       });
     } catch (error: any) {
-      rep.status(500).send({
-        message: 'Something went wrong, please try again.',
-      } as POSTSetsReplyError);
-      return false;
+      console.error(error);
+      return 500;
     };
   };
 
   // Return true all if checks pass and set creation is permitted
-  return true;
+  return 200;
 };
 
 export default allowSetCreation;

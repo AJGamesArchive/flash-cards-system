@@ -130,7 +130,16 @@ paths:
               schema:
                 type: "array"
                 items:
-                  $ref: "#/components/schemas/FlashcardSet"
+                  type: "object"
+                  properties:
+                    setDetails:
+                      type: "object"
+                      $ref: "#/components/schemas/FlashcardSet"
+                    reviews:
+                      type: "array"
+                      items:
+                        type: "object"
+                        $ref: "#/components/schemas/SetReview"
     post:
       summary: "Create a new flashcard set with flashcards"
       description: "There can only be 20 new flashcard sets created per day"
@@ -819,6 +828,9 @@ components:
         reviewUUID:
           type: "string"
           example: "00000000-0000-0000-0000-000000000000"
+        review:
+          type: "object"
+          example: "This collection is great!"
         starRating:
           type: "number"
           example: "5"
@@ -838,6 +850,9 @@ components:
         reviewUUID:
           type: "string"
           example: "00000000-0000-0000-0000-000000000000"
+        review:
+          type: "string"
+          example: "This set of flashcards is great!"
         starRating:
           type: "number"
           example: "5"

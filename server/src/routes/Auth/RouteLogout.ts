@@ -2,7 +2,7 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { LogoutReply } from "../../schemas/auth/SchemaLogout.js";
 import JWTData from "../../types/JWTData.js";
-import { db } from "../../Server.js";
+import setUserToken from "../../queries/auth/SetUserToken.js";
 
 /**
  * @Protected
@@ -18,21 +18,9 @@ const routeLogout = async (
   } as LogoutReply);
 
   // Try to logout user
-  try {
-    const userData: JWTData = req.user as JWTData;
-    await db.users.update({
-      where: {
-        userUUID: userData.uuid,
-      },
-      data: {
-        loginToken: null,
-      },
-    });
-  } catch (error: any) {
-    // Log any errors
-    console.error(error);
-    return;
-  };
+  const userData: JWTData = req.user as JWTData;
+  await setUserToken(userData.username, null);
+  return;
 };
 
 export default routeLogout;

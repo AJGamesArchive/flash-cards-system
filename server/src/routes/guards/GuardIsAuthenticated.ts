@@ -2,7 +2,7 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { AuthenticateReplyError } from "../../schemas/guards/SchemaIsAuthenticated.js";
 import JWTData from "../../types/JWTData.js";
-import isUserTokenCurrent from "../../queries/IsUserTokenCurrent.js";
+import isUserTokenCurrent from "../../queries/auth/IsUserTokenCurrent.js";
 
 /**
  * Guard Route to authenticate a request by validating the JWT

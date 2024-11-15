@@ -5,7 +5,7 @@ import {
   ConfirmLoginReply401,
 } from "../../schemas/auth/SchemaConfirmLogin.js";
 import JWTData from "../../types/JWTData.js";
-import isUserTokenCurrent from "../../queries/IsUserTokenCurrent.js";
+import isUserTokenCurrent from "../../queries/auth/IsUserTokenCurrent.js";
 
 /**
  * Route to authenticate whether a user is currently logged in

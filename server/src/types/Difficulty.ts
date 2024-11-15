@@ -1,6 +1,14 @@
 /**
+ * Type to define the data that powers difficulties
+ */
+type Difficulty = {
+  difficultyUUID: string;
+  value: DifficultyOptions;
+};
+
+/**
  * Type to define flashcard difficulties
  */
-type Difficulty = 'Easy' | 'Medium' | 'Hard';
+export type DifficultyOptions = 'Easy' | 'Medium' | 'Hard';
 
 export default Difficulty;

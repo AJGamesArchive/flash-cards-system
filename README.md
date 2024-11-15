@@ -13,6 +13,7 @@
 ## Setup
 
 - Install Yarn Package Manager: ``npm install -g yarn`` or ``choco install yarn``
+- Ensure you're running **NodeJS v18**
 - Clone Repo: ``git clone <repo-link>``
 - Install Dependencies: ``yarn install``
 - Create a ``.env`` file in the ``./server`` workspace:

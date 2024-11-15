@@ -6,7 +6,10 @@ import {
   LoginReply200,
   LoginReplyError,
 } from "../../schemas/auth/SchemaLogin.js";
-import server, { db } from "../../Server.js";
+import setUserToken from "../../queries/auth/SetUserToken.js";
+import getUserByUsername from "../../queries/auth/GetUserByUsername.js";
+import server from "../../Server.js";
+import User from "../../types/User.js";
 
 /**
  * Route to login a user
@@ -16,13 +19,7 @@ const routeLogin = async (
   rep: FastifyReply
 ): Promise<void> => {
   // Fetch user
-  const user = await db.users.findUnique({
-    where: {
-      username: req.body.username
-    },
-  });
-
-  // Return unauthorized if no user is found
+  const user: User | null = await getUserByUsername(req.body.username);
   if (!user) {
     rep.status(401).send({
       message: "Invalid Credentials",
@@ -52,17 +49,8 @@ const routeLogin = async (
   });
 
   // Save token to DB
-  try {
-    await db.users.update({
-      where: {
-        userUUID: user.userUUID
-      },
-      data: {
-        loginToken: token
-      }
-    });
-  } catch (error: any) {
-    console.error(error);
+  const success: boolean = await setUserToken(user.userUUID, token);
+  if(!success) {
     rep.status(500).send({
       message: 'Failed to generate login token.',
     } as LoginReplyError);

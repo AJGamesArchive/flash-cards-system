@@ -1,6 +1,6 @@
 // Imports
 import { FastifySchema } from "fastify";
-import Difficulty from "../../types/Difficulty.js";
+import { DifficultyOptions } from "../../types/Difficulty";
 
 export interface POSTSetsRequest {
   setDetails: {
@@ -11,7 +11,7 @@ export interface POSTSetsRequest {
   flashCards: {
     question: string;
     answer: string;
-    difficulty: Difficulty;
+    difficulty: DifficultyOptions;
   }[],
 };
 
@@ -28,7 +28,7 @@ export interface POSTSetsReply201 {
     cardUUID: string;
     question: string;
     answer: string;
-    difficulty: Difficulty;
+    difficulty: DifficultyOptions;
     createdAt: string;
     updateAt: string;
     setUUID: string;
