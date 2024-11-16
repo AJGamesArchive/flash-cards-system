@@ -1,0 +1,58 @@
+// Imports
+import { FastifySchema } from "fastify";
+
+export interface GETUsersUserUUIDParams {
+  userUUID: string;
+};
+
+export interface GETUsersUserUUIDReply200 {
+  userUUID: string;
+  username: string;
+  adminFlag: boolean;
+  userSince: string;
+  deleted: boolean;
+  apiAccount: boolean;
+};
+
+export interface GETUsersUserUUIDReplyError {
+  message: string;
+};
+
+const schemaGETUsersUserUUID: FastifySchema = {
+  params: {
+    type: "object",
+    properties: {
+      userUUID: { type: "string" },
+    },
+    required: ["userUUID"],
+  },
+  response: {
+    200: {
+      type: "object",
+      properties: {
+        userUUID: { type: "string" },
+        username: { type: "string" },
+        adminFlag: { type: "boolean" },
+        userSince: { type: "string", format: "date-time" },
+        deleted: { type: "boolean" },
+        apiAccount: { type: "boolean" },
+      },
+      required: [
+        "userUUID",
+        "username",
+        "adminFlag",
+        "userSince",
+        "deleted",
+        "apiAccount",
+      ],
+    },
+    404: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
+  },
+};
+
+export default schemaGETUsersUserUUID;

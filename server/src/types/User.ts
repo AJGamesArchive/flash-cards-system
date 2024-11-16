@@ -7,6 +7,7 @@ type User = {
   adminFlag: boolean;
   userSince: Date;
   deleted: boolean;
+  apiAccount: boolean;
 };
 
 export default User;

@@ -3,7 +3,7 @@ import { FastifySchema } from "fastify";
 
 export interface APIBuildReply {
   version: string;
-}
+};
 
 const schemaAPIBuild: FastifySchema = {
   response: {

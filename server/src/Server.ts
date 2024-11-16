@@ -45,6 +45,10 @@ import routeGETSetSetUUIDReviewsAuthorUUID from "./routes/set-reviews/RouteGETSe
 import schemaGETSetsSetUUIDReviewsAuthorUUID from "./schemas/set-reviews/SchemaGETSetsSetUUIDReviewsAuthorUUID.js";
 
 // User routes & schemas
+import routeGETUsers from "./routes/users/RouteGETUsers.js";
+import schemaGETUsers from "./schemas/users/SchemaGETUsers.js";
+import routeGETUsersUserUUID from "./routes/users/RouteGETUsersUserUUID.js";
+import schemaGETUsersUserUUID, { GETUsersUserUUIDParams } from "./schemas/users/SchemaGETUsersUserUUID.js";
 import routeUsersUserUUIDSets from "./routes/users/RouteUsersUserUUIDSets.js";
 import schemaUsersUserUUIDSets from "./schemas/users/SchemaUsersUserUUIDSets.js";
 
@@ -127,6 +131,14 @@ server.get('/sets/:setUUID/reviews/:authorUUID', {
 }, routeGETSetSetUUIDReviewsAuthorUUID);
 
 // User endpoints
+server.get('/users', {
+  schema: schemaGETUsers,
+  preHandler: [guardAuthenticate<any, any, any>, guardIsAdmin<any, any, any>],
+}, routeGETUsers);
+server.get('/users/:userUUID', {
+  schema: schemaGETUsersUserUUID,
+  preHandler: [guardAuthenticate<any, GETUsersUserUUIDParams, any>],
+}, routeGETUsersUserUUID);
 server.get('/users/:userUUID/sets', {
   schema: schemaUsersUserUUIDSets,
 }, routeUsersUserUUIDSets);
