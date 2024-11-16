@@ -8,12 +8,13 @@ generator client {
 }
 
 model Users {
-  userUUID              String    @id @unique
+  userUUID              String    @id @default(uuid()) @unique
   username              String    @unique
   password              String
   adminFlag             Boolean   @default(false)
   loginToken            String?
   userSince             DateTime  @default(now())
+  deleted               Boolean   @default(false)
   sets                  Sets[]
   setReview             SetReview[]
   collections           Collections[]
@@ -22,97 +23,97 @@ model Users {
 }
 
 model Sets {
-  setUUID               String    @id @unique
+  setUUID               String    @id @default(uuid()) @unique
   name                  String
   description           String
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt
   authorUUID            String
-  author                Users     @relation(fields: [authorUUID], references: [userUUID])
+  author                Users     @relation(fields: [authorUUID], references: [userUUID], onDelete: Cascade)
   setReview             SetReview[]
   collectionAllocation  CollectionAllocations[]
   flashCards            FlashCards[]
 }
 
 model SetReview {
-  reviewUUID  String    @id @unique
+  reviewUUID  String    @id @default(uuid()) @unique
   review      String
   starRating  Int
   reviewDate  DateTime  @default(now())
-  authorUUID    String
+  authorUUID  String?
   setUUID     String
-  author      Users     @relation(fields: [authorUUID], references: [userUUID])
-  set         Sets      @relation(fields: [setUUID], references: [setUUID])
+  author      Users?    @relation(fields: [authorUUID], references: [userUUID])
+  set         Sets      @relation(fields: [setUUID], references: [setUUID], onDelete: Cascade)
 }
 
 model Collections {
-  collectionUUID        String    @id @unique
+  collectionUUID        String    @id @default(uuid()) @unique
   name                  String
   description           String
   createdOn             DateTime  @default(now())
   authorUUID            String
-  author                Users     @relation(fields: [authorUUID], references: [userUUID])
+  author                Users     @relation(fields: [authorUUID], references: [userUUID], onDelete: Cascade)
   collectionReviews     CollectionReviews[]
   collectionAllocation  CollectionAllocations[]
 }
 
 model CollectionReviews {
-  reviewUUID      String      @id @unique
+  reviewUUID      String      @id @default(uuid()) @unique
   starRating      Int
   collectionUUID  String
-  authorUUID      String
+  authorUUID      String?
   reviewDate      DateTime    @default(now())
-  collection      Collections @relation(fields: [collectionUUID], references: [collectionUUID])
-  author          Users       @relation(fields: [authorUUID], references: [userUUID])
+  collection      Collections @relation(fields: [collectionUUID], references: [collectionUUID], onDelete: Cascade)
+  author          Users?      @relation(fields: [authorUUID], references: [userUUID])
 }
 
 model CollectionAllocations {
-  allocationUUID  String      @id @unique
+  allocationUUID  String      @id @default(uuid()) @unique
   setUUID         String
   collectionUUID  String
-  set             Sets        @relation(fields: [setUUID], references: [setUUID])
-  collection      Collections @relation(fields: [collectionUUID], references: [collectionUUID])
+  set             Sets        @relation(fields: [setUUID], references: [setUUID], onDelete: Cascade)
+  collection      Collections @relation(fields: [collectionUUID], references: [collectionUUID], onDelete: Cascade)
 }
 
 model Difficulties {
-  difficultyUUID  String  @id @unique
+  difficultyUUID  String  @id @default(uuid()) @unique
   value           String  @unique
   flashCards      FlashCards[]
 }
 
 model FlashCards {
-  cardUUID              String        @id @unique
+  cardUUID              String        @id @default(uuid()) @unique
   question              String
   answer                String
   createdAt             DateTime      @default(now())
   updatedAt             DateTime      @updatedAt
   setUUID               String
-  difficultyUUID        String
-  set                   Sets          @relation(fields: [setUUID], references: [setUUID])
-  difficulty            Difficulties  @relation(fields: [difficultyUUID], references: [difficultyUUID])
+  difficultyUUID        String?
+  set                   Sets          @relation(fields: [setUUID], references: [setUUID], onDelete: Cascade)
+  difficulty            Difficulties? @relation(fields: [difficultyUUID], references: [difficultyUUID])
   hiddenCardAllocation  HiddenCardAllocation[]
   flashCardUsageLog     FlashCardUsageLogs[]
 }
 
 model HiddenCardAllocation {
-  allocationUUID  String      @id @unique
+  allocationUUID  String      @id @default(uuid()) @unique
   userUUID        String
   cardUUID        String
-  user            Users       @relation(fields: [userUUID], references: [userUUID])
-  card            FlashCards  @relation(fields: [cardUUID], references: [cardUUID])
+  user            Users       @relation(fields: [userUUID], references: [userUUID], onDelete: Cascade)
+  card            FlashCards  @relation(fields: [cardUUID], references: [cardUUID], onDelete: Cascade)
 }
 
 model FlashCardUsageLogs {
-  logUUID       String      @id @unique
+  logUUID       String      @id @default(uuid()) @unique
   faceDownTime  Int
   revisionTime  Int
   timesFlipped  Int
-  cardUUID      String
-  card          FlashCards  @relation(fields: [cardUUID], references: [cardUUID])
+  cardUUID      String?
+  card          FlashCards? @relation(fields: [cardUUID], references: [cardUUID])
 }
 
 model SystemConfig {
-  configUUID        String    @id @unique
+  configUUID        String    @id @default(uuid()) @unique
   setCreationLimit  Int
   creationCounter   Int       @default(0)
   currentDate       DateTime  @default(now())
