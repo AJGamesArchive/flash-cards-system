@@ -20,12 +20,12 @@ const routeLogin = async (
 ): Promise<void> => {
   // Fetch user
   const user: User | null = await getUserByUsername(req.body.username);
-  if (!user) {
+  if (!user || user.deleted) {
     rep.status(401).send({
       message: "Invalid Credentials",
     } as LoginReplyError);
     return;
-  }
+  };
 
   // Check if password is correct
   const correct: boolean = await bcrypt.compare(

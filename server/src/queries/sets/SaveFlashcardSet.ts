@@ -57,7 +57,7 @@ async function saveFlashcardSet(set: FlashcardSet, flashcards: Flashcard[], newF
       data: {
         name: set.name,
         description: set.description,
-        updatedAt: new Date(),
+        updatedAt: set.updatedAt,
       },
     }));
     flashcards.forEach((flashcard) => queries.push(db.flashCards.update({
@@ -67,7 +67,7 @@ async function saveFlashcardSet(set: FlashcardSet, flashcards: Flashcard[], newF
       data: {
         question: flashcard.question,
         answer: flashcard.answer,
-        updatedAt: new Date(),
+        updatedAt: set.updatedAt,
         difficulty: {
           connect: {
             difficultyUUID: String(flashcard.difficulty),

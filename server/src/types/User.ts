@@ -8,6 +8,7 @@ type User = {
   adminFlag: boolean;
   loginToken: string | null;
   userSince: Date;
+  deleted: boolean;
 };
 
 export default User;

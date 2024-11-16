@@ -104,6 +104,7 @@ const routePOSTSets = async (
       updateAt: flashcard.updatedAt.toISOString(),
     })),
   } as POSTSetsReply201);
+  return;
 };
 
 export default routePOSTSets;

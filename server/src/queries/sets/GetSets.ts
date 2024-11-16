@@ -22,13 +22,13 @@ export type FullSet = {
 async function getSets(authorUUID?: string, setUUID?: string): Promise<FullSet[]> {
   // Define variables to store base fetched data
   let setQuery;
-  let reviewQUery;
+  var reviewQuery: Array<any>;
 
   // Fetch data from DB
   if(authorUUID || setUUID) {
     if(setUUID) {
       // Fetch specific set and it's reviews
-      [setQuery, reviewQUery] = await Promise.all([
+      [setQuery, reviewQuery] = await Promise.all([
         db.sets.findMany({
           where: {
             setUUID: setUUID,
@@ -42,7 +42,7 @@ async function getSets(authorUUID?: string, setUUID?: string): Promise<FullSet[]
       ]);
     } else {
       // Fetch all sets authored by a given user and all of their corresponding reviews
-      [setQuery, reviewQUery] = await Promise.all([
+      [setQuery, reviewQuery] = await Promise.all([
         db.sets.findMany({
           where: {
             authorUUID: authorUUID,
@@ -59,7 +59,7 @@ async function getSets(authorUUID?: string, setUUID?: string): Promise<FullSet[]
     };
   } else {
     // Fetch all sets and all set reviews
-    [setQuery, reviewQUery] = await Promise.all([
+    [setQuery, reviewQuery] = await Promise.all([
       db.sets.findMany(),
       db.setReview.findMany(),
     ]);
@@ -68,7 +68,7 @@ async function getSets(authorUUID?: string, setUUID?: string): Promise<FullSet[]
   // Map over all fetched sets and generate FullSet objects
   const fullSets: FullSet[] = setQuery.map((set) => {
     // Find all reviews for this set and generate SetReview objects for each review
-    const filteredReviews = reviewQUery.filter((review) => review.setUUID === set.setUUID);
+    const filteredReviews = reviewQuery.filter((review) => review.setUUID === set.setUUID);
     const reviews: SetReview[] = filteredReviews.map((review) => ({
       reviewUUID: review.reviewUUID,
       review: review.review,

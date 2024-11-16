@@ -8,7 +8,7 @@ type Flashcard = {
   cardUUID: string;
   question: string;
   answer: string;
-  difficulty: Difficulty | string;
+  difficulty: Difficulty | string | null;
   createdAt: Date;
   updatedAt: Date;
   setUUID: string;

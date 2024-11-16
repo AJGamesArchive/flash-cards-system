@@ -13,7 +13,7 @@ async function isUserTokenCurrent(userUUID: string, reqAuth: string | undefined)
       userUUID: userUUID,
     },
   });
-  return !!(user && `Bearer ${user.loginToken}` === reqAuth);
+  return !!(user && !user.deleted && `Bearer ${user.loginToken}` === reqAuth);
 };
 
 export default isUserTokenCurrent;

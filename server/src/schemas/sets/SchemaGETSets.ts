@@ -15,7 +15,7 @@ export interface GETSetsReply200 {
     review: string;
     starRating: number;
     reviewDate: string;
-    authorUUID: string;
+    authorUUID: string | null;
     setUUID: string;
   }[],
 };
@@ -37,6 +37,14 @@ const schemaGETSets: FastifySchema = {
               updatedAt: { type: "string", format: "date-time" },
               authorUUID: { type: "string" },
             },
+            required: [
+              "setUUID",
+              "name",
+              "description",
+              "createdAt",
+              "updatedAt",
+              "authorUUID",
+            ],
           },
           reviews: {
             type: "array",
@@ -47,19 +55,25 @@ const schemaGETSets: FastifySchema = {
                 review: { type: "string" },
                 starRating: { type: "number" },
                 reviewDate: { type: "string", format: "date-time" },
-                authorUUID: { type: "string" },
+                authorUUID: {
+                  type: ["string", "null"],
+                },
                 setUUID: { type: "string" },
               },
+              required: [
+                "reviewUUID",
+                "review",
+                "starRating",
+                "reviewDate",
+                "authorUUID",
+                "setUUID",
+              ],
             },
           },
         },
         required: [
-          "setUUID",
-          "name",
-          "description",
-          "createdAt",
-          "updatedAt",
-          "authorUUID",
+          "setDetails",
+          "reviews",
         ],
       },
     },

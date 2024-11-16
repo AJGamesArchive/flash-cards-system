@@ -211,18 +211,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /sets/{setId}:
+  /sets/{setUUID}:
     parameters:
-      - name: setId
+      - name: setUUID
         in: path
         required: true
-        description: "The ID of the flashcard set"
+        description: "The UUID of the flashcard set"
         schema:
           type: "string"
     get:
-      summary: "Get a flashcard set by ID"
+      summary: "Get a flashcard set by UUID"
       tags:
-        - "FlashCard Sets"
+        - "Completed - FlashCard Sets"
       responses:
         "200":
           description: "The flashcard set"
@@ -230,21 +230,15 @@ paths:
             application/json:
               schema:
                 type: "object"
-                allOf:
-                  - $ref: "#/components/schemas/FlashcardSet"
-                  - type: "object"
-                    properties:
-                      comments:
-                        type: "array"
-                        description: "Comments on the set"
-                        items:
-                          type: "object"
-                          properties:
-                            comment:
-                              type: "string"
-                              example: "I love this set!"
-                            author:
-                              $ref: "#/components/schemas/User"
+                properties:
+                  setDetails:
+                    type: "object"
+                    $ref: "#/components/schemas/FlashcardSet"
+                  reviews:
+                    type: "array"
+                    items:
+                      type: "object"
+                      $ref: "#/components/schemas/SetReview"
         "404":
           description: "The flashcard set was not found"
           content:
@@ -254,20 +248,48 @@ paths:
     put:
       summary: "Update a flashcard set by ID"
       tags:
-        - "FlashCard Sets"
+        - "Completed - FlashCard Sets"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/FlashcardSet"
+              type: "object"
+              properties:
+                setDetails:
+                  type: "object"
+                  $ref: "#/components/schemas/FlashcardSet"
+                flashCards:
+                  type: "array"
+                  items:
+                    $ref: "#/components/schemas/FlashCard"
       responses:
         "200":
           description: "The updated flashcard set"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/FlashcardSet"
+                type: "object"
+                properties:
+                  setDetails:
+                    type: "object"
+                    $ref: "#/components/schemas/FlashcardSet"
+                  flashCards:
+                    type: "array"
+                    items:
+                      $ref: "#/components/schemas/FlashCard"
+        "401":
+          description: "User not logged in"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "The flashcard set does not belong to you"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "404":
           description: "The flashcard set was not found"
           content:
@@ -275,14 +297,32 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
     delete:
-      summary: "Delete a flashcard set by ID"
+      summary: "Delete a flashcard set and it's flashcards by ID"
       tags:
-        - "FlashCard Sets"
+        - "Completed - FlashCard Sets"
       responses:
         "204":
           description: "The flashcard set was deleted"
+        "401":
+          description: "User not logged in"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "The flashcard set does not belong to you"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "404":
           description: "The flashcard set was not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: "Something went wrong"
           content:
             application/json:
               schema:
