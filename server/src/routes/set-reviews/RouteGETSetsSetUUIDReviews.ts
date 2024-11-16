@@ -2,7 +2,7 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import {
   GETSetsSetUUIDReviewsParams,
-  GETSetsSetUUIDReviewsReply201,
+  GETSetsSetUUIDReviewsReply200,
   GETSetsSetUUIDReviewsReplyError
 } from "../../schemas/set-reviews/SchemaGETSetsSetUUIDReviews.js";
 import getSetReviews, { FullSetReview } from "../../queries/set-reviews/GetSetReviews.js";
@@ -28,7 +28,7 @@ const routeGETSetSetUUIDReviews = async (
     ...review,
     reviewDate: review.reviewDate.toISOString(),
     updatedAt: review.updatedAt.toISOString(),
-  } as GETSetsSetUUIDReviewsReply201)) as GETSetsSetUUIDReviewsReply201[]);
+  } as GETSetsSetUUIDReviewsReply200)) as GETSetsSetUUIDReviewsReply200[]);
   return;
 };
 

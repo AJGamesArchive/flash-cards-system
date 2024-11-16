@@ -39,6 +39,10 @@ import routePOSTSetSetUUIDReview from "./routes/set-reviews/RoutePOSTSetsSetUUID
 import schemaPOSTSetsSetUUIDReview, { POSTSetsSetUUIDReviewParams, POSTSetsSetUUIDReviewRequest } from "./schemas/set-reviews/SchemaPOSTSetsSetUUIDReview.js";
 import routeGETSetSetUUIDReviews from "./routes/set-reviews/RouteGETSetsSetUUIDReviews.js";
 import schemaGETSetsSetUUIDReviews from "./schemas/set-reviews/SchemaGETSetsSetUUIDReviews.js";
+import routeGETSetSetUUIDReviewsReviewUUID from "./routes/set-reviews/RouteGETSetsSetUUIDReviewsReviewUUID.js";
+import schemaGETSetsSetUUIDReviewsReviewUUID from "./schemas/set-reviews/SchemaGETSetsSetUUIDReviewsReviewUUID.js";
+import routeGETSetSetUUIDReviewsAuthorUUID from "./routes/set-reviews/RouteGETSetsSetUUIDReviewsAuthorUUID.js";
+import schemaGETSetsSetUUIDReviewsAuthorUUID from "./schemas/set-reviews/SchemaGETSetsSetUUIDReviewsAuthorUUID.js";
 
 // User routes & schemas
 import routeUsersUserUUIDSets from "./routes/users/RouteUsersUserUUIDSets.js";
@@ -115,6 +119,12 @@ server.post('/sets/:setUUID/review', {
 server.get('/sets/:setUUID/reviews', {
   schema: schemaGETSetsSetUUIDReviews,
 }, routeGETSetSetUUIDReviews);
+server.get('/sets/:setUUID/reviews/:reviewUUID', {
+  schema: schemaGETSetsSetUUIDReviewsReviewUUID,
+}, routeGETSetSetUUIDReviewsReviewUUID);
+server.get('/sets/:setUUID/reviews/:authorUUID', {
+  schema: schemaGETSetsSetUUIDReviewsAuthorUUID,
+}, routeGETSetSetUUIDReviewsAuthorUUID);
 
 // User endpoints
 server.get('/users/:userUUID/sets', {

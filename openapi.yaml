@@ -425,7 +425,59 @@ paths:
         - "Completed - FlashCard Set Reviews"
       responses:
         "200":
-          description: "The created review"
+          description: "Set Reviews Fetched"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  type: "object"
+                  properties:
+                    reviewUUID:
+                      type: "string"
+                    review:
+                      type: "string"
+                    starRating:
+                      type: "number"
+                    reviewDate:
+                      type: "string"
+                      format: "date-time"
+                    updatedAt:
+                      type: "string"
+                      format: "date-time"
+                    authorUUID:
+                      type: "string"
+                    authorUsername:
+                      type: "string"
+                    setUUID:
+                      type: "string"
+        "404":
+          description: "No reviews were found for that set"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /sets/{setUUID}/reviews/{reviewUUID}:
+    parameters:
+      - name: setUUID
+        in: path
+        required: true
+        description: "The UUID of the flashcard set"
+        schema:
+          type: "string"
+      - name: reviewUUID
+        in: path
+        required: true
+        description: The UUID of a specific review to fetch
+        schema:
+          type: "string"
+    get:
+      summary: "Get a set review by review UUID"
+      tags:
+        - "Completed - FlashCard Set Reviews"
+      responses:
+        "200":
+          description: "Set Review Fetched"
           content:
             application/json:
               schema:
@@ -450,7 +502,59 @@ paths:
                   setUUID:
                     type: "string"
         "404":
-          description: "No reviews were found for that set"
+          description: "Set Review Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /sets/{setUUID}/reviews/{authorUUID}:
+    parameters:
+      - name: setUUID
+        in: path
+        required: true
+        description: "The UUID of the flashcard set"
+        schema:
+          type: "string"
+      - name: authorUUID
+        in: path
+        required: true
+        description: "UUID of author to fetch reviews for"
+        schema:
+          type: "string"
+    get:
+      summary: "Get all reviews for a given author"
+      tags:
+        - "Completed - FlashCard Set Reviews"
+      responses:
+        "200":
+          description: "Author Reviews Fetched"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  type: "object"
+                  properties:
+                    reviewUUID:
+                      type: "string"
+                    review:
+                      type: "string"
+                    starRating:
+                      type: "number"
+                    reviewDate:
+                      type: "string"
+                      format: "date-time"
+                    updatedAt:
+                      type: "string"
+                      format: "date-time"
+                    authorUUID:
+                      type: "string"
+                    authorUsername:
+                      type: "string"
+                    setUUID:
+                      type: "string"
+        "404":
+          description: "No reviews were found for that author"
           content:
             application/json:
               schema:

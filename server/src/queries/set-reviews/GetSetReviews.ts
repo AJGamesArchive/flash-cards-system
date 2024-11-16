@@ -17,29 +17,45 @@ export type FullSetReview = {
 
 /**
  * Async function to fetch a set review from the database
- * @note Fetches all set reviews if you specific review UUID is passed
+ * @note Fetches all set reviews if other params are passed
  * @param setUUID UUID of set to fetch reviews for
  * @param reviewUUID Optional - UUID of specific review to fetch
+ * @param authorUUID Optional - UUID of author to fetch sets for
  * @returns Array of set reviews
  */
-async function getSetReviews(setUUID: string, reviewUUID?: string): Promise<FullSetReview[]> {
+async function getSetReviews(setUUID: string, reviewUUID?: string, authorUUID?: string): Promise<FullSetReview[]> {
   // Define query var
   let query;
 
   // Run query based on params
-  if(reviewUUID) {
-    query = await db.setReview.findMany({
-      where: {
-        reviewUUID: reviewUUID,
-      },
-      include: {
-        author: {
-          select: {
-            username: true,
+  if(reviewUUID || authorUUID) {
+    if(reviewUUID) {
+      query = await db.setReview.findMany({
+        where: {
+          reviewUUID: reviewUUID,
+        },
+        include: {
+          author: {
+            select: {
+              username: true,
+            },
           },
         },
-      },
-    });
+      });
+    } else {
+      query = await db.setReview.findMany({
+        where: {
+          authorUUID: authorUUID,
+        },
+        include: {
+          author: {
+            select: {
+              username: true,
+            },
+          },
+        },
+      });
+    };
   } else {
     query = await db.setReview.findMany({
       where: {

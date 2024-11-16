@@ -1,11 +1,12 @@
 // Imports
 import { FastifySchema } from "fastify";
 
-export interface GETSetsSetUUIDReviewsParams {
+export interface GETSetsSetUUIDReviewsAuthorUUIDParams {
   setUUID: string;
+  authorUUID: string;
 };
 
-export interface GETSetsSetUUIDReviewsReply200 {
+export interface GETSetsSetUUIDReviewsAuthorUUIDReply200 {
   reviewUUID: string;
   review: string;
   starRating: number;
@@ -16,17 +17,18 @@ export interface GETSetsSetUUIDReviewsReply200 {
   setUUID: string;
 };
 
-export interface GETSetsSetUUIDReviewsReplyError {
+export interface GETSetsSetUUIDReviewsAuthorUUIDReplyError {
   message: string;
 };
 
-const schemaGETSetsSetUUIDReviews: FastifySchema = {
+const schemaGETSetsSetUUIDReviewsAuthorUUID: FastifySchema = {
   params: {
     type: "object",
     properties: {
       setUUID: { type: "string" },
+      authorUUID: { type: "string" },
     },
-    required: ["setUUID"],
+    required: ["setUUID", "authorUUID"],
   },
   response: {
     200: {
@@ -67,4 +69,4 @@ const schemaGETSetsSetUUIDReviews: FastifySchema = {
   },
 };
 
-export default schemaGETSetsSetUUIDReviews;
+export default schemaGETSetsSetUUIDReviewsAuthorUUID;
