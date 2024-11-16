@@ -6,6 +6,7 @@ type SetReview = {
   review: string;
   starRating: number;
   reviewDate: Date;
+  updatedAt: Date;
   authorUUID: string | null;
   setUUID: string;
 };

@@ -34,6 +34,12 @@ import schemaDELETESetsSetUUID, { DELETESetsSetUUIDParams } from "./schemas/sets
 import routeSetsSetUUIDCards from "./routes/sets/RouteSetsSetUUIDCards.js";
 import schemaSetsSetUUIDCards from "./schemas/sets/SchemaSetsSetUUIDCards.js";
 
+// Set review routes & schemas
+import routePOSTSetSetUUIDReview from "./routes/set-reviews/RoutePOSTSetsSetUUIDReview.js";
+import schemaPOSTSetsSetUUIDReview, { POSTSetsSetUUIDReviewParams, POSTSetsSetUUIDReviewRequest } from "./schemas/set-reviews/SchemaPOSTSetsSetUUIDReview.js";
+import routeGETSetSetUUIDReviews from "./routes/set-reviews/RouteGETSetsSetUUIDReviews.js";
+import schemaGETSetsSetUUIDReviews from "./schemas/set-reviews/SchemaGETSetsSetUUIDReviews.js";
+
 // User routes & schemas
 import routeUsersUserUUIDSets from "./routes/users/RouteUsersUserUUIDSets.js";
 import schemaUsersUserUUIDSets from "./schemas/users/SchemaUsersUserUUIDSets.js";
@@ -102,6 +108,15 @@ server.delete('/sets/:setUUID', {
 server.get('/sets/:setUUID/cards', {
   schema: schemaSetsSetUUIDCards,
 }, routeSetsSetUUIDCards);
+
+// Set review endpoints
+server.post('/sets/:setUUID/review', {
+  schema: schemaPOSTSetsSetUUIDReview,
+  preHandler: [guardAuthenticate<POSTSetsSetUUIDReviewRequest, POSTSetsSetUUIDReviewParams, any>],
+}, routePOSTSetSetUUIDReview);
+server.get('/sets/:setUUID/reviews', {
+  schema: schemaGETSetsSetUUIDReviews,
+}, routeGETSetSetUUIDReviews);
 
 // User endpoints
 server.get('/users/:userUUID/sets', {

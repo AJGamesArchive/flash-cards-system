@@ -339,18 +339,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /set/{setID}/comment:
+  /sets/{setUUID}/review:
     parameters:
-      - name: setID
+      - name: setUUID
         in: path
         required: true
-        description: "The ID of the flashcard set"
+        description: "The UUID of the flashcard set"
         schema:
           type: "string"
     post:
-      summary: "Comment on a flashcard set, by the current user"
+      summary: "Review a flashcard set, by the current user"
       tags:
-        - "FlashCard Sets"
+        - "Completed - FlashCard Set Reviews"
       requestBody:
         required: true
         content:
@@ -358,18 +358,75 @@ paths:
             schema:
               type: "object"
               properties:
-                comment:
+                review:
                   type: "string"
-                  example: "I love this set!"
+                starRating:
+                  type: "number"
       responses:
         "201":
-          description: "The created comment"
+          description: "The created review"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CollectionReview"
+                $ref: "#/components/schemas/SetReview"
+        "401":
+          description: "User not logged in"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "404":
           description: "The flashcard set was not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: "Something went wrong"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /sets/{setUUID}/reviews:
+    parameters:
+      - name: setUUID
+        in: path
+        required: true
+        description: "The UUID of the flashcard set"
+        schema:
+          type: "string"
+    get:
+      summary: "Get all reviews for a flashcard set"
+      tags:
+        - "Completed - FlashCard Set Reviews"
+      responses:
+        "200":
+          description: "The created review"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  reviewUUID:
+                    type: "string"
+                  review:
+                    type: "string"
+                  starRating:
+                    type: "number"
+                  reviewDate:
+                    type: "string"
+                    format: "date-time"
+                  updatedAt:
+                    type: "string"
+                    format: "date-time"
+                  authorUUID:
+                    type: "string"
+                  authorUsername:
+                    type: "string"
+                  setUUID:
+                    type: "string"
+        "404":
+          description: "No reviews were found for that set"
           content:
             application/json:
               schema:
@@ -899,6 +956,10 @@ components:
           type: "string"
           format: "date-time"
           example: "2024-10-14T12:00:00Z"
+        updatedAt:
+          type: "string"
+          format: "date-time"
+          example: "2024-10-14T12:00:00Z"
         authorUUID:
           type: "string"
           example: "00000000-0000-0000-0000-000000000000"
@@ -918,6 +979,10 @@ components:
           type: "number"
           example: "5"
         reviewDate:
+          type: "string"
+          format: "date-time"
+          example: "2024-10-14T12:00:00Z"
+        updatedAt:
           type: "string"
           format: "date-time"
           example: "2024-10-14T12:00:00Z"
