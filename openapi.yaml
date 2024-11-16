@@ -607,6 +607,18 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/components/schemas/User"
+        "401":
+          description: "User not logged in"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "User not admin"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
     post:
       summary: "Create a new user"
       tags:
@@ -657,6 +669,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
+        "401":
+          description: "User not logged in"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "404":
           description: "The user was not found"
           content:
@@ -698,12 +716,30 @@ paths:
     delete:
       summary: "Delete a user by ID"
       tags:
-        - "Users"
+        - "Completed - Users"
       responses:
         "204":
           description: "The user was deleted"
+        "401":
+          description: "User not logged in"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "Cannot delete that user"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "404":
           description: "The user was not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: "Something went wrong"
           content:
             application/json:
               schema:

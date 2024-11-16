@@ -51,6 +51,8 @@ import routeGETUsersUserUUID from "./routes/users/RouteGETUsersUserUUID.js";
 import schemaGETUsersUserUUID, { GETUsersUserUUIDParams } from "./schemas/users/SchemaGETUsersUserUUID.js";
 import routeUsersUserUUIDSets from "./routes/users/RouteUsersUserUUIDSets.js";
 import schemaUsersUserUUIDSets from "./schemas/users/SchemaUsersUserUUIDSets.js";
+import routeDELETEUsersUserUUID from "./routes/users/RouteDELETEUsersUserUUID.js";
+import schemaDELETEUsersUserUUID, { DELETEUsersUserUUIDParams } from "./schemas/users/SchemaDELETEUsersUserUUID.js";
 
 // Load ENVs
 dotenv.config();
@@ -142,6 +144,15 @@ server.get('/users/:userUUID', {
 server.get('/users/:userUUID/sets', {
   schema: schemaUsersUserUUIDSets,
 }, routeUsersUserUUIDSets);
+server.delete('/users/:userUUID', {
+  schema: schemaDELETEUsersUserUUID,
+  preHandler: [guardAuthenticate<any, DELETEUsersUserUUIDParams, any>],
+}, routeDELETEUsersUserUUID);
+
+//TODO Remember to make password resetting endpoints for Users - if not built into main User updating endpoints
+//TODO Remember to make Card Usage Logs endpoints
+//TODO Remember ot make Hidden Card Allocation endpoints
+//TODO Remember to make API Account management endpoints
 
 // Start server
 server.listen(

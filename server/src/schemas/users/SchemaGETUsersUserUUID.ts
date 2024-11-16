@@ -46,6 +46,12 @@ const schemaGETUsersUserUUID: FastifySchema = {
         "apiAccount",
       ],
     },
+    401: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
     404: {
       type: "object",
       properties: {
