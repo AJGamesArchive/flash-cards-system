@@ -23,7 +23,6 @@ async function getUsers(userUUID?: string): Promise<User[]> {
         username: true,
         adminFlag: true,
         userSince: true,
-        loginToken: true,
         deleted: true,
       },
     });
@@ -34,7 +33,6 @@ async function getUsers(userUUID?: string): Promise<User[]> {
         username: true,
         adminFlag: true,
         userSince: true,
-        loginToken: true,
         deleted: true,
       },
     });

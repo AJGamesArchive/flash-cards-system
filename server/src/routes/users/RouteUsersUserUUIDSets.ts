@@ -26,15 +26,9 @@ const routeUsersUserUUIDSets = async (
 
   // Return sets
   rep.status(200).send(sets.map((fullSet) => ({
-    setDetails: {
-      ...fullSet.setDetails,
-      createdAt: fullSet.setDetails.createdAt.toISOString(),
-      updatedAt: fullSet.setDetails.updatedAt.toISOString(),
-    },
-    reviews: fullSet.reviews.map((setReview) => ({
-      ...setReview,
-      reviewDate: setReview.reviewDate.toISOString(),
-    })),
+    ...fullSet,
+    createdAt: fullSet.createdAt.toISOString(),
+    updatedAt: fullSet.updatedAt.toISOString(),
   } as UserUserUUIDSetsReply200)) as UserUserUUIDSetsReply200[]);
   return;
 };

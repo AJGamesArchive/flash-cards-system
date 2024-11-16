@@ -65,8 +65,6 @@ server.decorate("/authenticate", guardAuthenticate); //! Remove later if still u
 server.decorate("/isAdmin", guardIsAdmin); //! Remove later if still unused
 
 //TODO Update all endpoints to use errorHandler functions to clean up error hading if time permits
-//TODO Update 'sets' endpoints to split Set Reviews out to their own endpoints if time permits
-//TODO Merge the '/sets' & '/sets/setUUID' endpoints into a single endpoint with optional params if time permits
 //TODO Update system to allow sets to be marks as 'Public' or 'Private' by users if time permits
 
 // General endpoints

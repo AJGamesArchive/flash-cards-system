@@ -28,15 +28,9 @@ const routeGETSetSetUUID = async (
 
   // Map data to reply schema and send data
   rep.status(200).send({
-    setDetails: {
-      ...sets[0].setDetails,
-      createdAt: sets[0].setDetails.createdAt.toISOString(),
-      updatedAt: sets[0].setDetails.updatedAt.toISOString(),
-    },
-    reviews: sets[0].reviews.map((setReview) => ({
-      ...setReview,
-      reviewDate: setReview.reviewDate.toISOString(),
-    })),
+    ...sets[0],
+    createdAt: sets[0].createdAt.toISOString(),
+    updatedAt: sets[0].updatedAt.toISOString(),
   } as GETSetsSetUUIDReply200);
   return;
 };

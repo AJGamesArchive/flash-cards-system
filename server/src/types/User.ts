@@ -5,7 +5,6 @@ type User = {
   userUUID: string;
   username: string;
   adminFlag: boolean;
-  loginToken: string | null;
   userSince: Date;
   deleted: boolean;
 };

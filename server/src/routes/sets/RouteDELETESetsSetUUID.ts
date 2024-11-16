@@ -34,7 +34,7 @@ const routeDELETESetsSetUUID = async (
   };
 
   // Ensure the set being updated belongs to the user updating it
-  if(existingSet[0].setDetails.authorUUID !== userData.uuid) {
+  if(existingSet[0].authorUUID !== userData.uuid) {
     rep.status(403).send({
       message: 'Set does not belong to you.',
     } as DELETESetsSetUUIDReplyError);

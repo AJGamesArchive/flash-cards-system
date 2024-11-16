@@ -132,14 +132,26 @@ paths:
                 items:
                   type: "object"
                   properties:
-                    setDetails:
-                      type: "object"
-                      $ref: "#/components/schemas/FlashcardSet"
-                    reviews:
-                      type: "array"
-                      items:
-                        type: "object"
-                        $ref: "#/components/schemas/SetReview"
+                    setUUID:
+                      type: "string"
+                    name:
+                      type: "string"
+                    description:
+                      type: "string"
+                    createdAt:
+                      type: "string"
+                      format: "date-time"
+                    updatedAt:
+                      type: "string"
+                      format: "date-time"
+                    authorUUID:
+                      type: "string"
+                    authorUsername:
+                      type: "string"
+                    numReviews:
+                      type: "number"
+                    numFlashcards:
+                      type: "number"
     post:
       summary: "Create a new flashcard set with flashcards"
       description: "There can only be 20 new flashcard sets created per day"
@@ -237,14 +249,26 @@ paths:
               schema:
                 type: "object"
                 properties:
-                  setDetails:
-                    type: "object"
-                    $ref: "#/components/schemas/FlashcardSet"
-                  reviews:
-                    type: "array"
-                    items:
-                      type: "object"
-                      $ref: "#/components/schemas/SetReview"
+                  setUUID:
+                    type: "string"
+                  name:
+                    type: "string"
+                  description:
+                    type: "string"
+                  createdAt:
+                    type: "string"
+                    format: "date-time"
+                  updatedAt:
+                    type: "string"
+                    format: "date-time"
+                  authorUUID:
+                    type: "string"
+                  authorUsername:
+                    type: "string"
+                  numReviews:
+                    type: "number"
+                  numFlashcards:
+                    type: "number"
         "404":
           description: "The flashcard set was not found"
           content:
@@ -603,14 +627,26 @@ paths:
                 items:
                   type: "object"
                   properties:
-                    setDetails:
-                      type: "object"
-                      $ref: "#/components/schemas/FlashcardSet"
-                    reviews:
-                      type: "array"
-                      items:
-                        type: "object"
-                        $ref: "#/components/schemas/SetReview"
+                    setUUID:
+                      type: "string"
+                    name:
+                      type: "string"
+                    description:
+                      type: "string"
+                    createdAt:
+                      type: "string"
+                      format: "date-time"
+                    updatedAt:
+                      type: "string"
+                      format: "date-time"
+                    authorUUID:
+                      type: "string"
+                    authorUsername:
+                      type: "string"
+                    numReviews:
+                      type: "number"
+                    numFlashcards:
+                      type: "number"
         "404":
           description: "The user was not found"
           content:

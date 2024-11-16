@@ -7,9 +7,8 @@ import {
   LoginReplyError,
 } from "../../schemas/auth/SchemaLogin.js";
 import setUserToken from "../../queries/auth/SetUserToken.js";
-import getUserByUsername from "../../queries/auth/GetUserByUsername.js";
+import getUserLoginChecks, { UserLoginChecks } from "../../queries/auth/GetUserLoginChecks.js";
 import server from "../../Server.js";
-import User from "../../types/User.js";
 
 /**
  * Route to login a user
@@ -19,7 +18,7 @@ const routeLogin = async (
   rep: FastifyReply
 ): Promise<void> => {
   // Fetch user
-  const user: User | null = await getUserByUsername(req.body.username);
+  const user: UserLoginChecks | null = await getUserLoginChecks(req.body.username);
   if (!user || user.deleted) {
     rep.status(401).send({
       message: "Invalid Credentials",
