@@ -6,8 +6,8 @@ import JWTData from "../../types/JWTData.js";
 /**
  * Guard Route to authenticate is the incoming request is from an admin
  */
-const guardIsAdmin = async <B, P>(
-  req: FastifyRequest<{ Body: B, Params: P }>,
+const guardIsAdmin = async <B, P, Q>(
+  req: FastifyRequest<{ Body: B, Params: P, Querystring: Q }>,
   rep: FastifyReply
 ): Promise<void> => {
   // Try to auth the JWT

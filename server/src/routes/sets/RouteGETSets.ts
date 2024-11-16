@@ -24,7 +24,7 @@ const routeGETSets = async (
       ...setReview,
       reviewDate: setReview.reviewDate.toISOString(),
     })),
-  })) as GETSetsReply200[]);
+  } as GETSetsReply200)) as GETSetsReply200[]);
   return;
 };
 

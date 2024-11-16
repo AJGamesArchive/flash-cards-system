@@ -8,7 +8,7 @@ import {
 import Flashcard from "../../types/Flashcard.js";
 import FlashcardSet from "../../types/FlashcardSet.js";
 import JWTData from "../../types/JWTData.js";
-import allowSetCreation from "../../functions/AllowSetCreation.js";
+import allowSetCreation from "../../functions/sets/AllowSetCreation.js";
 import getDifficulties from "../../queries/difficulties/GetDifficulties.js";
 import Difficulty from "../../types/Difficulty.js";
 import saveFlashcardSet from "../../queries/sets/SaveFlashcardSet.js";
@@ -81,6 +81,14 @@ const routePOSTSets = async (
       setUUID: newSetUUID,
     } as Flashcard;
   });
+
+  // Ensure the set contains flashcards
+  if(newFlashcards.length === 0) {
+    rep.status(400).send({
+      message: 'Missing Flashcards',
+    } as POSTSetsReplyError);
+    return;
+  };
 
   // Add the flashcard set and flashcards in the DB
   const saveStatus: number = await saveFlashcardSet(newSet, newFlashcards, true);

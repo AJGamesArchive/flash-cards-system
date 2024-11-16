@@ -7,8 +7,8 @@ import isUserTokenCurrent from "../../queries/auth/IsUserTokenCurrent.js";
 /**
  * Guard Route to authenticate a request by validating the JWT
  */
-const guardAuthenticate = async <B, P>(
-  req: FastifyRequest<{ Body: B, Params: P }>,
+const guardAuthenticate = async <B, P, Q>(
+  req: FastifyRequest<{ Body: B, Params: P, Querystring: Q }>,
   rep: FastifyReply
 ): Promise<void> => {
   // Try to auth the JWT

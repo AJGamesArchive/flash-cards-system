@@ -136,6 +136,12 @@ const schemaPOSTSets: FastifySchema = {
         "flashCards",
       ],
     },
+    400: {
+      type: "object",
+      properties: {
+        message: { type: "string" },
+      },
+    },
     401: {
       type: "object",
       properties: {

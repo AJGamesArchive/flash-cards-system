@@ -1,8 +1,8 @@
 // Imports
-import JWTData from '../types/JWTData.js';
-import getSetCreationLimitConfig from '../queries/system-config/GetSetCreationLimitConfig.js';
-import SystemConfig from '../types/SystemConfig.js';
-import { db } from '../Server.js';
+import JWTData from '../../types/JWTData.js';
+import getSetCreationLimitConfig from '../../queries/system-config/GetSetCreationLimitConfig.js';
+import SystemConfig from '../../types/SystemConfig.js';
+import { db } from '../../Server.js';
 
 /**
  * Async function to fetch the set creation limit config and allow or reject new set creations

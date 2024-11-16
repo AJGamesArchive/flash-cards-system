@@ -18,24 +18,30 @@ async function getUsers(userUUID?: string): Promise<User[]> {
       where: {
         userUUID: userUUID,
       },
+      select: {
+        userUUID: true,
+        username: true,
+        adminFlag: true,
+        userSince: true,
+        loginToken: true,
+        deleted: true,
+      },
     });
   } else {
-    userQuery = await db.users.findMany();
+    userQuery = await db.users.findMany({
+      select: {
+        userUUID: true,
+        username: true,
+        adminFlag: true,
+        userSince: true,
+        loginToken: true,
+        deleted: true,
+      },
+    });
   };
 
-  // Map over all fetched sets and generate FullSet objects
-  const users: User[] = userQuery.map((user) => ({
-    userUUID: user.userUUID,
-    username: user.username,
-    password: user.password,
-    adminFlag: user.adminFlag,
-    loginToken: user.loginToken,
-    deleted: user.deleted,
-    userSince: user.userSince,
-  } as User ));
-
   // Return mapped data
-  return users;
+  return userQuery as User[];
 };
 
 export default getUsers;

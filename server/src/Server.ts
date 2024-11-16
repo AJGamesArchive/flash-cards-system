@@ -31,6 +31,12 @@ import routePUTSetsSetUUID from "./routes/sets/RoutePUTSetsSetUUID.js";
 import schemaPUTSetsSetUUID, { PUTSetsSetUUIDRequest, PUTSetsSetUUIDParams } from "./schemas/sets/SchemaPUTSetsSetUUID.js";
 import routeDELETESetsSetUUID from "./routes/sets/RouteDELETESetsSetUUID.js";
 import schemaDELETESetsSetUUID, { DELETESetsSetUUIDParams } from "./schemas/sets/SchemaDELETESetsSetUUID.js";
+import routeSetsSetUUIDCards from "./routes/sets/RouteSetsSetUUIDCards.js";
+import schemaSetsSetUUIDCards from "./schemas/sets/SchemaSetsSetUUIDCards.js";
+
+// User routes & schemas
+import routeUsersUserUUIDSets from "./routes/users/RouteUsersUserUUIDSets.js";
+import schemaUsersUserUUIDSets from "./schemas/users/SchemaUsersUserUUIDSets.js";
 
 // Load ENVs
 dotenv.config();
@@ -53,6 +59,9 @@ server.decorate("/authenticate", guardAuthenticate); //! Remove later if still u
 server.decorate("/isAdmin", guardIsAdmin); //! Remove later if still unused
 
 //TODO Update all endpoints to use errorHandler functions to clean up error hading if time permits
+//TODO Update 'sets' endpoints to split Set Reviews out to their own endpoints if time permits
+//TODO Merge the '/sets' & '/sets/setUUID' endpoints into a single endpoint with optional params if time permits
+//TODO Update system to allow sets to be marks as 'Public' or 'Private' by users if time permits
 
 // General endpoints
 server.get("/", {
@@ -68,7 +77,7 @@ server.get("/confirmLogin", {
 }, routeConfirmLogin);
 server.delete('/logout', {
   schema: schemaLogout,
-  preHandler: [guardAuthenticate<any, any>],
+  preHandler: [guardAuthenticate<any, any, any>],
 }, routeLogout);
 
 // Flashcard set endpoints
@@ -77,19 +86,27 @@ server.get('/sets', {
 }, routeGETSets);
 server.post('/sets', {
   schema: schemaPOSTSets,
-  preHandler: [guardAuthenticate<POSTSetsRequest, any>],
+  preHandler: [guardAuthenticate<POSTSetsRequest, any, any>],
 }, routePOSTSets);
 server.get('/sets/:setUUID', {
   schema: schemaGETSetsSetUUID,
 }, routeGETSetSetUUID);
 server.put('/sets/:setUUID', {
   schema: schemaPUTSetsSetUUID,
-  preHandler: [guardAuthenticate<PUTSetsSetUUIDRequest, PUTSetsSetUUIDParams>],
+  preHandler: [guardAuthenticate<PUTSetsSetUUIDRequest, PUTSetsSetUUIDParams, any>],
 }, routePUTSetsSetUUID);
 server.delete('/sets/:setUUID', {
   schema: schemaDELETESetsSetUUID,
-  preHandler: [guardAuthenticate<any, DELETESetsSetUUIDParams>],
+  preHandler: [guardAuthenticate<any, DELETESetsSetUUIDParams, any>],
 }, routeDELETESetsSetUUID);
+server.get('/sets/:setUUID/cards', {
+  schema: schemaSetsSetUUIDCards,
+}, routeSetsSetUUIDCards);
+
+// User endpoints
+server.get('/users/:userUUID/sets', {
+  schema: schemaUsersUserUUIDSets,
+}, routeUsersUserUUIDSets);
 
 // Start server
 server.listen(

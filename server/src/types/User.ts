@@ -4,7 +4,6 @@
 type User = {
   userUUID: string;
   username: string;
-  password: string;
   adminFlag: boolean;
   loginToken: string | null;
   userSince: Date;

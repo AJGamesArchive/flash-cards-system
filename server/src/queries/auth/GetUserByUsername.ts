@@ -12,16 +12,17 @@ async function getUserByUsername(username: string): Promise<User | null> {
     where: {
       username: username
     },
+    select: {
+      userUUID: true,
+      username: true,
+      adminFlag: true,
+      userSince: true,
+      loginToken: true,
+      deleted: true,
+    },
   });
   if(!user) return null;
-  return {
-    userUUID: user.userUUID,
-    username: user.username,
-    password: user.password,
-    adminFlag: user.adminFlag,
-    userSince: user.userSince,
-    loginToken: user.loginToken,
-  } as User;
+  return user as User;
 };
 
 export default getUserByUsername;

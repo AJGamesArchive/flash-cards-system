@@ -187,6 +187,12 @@ paths:
                     type: "array"
                     items:
                       $ref: "#/components/schemas/FlashCard"
+        "400":
+          description: "Missing Flashcards"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "401":
           description: "User not logged in"
           content:
@@ -278,6 +284,12 @@ paths:
                     type: "array"
                     items:
                       $ref: "#/components/schemas/FlashCard"
+        "400":
+          description: "Missing Flashcards"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "401":
           description: "User not logged in"
           content:
@@ -362,18 +374,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /sets/{setId}/cards:
+  /sets/{setUUID}/cards:
     parameters:
-      - name: setId
+      - name: setUUID
         in: path
         required: true
-        description: "The ID of the flashcard set"
+        description: "The UUID of the flashcard set"
         schema:
           type: "string"
     get:
       summary: "Get all flashcards in a set"
       tags:
-        - "FlashCard Sets"
+        - "Completed - FlashCard Sets"
       parameters:
         - name: shuffle
           in: query
@@ -515,13 +527,13 @@ paths:
     get:
       summary: "Get all flashcard sets created by a user"
       tags:
-        - "Users"
-        - "FlashCard Sets"
+        - "Completed - Users"
+        - "Completed - FlashCard Sets"
       parameters:
-        - name: userID
+        - name: userUUID
           in: path
           required: true
-          description: "The ID of the user"
+          description: "The UUID of the user"
           schema:
             type: "string"
       responses:
@@ -532,7 +544,16 @@ paths:
               schema:
                 type: "array"
                 items:
-                  $ref: "#/components/schemas/FlashcardSet"
+                  type: "object"
+                  properties:
+                    setDetails:
+                      type: "object"
+                      $ref: "#/components/schemas/FlashcardSet"
+                    reviews:
+                      type: "array"
+                      items:
+                        type: "object"
+                        $ref: "#/components/schemas/SetReview"
         "404":
           description: "The user was not found"
           content:

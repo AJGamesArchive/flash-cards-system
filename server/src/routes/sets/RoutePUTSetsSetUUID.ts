@@ -79,6 +79,14 @@ const routePUTSetsSetUUID = async (
     } as Flashcard;
   });
 
+  // Ensure the set is not empty
+  if(flashcards.length === 0) {
+    rep.status(400).send({
+      message: 'Missing Flashcards',
+    } as PUTSetsSetUUIDReplyError);
+    return;
+  };
+
   // Update the flashcard set and flashcards in the DB
   const saveStatus: number = await saveFlashcardSet(set, flashcards);
   if(saveStatus !== 200) {
