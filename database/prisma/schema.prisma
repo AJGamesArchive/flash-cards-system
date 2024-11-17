@@ -19,7 +19,6 @@ model Users {
   sets                  Sets[]
   setReview             SetReview[]
   collections           Collections[]
-  collectionReviews     CollectionReviews[]
   hiddenCardAllocation  HiddenCardAllocation[]
 }
 
@@ -55,27 +54,15 @@ model Collections {
   createdOn             DateTime  @default(now())
   authorUUID            String
   author                Users     @relation(fields: [authorUUID], references: [userUUID], onDelete: Cascade)
-  collectionReviews     CollectionReviews[]
   collectionAllocation  CollectionAllocations[]
 }
 
-model CollectionReviews {
-  reviewUUID      String      @id @default(uuid()) @unique
-  starRating      Int
-  collectionUUID  String
-  authorUUID      String?
-  reviewDate      DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-  collection      Collections @relation(fields: [collectionUUID], references: [collectionUUID], onDelete: Cascade)
-  author          Users?      @relation(fields: [authorUUID], references: [userUUID])
-}
-
 model CollectionAllocations {
-  allocationUUID  String      @id @default(uuid()) @unique
   setUUID         String
   collectionUUID  String
   set             Sets        @relation(fields: [setUUID], references: [setUUID], onDelete: Cascade)
   collection      Collections @relation(fields: [collectionUUID], references: [collectionUUID], onDelete: Cascade)
+  @@id([setUUID, collectionUUID])
 }
 
 model Difficulties {
@@ -99,11 +86,11 @@ model FlashCards {
 }
 
 model HiddenCardAllocation {
-  allocationUUID  String      @id @default(uuid()) @unique
   userUUID        String
   cardUUID        String
   user            Users       @relation(fields: [userUUID], references: [userUUID], onDelete: Cascade)
   card            FlashCards  @relation(fields: [cardUUID], references: [cardUUID], onDelete: Cascade)
+  @@id([userUUID, cardUUID])
 }
 
 model FlashCardUsageLogs {
