@@ -1,7 +1,7 @@
 // Imports
 import { FastifyRequest, FastifyReply } from "fastify";
-import { GETSetsReply200 } from "../../schemas/sets/SchemaGETSets";
-import getSets, { FullSet } from "../../queries/sets/GetSets";
+import { GETSetsReply200 } from "../../schemas/sets/SchemaGETSets.js";
+import getSets, { FullSet } from "../../queries/sets/GetSets.js";
 
 /**
  * Route to return all flashcard sets

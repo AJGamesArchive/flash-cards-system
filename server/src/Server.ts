@@ -1,5 +1,6 @@
 // Core Imports
 import fastifyJWT from "@fastify/jwt";
+import swagger from "@fastify/swagger";
 import { PrismaClient } from "@prisma/client";
 import dotenv from "dotenv";
 import Fastify from "fastify";
@@ -60,6 +61,10 @@ import schemaUsersUserUUIDSets from "./schemas/users/SchemaUsersUserUUIDSets.js"
 import routeDELETEUsersUserUUID from "./routes/users/RouteDELETEUsersUserUUID.js";
 import schemaDELETEUsersUserUUID, { DELETEUsersUserUUIDParams } from "./schemas/users/SchemaDELETEUsersUserUUID.js";
 
+// Flashcard log routes & schemas
+import routePOSTFlashcardsCardUUIDlog from "./routes/flashcard-logs/RoutePOSTFlashcardCardUUIDLog.ts.js";
+import schemaPOSTFlashcardCardUUIDLog, { POSTFlashcardCardUUIDLogParams, POSTFlashcardCardUUIDLogRequest } from "./schemas/flashcard-logs/SchemaPOSTFlashcardCardUUIDLog.js";
+
 // Load ENVs
 dotenv.config();
 
@@ -75,6 +80,15 @@ if(!jwtSecret) {
   process.exit(1);
 };
 server.register(fastifyJWT, { secret: jwtSecret });
+server.register(swagger, {
+  swagger: {
+    info: {
+      title: 'TestVar - Flashcards API',
+      description: 'A revolutionary REST API for flashcards',
+      version: '1.0.0',
+    },
+  },
+});
 
 // Route guards
 server.decorate("/authenticate", guardAuthenticate); //! Remove later if still unused
@@ -134,7 +148,7 @@ server.get('/sets/:setUUID/reviews', {
 server.get('/sets/:setUUID/reviews/:reviewUUID', {
   schema: schemaGETSetsSetUUIDReviewsReviewUUID,
 }, routeGETSetSetUUIDReviewsReviewUUID);
-server.get('/sets/:setUUID/reviews/:authorUUID', {
+server.get('/sets/:setUUID/reviews/authors/:authorUUID', {
   schema: schemaGETSetsSetUUIDReviewsAuthorUUID,
 }, routeGETSetSetUUIDReviewsAuthorUUID);
 
@@ -166,7 +180,12 @@ server.delete('/users/:userUUID', {
   preHandler: [guardAuthenticate<any, DELETEUsersUserUUIDParams, any>],
 }, routeDELETEUsersUserUUID);
 
-//TODO Remember to make Card Usage Logs endpoints
+// Flashcard log endpoints
+server.post('/flashcards/:cardUUID/log', {
+  schema: schemaPOSTFlashcardCardUUIDLog,
+  preHandler: [guardAuthenticate<POSTFlashcardCardUUIDLogRequest, POSTFlashcardCardUUIDLogParams, any>],
+}, routePOSTFlashcardsCardUUIDlog);
+
 //TODO Remember ot make Hidden Card Allocation endpoints
 //TODO Remember to make API Account management endpoints
 

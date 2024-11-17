@@ -507,7 +507,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /sets/{setUUID}/reviews/{authorUUID}:
+  /sets/{setUUID}/reviews/authors/{authorUUID}:
     parameters:
       - name: setUUID
         in: path
@@ -858,6 +858,61 @@ paths:
                       type: "number"
         "404":
           description: "The user was not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /flashcards/{cardUUID}/log:
+    post:
+      summary: "Create a flashcard usage log entry"
+      tags:
+        - "Completed - Flashcard Logs"
+      parameters:
+        - name: cardUUID
+          in: path
+          required: true
+          description: UUID of flashcard the log is for
+          schema:
+            type: "string"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                faceDownTime:
+                  type: "string"
+                revisionTime:
+                  type: "string"
+                timesFlipped:
+                  type: "string"
+      responses:
+        "201":
+          description: "The created log entry"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  logUUID:
+                    type: "string"
+                  faceDownTime:
+                    type: "string"
+                  revisionTime:
+                    type: "string"
+                  timesFlipped:
+                    type: "string"
+                  cardUUID:
+                    type: "string"
+        "401":
+          description: "User not logged in"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: "Flashcard not found"
           content:
             application/json:
               schema:
