@@ -49,6 +49,12 @@ import routeGETUsers from "./routes/users/RouteGETUsers.js";
 import schemaGETUsers from "./schemas/users/SchemaGETUsers.js";
 import routeGETUsersUserUUID from "./routes/users/RouteGETUsersUserUUID.js";
 import schemaGETUsersUserUUID, { GETUsersUserUUIDParams } from "./schemas/users/SchemaGETUsersUserUUID.js";
+import routePOSTUsers from "./routes/users/RoutePOSTUsers.js";
+import schemaPOSTUsers from "./schemas/users/SchemaPOSTUsers.js";
+import routePATCHUsersUserUUID from "./routes/users/RoutePATCHUsersUserUUID.js";
+import schemaPATCHUsersUserUUID, { PATCHUsersUserUUIDParams, PATCHUsersUserUUIDRequest } from "./schemas/users/SchemaPATCHUsersUserUUID.js";
+import routePATCHUsersUserUUIDPassword from "./routes/users/RoutePATCHUsersUserUUIDPassword.js";
+import schemaPATCHUsersUserUUIDPassword, { PATCHUsersUserUUIDPasswordParams, PATCHUsersUserUUIDPasswordRequest } from "./schemas/users/SchemaPATCHUsersUserUUIDPassword.js";
 import routeUsersUserUUIDSets from "./routes/users/RouteUsersUserUUIDSets.js";
 import schemaUsersUserUUIDSets from "./schemas/users/SchemaUsersUserUUIDSets.js";
 import routeDELETEUsersUserUUID from "./routes/users/RouteDELETEUsersUserUUID.js";
@@ -141,6 +147,17 @@ server.get('/users/:userUUID', {
   schema: schemaGETUsersUserUUID,
   preHandler: [guardAuthenticate<any, GETUsersUserUUIDParams, any>],
 }, routeGETUsersUserUUID);
+server.post('/users', {
+  schema: schemaPOSTUsers,
+}, routePOSTUsers);
+server.patch('/users/:userUUID', {
+  schema: schemaPATCHUsersUserUUID,
+  preHandler: [guardAuthenticate<PATCHUsersUserUUIDRequest, PATCHUsersUserUUIDParams, any>]
+}, routePATCHUsersUserUUID);
+server.patch('/users/:userUUID/password', {
+  schema: schemaPATCHUsersUserUUIDPassword,
+  preHandler: [guardAuthenticate<PATCHUsersUserUUIDPasswordRequest, PATCHUsersUserUUIDPasswordParams, any>]
+}, routePATCHUsersUserUUIDPassword);
 server.get('/users/:userUUID/sets', {
   schema: schemaUsersUserUUIDSets,
 }, routeUsersUserUUIDSets);
@@ -149,7 +166,6 @@ server.delete('/users/:userUUID', {
   preHandler: [guardAuthenticate<any, DELETEUsersUserUUIDParams, any>],
 }, routeDELETEUsersUserUUID);
 
-//TODO Remember to make password resetting endpoints for Users - if not built into main User updating endpoints
 //TODO Remember to make Card Usage Logs endpoints
 //TODO Remember ot make Hidden Card Allocation endpoints
 //TODO Remember to make API Account management endpoints

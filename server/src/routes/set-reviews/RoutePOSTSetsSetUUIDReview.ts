@@ -10,6 +10,7 @@ import SetReview from "../../types/SetReview.js";
 import JWTData from "../../types/JWTData.js";
 import { v4 as uuidGen } from 'uuid';
 import saveSetReview from "../../queries/set-reviews/SaveSetReview.js";
+import castJWTPayload from "../../functions/utilities/CastJWTPayload.js";
 
 /**
  * @protected
@@ -20,10 +21,8 @@ const routePOSTSetSetUUIDReview = async (
   rep: FastifyReply
 ): Promise<void> => {
   // Map JWT data
-  let userData: JWTData;
-  try {
-    userData = req.user as JWTData;
-  } catch (error: any) {
+  const user: JWTData | null = await castJWTPayload(req);
+  if(!user) {
     rep.status(500).send({
       message: 'Something went wrong, please try again.',
     } as POSTSetsSetUUIDReviewReplyError);
@@ -40,7 +39,7 @@ const routePOSTSetSetUUIDReview = async (
     starRating: req.body.starRating,
     reviewDate: now,
     updatedAt: now,
-    authorUUID: userData.uuid,
+    authorUUID: user.uuid,
     setUUID: req.params.setUUID,
   };
 

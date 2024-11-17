@@ -6,6 +6,7 @@ import {
 } from "../../schemas/users/SchemaDELETEUsersUserUUID.js";
 import JWTData from "../../types/JWTData.js";
 import softDeleteUser from "../../queries/users/SoftDeleteUser.js";
+import castJWTPayload from "../../functions/utilities/CastJWTPayload.js";
 
 /**
  * @protected
@@ -18,10 +19,8 @@ const routeDELETEUsersUserUUID = async (
   rep: FastifyReply
 ): Promise<void> => {
   // Map JWT data
-  let userData: JWTData;
-  try {
-    userData = req.user as JWTData;
-  } catch (error: any) {
+  const user: JWTData | null = await castJWTPayload(req);
+  if(!user) {
     rep.status(500).send({
       message: 'Something went wrong, please try again.',
     } as DELETEUsersUserUUIDReplyError);
@@ -29,7 +28,7 @@ const routeDELETEUsersUserUUID = async (
   };
 
   // Ensure you have permission to delete the requested account
-  if(userData.isAdmin) {
+  if(user.isAdmin) {
     if(req.params.userUUID === 'ba57db28-61e3-42b8-840d-0e5908ef7603') {
       rep.status(403).send({
         message: "Cannot Delete Base Admin Account",
@@ -37,7 +36,7 @@ const routeDELETEUsersUserUUID = async (
       return;
     };
   } else {
-    if(req.params.userUUID !== userData.uuid) {
+    if(req.params.userUUID !== user.uuid) {
       rep.status(403).send({
         message: "Cannot Delete Account",
       } as DELETEUsersUserUUIDReplyError);

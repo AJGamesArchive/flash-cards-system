@@ -5,8 +5,10 @@ import getSets from "../../queries/sets/GetSets.js";
 import deleteSet from "../../queries/sets/DeleteSet.js";
 import { FullSet } from "../../queries/sets/GetSets.js";
 import JWTData from "../../types/JWTData.js";
+import castJWTPayload from "../../functions/utilities/CastJWTPayload.js";
 
 /**
+ * @protected
  * Route to delete a flashcard set and it's flashcards
  */
 const routeDELETESetsSetUUID = async (
@@ -14,10 +16,8 @@ const routeDELETESetsSetUUID = async (
   rep: FastifyReply
 ): Promise<void> => {
   // Map JWT data
-  let userData: JWTData;
-  try {
-    userData = req.user as JWTData;
-  } catch (error: any) {
+  const user: JWTData | null = await castJWTPayload(req);
+  if(!user) {
     rep.status(500).send({
       message: 'Something went wrong, please try again.',
     } as DELETESetsSetUUIDReplyError);
@@ -34,7 +34,7 @@ const routeDELETESetsSetUUID = async (
   };
 
   // Ensure the set being updated belongs to the user updating it
-  if(existingSet[0].authorUUID !== userData.uuid) {
+  if(existingSet[0].authorUUID !== user.uuid) {
     rep.status(403).send({
       message: 'Set does not belong to you.',
     } as DELETESetsSetUUIDReplyError);

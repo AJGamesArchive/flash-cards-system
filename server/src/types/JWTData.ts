@@ -1,7 +1,7 @@
 /**
  * Type to define the user data stored in a JWT
  */
-type JWTData = {
+interface JWTData {
   username: string;
   uuid: string;
   isAdmin: boolean;

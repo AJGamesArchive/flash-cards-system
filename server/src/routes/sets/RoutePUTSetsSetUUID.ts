@@ -13,6 +13,7 @@ import FlashcardSet from "../../types/FlashcardSet.js";
 import Flashcard from "../../types/Flashcard.js";
 import Difficulty from "../../types/Difficulty.js";
 import JWTData from "../../types/JWTData.js";
+import castJWTPayload from "../../functions/utilities/CastJWTPayload.js";
 
 /**
  * @protected
@@ -23,10 +24,8 @@ const routePUTSetsSetUUID = async (
   rep: FastifyReply
 ): Promise<void> => {
   // Map JWT data
-  let userData: JWTData;
-  try {
-    userData = req.user as JWTData;
-  } catch (error: any) {
+  const user: JWTData | null = await castJWTPayload(req);
+  if(!user) {
     rep.status(500).send({
       message: 'Something went wrong, please try again.',
     } as PUTSetsSetUUIDReplyError);
@@ -48,7 +47,7 @@ const routePUTSetsSetUUID = async (
   };
 
   // Ensure the set being updated belongs to the user updating it
-  if(existingSet[0].authorUUID !== userData.uuid) {
+  if(existingSet[0].authorUUID !== user.uuid) {
     rep.status(403).send({
       message: 'Set does not belong to you.',
     } as PUTSetsSetUUIDReplyError);

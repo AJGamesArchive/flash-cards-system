@@ -13,8 +13,7 @@ const guardAuthenticate = async <B, P, Q>(
 ): Promise<void> => {
   // Try to auth the JWT
   try {
-    await req.jwtVerify();
-    const userData: JWTData = req.user as JWTData;
+    const userData: JWTData = await req.jwtVerify<JWTData>();
     const current: boolean = await isUserTokenCurrent(userData.uuid, req.headers.authorization);
     if(!current) throw new Error("User Token Outdated");
   } catch (error: any) {

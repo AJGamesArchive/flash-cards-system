@@ -17,8 +17,7 @@ const routeConfirmLogin = async (
   // Try to auth user
   try {
     // Verify JWT
-    await req.jwtVerify();
-    const userData: JWTData = req.user as JWTData;
+    const userData: JWTData = await req.jwtVerify<JWTData>();
 
     // Verify JWT is newest user token
     const current: boolean = await isUserTokenCurrent(userData.uuid, req.headers.authorization);

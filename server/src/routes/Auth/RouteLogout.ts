@@ -2,6 +2,7 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { LogoutReply } from "../../schemas/auth/SchemaLogout.js";
 import JWTData from "../../types/JWTData.js";
+import castJWTPayload from "../../functions/utilities/CastJWTPayload.js";
 import setUserToken from "../../queries/auth/SetUserToken.js";
 
 /**
@@ -18,7 +19,8 @@ const routeLogout = async (
   } as LogoutReply);
 
   // Try to logout user
-  const userData: JWTData = req.user as JWTData;
+  const userData: JWTData | null = await castJWTPayload(req);
+  if(!userData) return; 
   await setUserToken(userData.username, null);
   return;
 };

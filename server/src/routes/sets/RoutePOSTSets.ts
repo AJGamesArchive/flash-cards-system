@@ -13,6 +13,7 @@ import getDifficulties from "../../queries/difficulties/GetDifficulties.js";
 import Difficulty from "../../types/Difficulty.js";
 import saveFlashcardSet from "../../queries/sets/SaveFlashcardSet.js";
 import { v4 as uuidGen } from 'uuid';
+import castJWTPayload from "../../functions/utilities/CastJWTPayload.js";
 
 /**
  * @protected
@@ -23,10 +24,8 @@ const routePOSTSets = async (
   rep: FastifyReply
 ): Promise<void> => {
   // Map JWT data
-  let userData: JWTData;
-  try {
-    userData = req.user as JWTData;
-  } catch (error: any) {
+  const user: JWTData | null = await castJWTPayload(req);
+  if(!user) {
     rep.status(500).send({
       message: 'Something went wrong, please try again.',
     } as POSTSetsReplyError);
@@ -35,7 +34,7 @@ const routePOSTSets = async (
 
   // Check if flashcard set creation limit
   const today: Date = new Date();
-  const allowedStatus: number = await allowSetCreation(userData);
+  const allowedStatus: number = await allowSetCreation(user);
   if(allowedStatus !== 200) {
     rep.status(allowedStatus).send({
       message:
@@ -65,7 +64,7 @@ const routePOSTSets = async (
     description: req.body.setDetails.description,
     createdAt: today,
     updatedAt: today,
-    authorUUID: req.body.setDetails.authorUUID || userData.uuid,
+    authorUUID: req.body.setDetails.authorUUID || user.uuid,
   };
   // Map over passed flashcard data and generate flashcard objects
   const newFlashcards: Flashcard[] = req.body.flashCards.map((flashcard) => {

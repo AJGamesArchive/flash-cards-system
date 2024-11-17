@@ -622,21 +622,24 @@ paths:
     post:
       summary: "Create a new user"
       tags:
-        - "Users"
+        - "Completed - Users"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              allOf:
-              - $ref: "#/components/schemas/User"
-              - type: object
-                properties:     
-                  password:
-                    type: "string"
-                    format: "password"
-                    example: "password"
-                    nullable: true
+              type: "object"
+              properties:
+                username:
+                  type: "string"
+                password:
+                  type: "string"
+                  format: "password"
+                  example: "password"
+                adminFlag:
+                  type: "boolean"
+                apiAccount:
+                  type: "boolean"
       responses:
         "201":
           description: "The created user"
@@ -645,7 +648,19 @@ paths:
               schema:
                 $ref: "#/components/schemas/User"
         "400":
-          description: "The user could not be created"
+          description: "Missing required details"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "You cannot create an admin user"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: "Something went wrong"
           content:
             application/json:
               schema:
@@ -681,25 +696,22 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-    put:
-      summary: "Update a user by ID"
+    patch:
+      summary: "Update a users username and rank by UUID"
       tags:
-        - "Users"
+        - "Completed - Users"
       description: "Admin status only editable if the current user is an admin"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              allOf:
-              - $ref: "#/components/schemas/User"
-              - type: object
-                properties:     
-                  password:
-                    type: "string"
-                    format: "password"
-                    example: "password"
-                    nullable: true
+              type: "object"
+              properties:     
+                username:
+                  type: "string"
+                adminFlag:
+                  type: "boolean"
       responses:
         "200":
           description: "The updated user"
@@ -707,8 +719,26 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
+        "401":
+          description: "User not logged in"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "Cannot change users rank"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "404":
           description: "The user was not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: "Something went wrong"
           content:
             application/json:
               schema:
@@ -734,6 +764,45 @@ paths:
                 $ref: "#/components/schemas/Error"
         "404":
           description: "The user was not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: "Something went wrong"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /users/{userUUID}/password:
+    patch:
+      summary: "Update a users password by UUID"
+      tags:
+        - Completed - Users
+      parameters:
+        - name: userUUID
+          in: path
+          required: true
+          description: UUID of user to update password for
+          schema:
+            type: "string"
+      responses:
+        "204":
+          description: "Password updated"
+        "401":
+          description: "User not logged in"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "Cannot update passwords for other users"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: "User not found"
           content:
             application/json:
               schema:

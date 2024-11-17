@@ -1,5 +1,19 @@
 /**
- * Type to define the data that powers users
+ * Type to define the full user data
+ */
+export type FullUser = {
+  userUUID: string;
+  username: string;
+  password: string;
+  adminFlag: boolean;
+  userSince: Date;
+  loginToken: string | null;
+  deleted: boolean;
+  apiAccount: boolean;
+};
+
+/**
+ * Type to define the front-facing user data
  */
 type User = {
   userUUID: string;
