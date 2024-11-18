@@ -1027,7 +1027,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /users/{userID}/collections:
+  /users/{userUUID}/collections:
     get:
       summary: "Get all flashcard set collections created by a user"
       tags:
@@ -1041,53 +1041,36 @@ paths:
                 type: "array"
                 items:
                   type: "object"
+                  $ref: "#/components/schemas/Collection"
                   properties:
-                    comment:
-                      type: "string"  
-                      description: "The user's comment on the set"
-                    set:
-                      $ref: "#/components/schemas/FlashcardSet"
-  /users/{userID}/collections/{collectionID}:
-    parameters:
-      - name: userID
-        in: path
-        required: true
-        description: "The ID of the user"
-        schema:
-          type: "string"
-      - name: collectionID
-        in: path
-        required: true
-        description: "The ID of the collection"
-        schema:
-          type: "string"
-    get:
-      summary: "Get a flashcard set collection by ID"
-      tags:
-        - "Collections"
-      responses:
-        "200":
-          description: "The flashcard set collection"
-          content:
-            application/json:
-              schema:
-                type: "object"
-                properties:
-                  comment:
-                    type: "string"  
-                    description: "The user's comment on the set"
-                  set:
-                    $ref: "#/components/schemas/FlashcardSet"
-                  user:
-                    $ref: "#/components/schemas/User"  
-        "404":
-          description: "The flashcard set collection was not found"
+                    numSets:
+                      type: "string"
+        "401":
+          description: "User Not Logged In"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-    put:
-      summary: "Update a flashcard set collection by ID"
+        "403":
+          description: "Cannot fetch other users collections"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: "User Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: "Something went wrong"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: "Create a new flashcard set collection"
       tags:
         - "Collections"
       requestBody:
@@ -1097,9 +1080,113 @@ paths:
             schema:
               type: "object"
               properties:
-                comment:
+                name:
                   type: "string"
-                  example: "I love this set!"
+                description:
+                  type: "string"
+      responses:
+        "201":
+          description: "The created flashcard set collection"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Collection"
+                properties:
+                  numSets:
+                    type: "string"
+        "401":
+          description: "User Not Logged In"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "Cannot create collections for other users"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: "User Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: "Something went wrong"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /users/{userUUID}/collections/{collectionUUID}:
+    parameters:
+      - name: userUUID
+        in: path
+        required: true
+        description: "The UUID of the user"
+        schema:
+          type: "string"
+      - name: collectionUUID
+        in: path
+        required: true
+        description: "The UUID of the collection"
+        schema:
+          type: "string"
+    get:
+      summary: "Get a flashcard set collection by UUID"
+      tags:
+        - "Collections"
+      responses:
+        "200":
+          description: "The flashcard set collection"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Collection"
+                properties:
+                  numSets:
+                    type: "string"
+        "401":
+          description: "User Not Logged In"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "Cannot fetch other users collections"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: "User or Collection Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: "Something went wrong"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      summary: "Update a flashcard set collection by UUID"
+      tags:
+        - "Collections"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                name:
+                  type: "string"
+                description:
+                  type: "string"
       responses:
         "200":
           description: "The updated flashcard set collection"
@@ -1107,53 +1194,61 @@ paths:
             application/json:
               schema:
                 type: "object"
+                $ref: "#/components/schemas/Collection"
                 properties:
-                  comment:
-                    type: "string"  
-                    description: "The user's comment on the set"
-                  set:
-                    $ref: "#/components/schemas/FlashcardSet"
-                  user:
-                    $ref: "#/components/schemas/User"  
-        "404":
-          description: "The flashcard set collection was not found"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+                  numSets:
+                    type: "string"
         "401":
-          description: "You are not authorized ('logged in') to update this collection"
+          description: "User Not Logged In"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
         "403":
-          description: "You are not allowed to update this collection"
+          description: "Cannot fetch other users collections"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: "User Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: "Something went wrong"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
     delete:
-      summary: "Delete a flashcard set collection by ID"
+      summary: "Delete a flashcard set collection by UUID"
       tags:
         - "Collections"
       responses:
         "204":
           description: "The flashcard set collection was deleted"
-        "404":
-          description: "The flashcard set collection was not found"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
         "401":
-          description: "You are not authorized ('logged in') to delete this collection"
+          description: "User Not Logged In"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-        '403':
-          description: "You are not allowed to delete this collection"
+        "403":
+          description: "Cannot fetch other users collections"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: "User Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: "Something went wrong"
           content:
             application/json:
               schema:
@@ -1165,65 +1260,38 @@ paths:
         - "Collections"
       responses:
         "200":
-          description: "A list of flashcard set collections"
+          description: "A list of all flashcard set collections"
           content:
             application/json:
               schema:
                 type: "array"
                 items:
                   type: "object"
+                  $ref: "#/components/schemas/Collection"
                   properties:
-                    comment:
-                      type: "string"  
-                      description: "The user's comment on the set"
-                    set:
-                      $ref: "#/components/schemas/FlashcardSet"
-                    User:
-                      $ref: "#/components/schemas/User"  
-    post:
-      summary: "Create a new flashcard set collection"
-      tags:
-        - "Collections"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: "array"
-              items:
-                type: "object"
-                properties:
-                  comment:
-                    type: "string"
-                    example: "I love this set!"
-                  setID:
-                    type: "number"
-                    example: 1
-
-      responses:
-        "201":
-          description: "The created flashcard set collection"
-          content:
-            application/json:
-              schema:
-                type: "object"
-                properties:
-                  comment:
-                    type: "string"  
-                    description: "The user's comment on the set"
-                  set:
-                    $ref: "#/components/schemas/FlashcardSet"
-                  user:
-                    $ref: "#/components/schemas/User"  
-        "404":
-          description: "The flashcard set was not found"
+                    numSets:
+                      type: "string"
+        "401":
+          description: "User Not Logged In"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /collections/random:
+        "403":
+          description: "You are not an Admin"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: "Something went wrong"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /users/{userUUID}/collections/random:
     get:
-      summary: "Redirect to a random flashcard set collection"
+      summary: "Redirect to a random flashcard set collection for a given user"
       tags:
         - "Collections"
       responses:
@@ -1234,13 +1302,193 @@ paths:
               schema:
                 type: "string"
                 example: "/users/1/collections/1"
-        "404":
-          description: "There are no flashcard set collections"
+        "401":
+          description: "User Not Logged In"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-                  
+        "403":
+          description: "Cannot search other users collections"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: "User Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: "Something went wrong"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /users/{userUUID}collections/{collectionUUID}/sets:
+    parameters:
+      - name: userUUID
+        description: "UUID of user that owns the collection"
+        in: path
+        required: true
+        schema:
+          type: "string"
+      - name: collectionUUID
+        description: "UUID of collection"
+        in: path
+        required: true
+        schema:
+          type: "string"
+    get:
+      summary: "Get all sets for a given users collection"
+      tags:
+        - "Collection Set Allocations"
+      responses:
+        "200":
+          description: "A list of all flashcard sets from a users collection"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  type: "object"
+                  properties:
+                    setUUID:
+                      type: "string"
+                    name:
+                      type: "string"
+                    description:
+                      type: "string"
+                    createdAt:
+                      type: "string"
+                      format: "date-time"
+                    updatedAt:
+                      type: "string"
+                      format: "date-time"
+                    authorUUID:
+                      type: "string"
+                    authorUsername:
+                      type: "string"
+                    numReviews:
+                      type: "number"
+                    numFlashcards:
+                      type: "number"
+        "401":
+          description: "User Not Logged In"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "Cannot fetch collections for other users"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: "User or Collection Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: "Something went wrong"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: "Create a collection set allocation for a user"
+      tags:
+        - "Collection Set Allocations"
+      requestBody:
+        required: true
+        description: "Flashcard set to create allocation for"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                setUUID:
+                  type: "string"
+      responses:
+        "201":
+          description: "The create set allocation"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  setUUID:
+                    type: "string"
+                  collectionUUID:
+                    type: "string"
+        "401":
+          description: "User Not Logged In"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "Cannot create set allocation for other users"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: "User, Collection, or Set Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: "Something went wrong"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: "Delete a collection set allocation for a user"
+      tags:
+        - "Collection Set Allocations"
+      requestBody:
+        required: true
+        description: "Flashcard set to delete allocation for"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                setUUID:
+                  type: "string"
+      responses:
+        "204":
+          description: "The set allocation was deleted successfully"
+        "401":
+          description: "User Not Logged In"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "Cannot delete set allocation for other users"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: "User, Collection, or Set Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: "Something went wrong"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
 components:
   schemas:
