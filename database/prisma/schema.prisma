@@ -52,6 +52,7 @@ model Collections {
   name                  String
   description           String
   createdOn             DateTime  @default(now())
+  updatedOn             DateTime  @updatedAt
   authorUUID            String
   author                Users     @relation(fields: [authorUUID], references: [userUUID], onDelete: Cascade)
   collectionAllocation  CollectionAllocations[]
