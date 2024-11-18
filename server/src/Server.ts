@@ -65,6 +65,14 @@ import schemaDELETEUsersUserUUID, { DELETEUsersUserUUIDParams } from "./schemas/
 import routePOSTFlashcardsCardUUIDlog from "./routes/flashcard-logs/RoutePOSTFlashcardCardUUIDLog.ts.js";
 import schemaPOSTFlashcardCardUUIDLog, { POSTFlashcardCardUUIDLogParams, POSTFlashcardCardUUIDLogRequest } from "./schemas/flashcard-logs/SchemaPOSTFlashcardCardUUIDLog.js";
 
+// Hidden card allocation routes & schemas
+import routeGETHiddenCardUserUUID from "./routes/hidden-card-allocations/RouteGETHiddenCardsUserUUID.js";
+import schemaGETHiddenCardsUserUUID from "./schemas/hidden-card-allocations/SchemaGETHiddenCardsUserUUID.js";
+import routePOSTHiddenCardUserUUID from "./routes/hidden-card-allocations/RoutePOSTHiddenCardsUserUUID.js";
+import schemaPOSTHiddenCardsUserUUID, { POSTHiddenCardsUserUUIDParams, POSTHiddenCardsUserUUIDRequest } from "./schemas/hidden-card-allocations/SchemaPOSTHiddenCardsUserUUID.js";
+import routeDELETEHiddenCardUserUUID from "./routes/hidden-card-allocations/RouteDELETEHiddenCardsUserUUID.js";
+import schemaDELETEHiddenCardsUserUUID, { DELETEHiddenCardsUserUUIDParams, DELETEHiddenCardsUserUUIDRequest } from "./schemas/hidden-card-allocations/SchemaDELETEHiddenCardsUserUUID.js";
+
 // Load ENVs
 dotenv.config();
 
@@ -186,7 +194,19 @@ server.post('/flashcards/:cardUUID/log', {
   preHandler: [guardAuthenticate<POSTFlashcardCardUUIDLogRequest, POSTFlashcardCardUUIDLogParams, any>],
 }, routePOSTFlashcardsCardUUIDlog);
 
-//TODO Remember ot make Hidden Card Allocation endpoints
+// Hidden card allocation endpoints
+server.get('/hiddenCards/:userUUID', {
+  schema: schemaGETHiddenCardsUserUUID,
+}, routeGETHiddenCardUserUUID);
+server.post('/hiddenCards/:userUUID', {
+  schema: schemaPOSTHiddenCardsUserUUID,
+  preHandler: [guardAuthenticate<POSTHiddenCardsUserUUIDRequest, POSTHiddenCardsUserUUIDParams, any>],
+}, routePOSTHiddenCardUserUUID);
+server.delete('/hiddenCards/:userUUID', {
+  schema: schemaDELETEHiddenCardsUserUUID,
+  preHandler: [guardAuthenticate<DELETEHiddenCardsUserUUIDRequest, DELETEHiddenCardsUserUUIDParams, any>],
+}, routeDELETEHiddenCardUserUUID);
+
 //TODO Remember to make API Account management endpoints
 
 // Start server

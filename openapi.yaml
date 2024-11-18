@@ -1,12 +1,12 @@
 openapi: 3.0.0
 info:
   title: TestVar - Flashcards API
-  description: "A revolutionaly REST API for flashcards"
+  description: "A revolutionary REST API for flashcards"
   version: 1.0.0
 servers:
-  - url: http://localhost:80/api
+  - url: http://localhost:80
     description: Development server
-  - url: http://testvar.difcsi.hu/api
+  - url: http://testvar.difcsi.hu
     description: Reference server
 paths:
   /:
@@ -917,6 +917,116 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /hiddenCards/{userUUID}:
+    parameters:
+      - name: userUUID
+        in: path
+        required: true
+        description: UUID of user to fetch hidden cards for
+        schema:
+          type: "string"
+    get:
+      summary: "Get UUIDs for all cards hidden from a given user"
+      tags:
+        - "Completed - Hidden Card Allocations"
+      responses:
+        "200":
+          description: "List of hidden flashcard UUIDs"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  type: "string"
+    post:
+      summary: "Create a hidden card allocation for a user"
+      tags:
+        - Completed - Hidden Card Allocations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                cardUUID:
+                  type: "string"
+      responses:
+        "201":
+          description: "The create allocation entry"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  userUUID:
+                    type: "string"
+                  cardUUID:
+                    type: "string"
+        "401":
+          description: "User Not Logged In"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "Cannot create allocations for another user"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: "User or Flashcard Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: "Something went wrong"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: "Delete a hidden card allocation from a user"
+      tags:
+        - Completed - Hidden Card Allocations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                cardUUID:
+                  type: "string"
+      responses:
+        "204":
+          description: "Allocation deleted successfully"
+        "401":
+          description: "User Not Logged In"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "Cannot delete allocations for another user"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: "User or Flashcard Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: "Something went wrong"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /users/{userID}/collections:
     get:
       summary: "Get all flashcard set collections created by a user"
@@ -1239,32 +1349,6 @@ components:
           format: "date-time"
           example: "2024-10-14T12:00:00Z"
         authorUUID:
-          type: "string"
-          example: "00000000-0000-0000-0000-000000000000"
-    CollectionReview:
-      type: "object"
-      properties:
-        reviewUUID:
-          type: "string"
-          example: "00000000-0000-0000-0000-000000000000"
-        review:
-          type: "object"
-          example: "This collection is great!"
-        starRating:
-          type: "number"
-          example: "5"
-        reviewDate:
-          type: "string"
-          format: "date-time"
-          example: "2024-10-14T12:00:00Z"
-        updatedAt:
-          type: "string"
-          format: "date-time"
-          example: "2024-10-14T12:00:00Z"
-        authorUUID:
-          type: "string"
-          example: "00000000-0000-0000-0000-000000000000"
-        collectionUUID:
           type: "string"
           example: "00000000-0000-0000-0000-000000000000"
     SetReview:
