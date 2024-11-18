@@ -10,6 +10,5 @@ export type DBHiddenCardAllocation = PrismaClient['hiddenCardAllocation'];
 export type DBSets = PrismaClient['sets'];
 export type DBSetReviews = PrismaClient['setReview'];
 export type DBCollections = PrismaClient['collections'];
-export type DBCollectionReviews = PrismaClient['collectionReviews'];
 export type DBCollectionAllocation = PrismaClient['collectionAllocations'];
 export type DBSystemConfig = PrismaClient['systemConfig'];
