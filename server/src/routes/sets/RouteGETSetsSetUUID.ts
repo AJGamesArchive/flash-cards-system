@@ -1,38 +1,39 @@
 // Imports
-import { FastifyRequest, FastifyReply } from "fastify";
+import { FastifyRequest, FastifyReply } from 'fastify';
+
+import getSets from '../../queries/sets/GetSets.js';
+import { FullSet } from '../../queries/sets/GetSets.js';
 import {
-  GETSetsSetUUIDReply200,
-  GETSetsSetUUIDReplyError,
-  GETSetsSetUUIDParams
-} from "../../schemas/sets/SchemaGETSetsSetUUID.js";
-import getSets from "../../queries/sets/GetSets.js";
-import { FullSet } from "../../queries/sets/GetSets.js";
+	GETSetsSetUUIDReply200,
+	GETSetsSetUUIDReplyError,
+	GETSetsSetUUIDParams,
+} from '../../schemas/sets/SchemaGETSetsSetUUID.js';
 
 /**
  * Route to fetch a set and it's reviews by a given setUUID
  */
 const routeGETSetSetUUID = async (
-  req: FastifyRequest<{ Params: GETSetsSetUUIDParams }>,
-  rep: FastifyReply
+	req: FastifyRequest<{ Params: GETSetsSetUUIDParams }>,
+	rep: FastifyReply,
 ): Promise<void> => {
-  // Fetch specified flashcard sets and their reviews
-  const sets: FullSet[] = await getSets(undefined, req.params.setUUID);
+	// Fetch specified flashcard sets and their reviews
+	const sets: FullSet[] = await getSets(undefined, req.params.setUUID);
 
-  // Ensure correct set was found
-  if(sets.length !== 1) {
-    rep.status(404).send({
-      message: "Set Not Found",
-    } as GETSetsSetUUIDReplyError);
-    return;
-  };
+	// Ensure correct set was found
+	if (sets.length !== 1) {
+		rep.status(404).send({
+			message: 'Set Not Found',
+		} as GETSetsSetUUIDReplyError);
+		return;
+	}
 
-  // Map data to reply schema and send data
-  rep.status(200).send({
-    ...sets[0],
-    createdAt: sets[0].createdAt.toISOString(),
-    updatedAt: sets[0].updatedAt.toISOString(),
-  } as GETSetsSetUUIDReply200);
-  return;
+	// Map data to reply schema and send data
+	rep.status(200).send({
+		...sets[0],
+		createdAt: sets[0].createdAt.toISOString(),
+		updatedAt: sets[0].updatedAt.toISOString(),
+	} as GETSetsSetUUIDReply200);
+	return;
 };
 
 export default routeGETSetSetUUID;

@@ -1,25 +1,25 @@
 // Imports
-import { FastifySchema } from "fastify";
+import { FastifySchema } from 'fastify';
 
 export interface LogoutReply {
-  message: string;
+	message: string;
 }
 
 const schemaLogout: FastifySchema = {
-  response: {
-    202: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
-    401: {
-      type: "object",
-      properties: {
-        message: { type: "string" },
-      },
-    },
-  },
+	response: {
+		202: {
+			type: 'object',
+			properties: {
+				message: { type: 'string' },
+			},
+		},
+		401: {
+			type: 'object',
+			properties: {
+				message: { type: 'string' },
+			},
+		},
+	},
 };
 
 export default schemaLogout;

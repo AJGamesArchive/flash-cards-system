@@ -1,19 +1,19 @@
 // Imports
-import { db } from "../../Server.js";
+import { db } from '../../Server.js';
 
 /**
  * Type to define set data returned from the DB
  */
 export type FullSet = {
-  setUUID: string;
-  name: string;
-  description: string;
-  createdAt: Date;
-  updatedAt: Date;
-  authorUUID: string;
-  authorUsername: string;
-  numReviews: number;
-  numFlashcards: number;
+	setUUID: string;
+	name: string;
+	description: string;
+	createdAt: Date;
+	updatedAt: Date;
+	authorUUID: string;
+	authorUsername: string;
+	numReviews: number;
+	numFlashcards: number;
 };
 
 /**
@@ -24,96 +24,102 @@ export type FullSet = {
  * @note Set UUID overrides user UUID if both params are passed
  * @returns Set details and reviews
  */
-async function getSets(authorUUID?: string, setUUID?: string): Promise<FullSet[]> {
-  // Define variables to store base fetched data
-  let setQuery;
+async function getSets(
+	authorUUID?: string,
+	setUUID?: string,
+): Promise<FullSet[]> {
+	// Define variables to store base fetched data
+	let setQuery;
 
-  // Fetch data from DB
-  if(authorUUID || setUUID) {
-    if(setUUID) {
-      // Fetch specific set
-      setQuery = await db.sets.findMany({
-        where: {
-          setUUID: setUUID,
-        },
-        include: {
-          author: {
-            select: {
-              username: true,
-            },
-          },
-          setReview: {
-            select: {
-              reviewUUID: true,
-            },
-          },
-          flashCards: {
-            select: {
-              cardUUID: true,
-            },
-          },
-        },
-      });
-    } else {
-      // Fetch all sets authored by a given user
-      setQuery = await db.sets.findMany({
-        where: {
-          authorUUID: authorUUID,
-        },
-        include: {
-          author: {
-            select: {
-              username: true,
-            },
-          },
-          setReview: {
-            select: {
-              reviewUUID: true,
-            },
-          },
-          flashCards: {
-            select: {
-              cardUUID: true,
-            },
-          },
-        },
-      });
-    };
-  } else {
-    // Fetch all sets and all set reviews
-    setQuery = await db.sets.findMany({
-      include: {
-        author: {
-          select: {
-            username: true,
-          },
-        },
-        setReview: {
-          select: {
-            reviewUUID: true,
-          },
-        },
-        flashCards: {
-          select: {
-            cardUUID: true,
-          },
-        },
-      },
-    });
-  };
+	// Fetch data from DB
+	if (authorUUID || setUUID) {
+		if (setUUID) {
+			// Fetch specific set
+			setQuery = await db.sets.findMany({
+				where: {
+					setUUID: setUUID,
+				},
+				include: {
+					author: {
+						select: {
+							username: true,
+						},
+					},
+					setReview: {
+						select: {
+							reviewUUID: true,
+						},
+					},
+					flashCards: {
+						select: {
+							cardUUID: true,
+						},
+					},
+				},
+			});
+		} else {
+			// Fetch all sets authored by a given user
+			setQuery = await db.sets.findMany({
+				where: {
+					authorUUID: authorUUID,
+				},
+				include: {
+					author: {
+						select: {
+							username: true,
+						},
+					},
+					setReview: {
+						select: {
+							reviewUUID: true,
+						},
+					},
+					flashCards: {
+						select: {
+							cardUUID: true,
+						},
+					},
+				},
+			});
+		}
+	} else {
+		// Fetch all sets and all set reviews
+		setQuery = await db.sets.findMany({
+			include: {
+				author: {
+					select: {
+						username: true,
+					},
+				},
+				setReview: {
+					select: {
+						reviewUUID: true,
+					},
+				},
+				flashCards: {
+					select: {
+						cardUUID: true,
+					},
+				},
+			},
+		});
+	}
 
-  // Return mapped data
-  return setQuery.map((set) => ({
-    setUUID: set.setUUID,
-    name: set.name,
-    description: set.description,
-    createdAt: set.createdAt,
-    updatedAt: set.updatedAt,
-    authorUUID: set.authorUUID,
-    authorUsername: set.author.username,
-    numReviews: set.setReview.length,
-    numFlashcards: set.flashCards.length,
-  } as FullSet)) as FullSet[];
-};
+	// Return mapped data
+	return setQuery.map(
+		(set) =>
+			({
+				setUUID: set.setUUID,
+				name: set.name,
+				description: set.description,
+				createdAt: set.createdAt,
+				updatedAt: set.updatedAt,
+				authorUUID: set.authorUUID,
+				authorUsername: set.author.username,
+				numReviews: set.setReview.length,
+				numFlashcards: set.flashCards.length,
+			}) as FullSet,
+	) as FullSet[];
+}
 
 export default getSets;

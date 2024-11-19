@@ -1,19 +1,20 @@
 // Imports
-import { FastifyRequest, FastifyReply } from "fastify";
-import { APIBuildReply } from "../../schemas/general/SchemaAPIBuild.js";
-import buildNum from "../../static/Build.js";
+import { FastifyRequest, FastifyReply } from 'fastify';
+
+import { APIBuildReply } from '../../schemas/general/SchemaAPIBuild.js';
+import buildNum from '../../static/Build.js';
 
 /**
  * Route to return active API version
  */
 const routeAPIBuild = async (
-  _req: FastifyRequest,
-  rep: FastifyReply
+	_req: FastifyRequest,
+	rep: FastifyReply,
 ): Promise<void> => {
-  rep.status(200).send({
-    version: buildNum,
-  } as APIBuildReply);
-  return;
+	rep.status(200).send({
+		version: buildNum,
+	} as APIBuildReply);
+	return;
 };
 
 export default routeAPIBuild;

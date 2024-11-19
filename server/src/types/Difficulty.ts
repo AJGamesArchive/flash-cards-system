@@ -2,8 +2,8 @@
  * Type to define the data that powers difficulties
  */
 type Difficulty = {
-  difficultyUUID: string;
-  value: DifficultyOptions;
+	difficultyUUID: string;
+	value: DifficultyOptions;
 };
 
 /**

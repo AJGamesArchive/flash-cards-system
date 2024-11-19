@@ -1,6 +1,7 @@
 // Imports
-import JWTData from "../../types/JWTData.js";
-import { FastifyRequest } from "fastify";
+import { FastifyRequest } from 'fastify';
+
+import JWTData from '../../types/JWTData.js';
 
 /**
  * Async function to type-cast the JWT payload after authentication
@@ -8,12 +9,13 @@ import { FastifyRequest } from "fastify";
  * @returns JWT Payload
  */
 async function castJWTPayload(req: FastifyRequest): Promise<JWTData | null> {
-  try {
-    const user: JWTData = await req.jwtDecode<JWTData>();
-    return user;
-  } catch (_error: any) {
-    return null;
-  };
-};
+	try {
+		const user: JWTData = await req.jwtDecode<JWTData>();
+		return user;
+	} catch (error: any) {
+		console.error(error);
+		return null;
+	}
+}
 
 export default castJWTPayload;

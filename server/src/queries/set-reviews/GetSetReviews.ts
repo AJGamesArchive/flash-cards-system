@@ -1,18 +1,18 @@
 // Import
-import { db } from "../../Server.js";
+import { db } from '../../Server.js';
 
 /**
  * Type to define the set review data fetched from the DB
  */
 export type FullSetReview = {
-  reviewUUID: string;
-  review: string;
-  starRating: number;
-  reviewDate: Date;
-  updatedAt: Date;
-  authorUUID: string | null;
-  authorUsername: string | null;
-  setUUID: string;
+	reviewUUID: string;
+	review: string;
+	starRating: number;
+	reviewDate: Date;
+	updatedAt: Date;
+	authorUUID: string | null;
+	authorUsername: string | null;
+	setUUID: string;
 };
 
 /**
@@ -23,65 +23,72 @@ export type FullSetReview = {
  * @param authorUUID Optional - UUID of author to fetch sets for
  * @returns Array of set reviews
  */
-async function getSetReviews(setUUID: string, reviewUUID?: string, authorUUID?: string): Promise<FullSetReview[]> {
-  // Define query var
-  let query;
+async function getSetReviews(
+	setUUID: string,
+	reviewUUID?: string,
+	authorUUID?: string,
+): Promise<FullSetReview[]> {
+	// Define query var
+	let query;
 
-  // Run query based on params
-  if(reviewUUID || authorUUID) {
-    if(reviewUUID) {
-      query = await db.setReview.findMany({
-        where: {
-          reviewUUID: reviewUUID,
-        },
-        include: {
-          author: {
-            select: {
-              username: true,
-            },
-          },
-        },
-      });
-    } else {
-      query = await db.setReview.findMany({
-        where: {
-          authorUUID: authorUUID,
-        },
-        include: {
-          author: {
-            select: {
-              username: true,
-            },
-          },
-        },
-      });
-    };
-  } else {
-    query = await db.setReview.findMany({
-      where: {
-        setUUID: setUUID,
-      },
-      include: {
-        author: {
-          select: {
-            username: true,
-          },
-        },
-      },
-    });
-  };
+	// Run query based on params
+	if (reviewUUID || authorUUID) {
+		if (reviewUUID) {
+			query = await db.setReview.findMany({
+				where: {
+					reviewUUID: reviewUUID,
+				},
+				include: {
+					author: {
+						select: {
+							username: true,
+						},
+					},
+				},
+			});
+		} else {
+			query = await db.setReview.findMany({
+				where: {
+					authorUUID: authorUUID,
+				},
+				include: {
+					author: {
+						select: {
+							username: true,
+						},
+					},
+				},
+			});
+		}
+	} else {
+		query = await db.setReview.findMany({
+			where: {
+				setUUID: setUUID,
+			},
+			include: {
+				author: {
+					select: {
+						username: true,
+					},
+				},
+			},
+		});
+	}
 
-  // Return reviews
-  return query.map((review) => ({
-    reviewUUID: review.reviewUUID,
-    review: review.review,
-    starRating: review.starRating,
-    reviewDate: review.reviewDate,
-    updatedAt: review.updatedAt,
-    authorUUID: review.authorUUID,
-    authorUsername: review.author?.username || null,
-    setUUID: review.setUUID,
-  } as FullSetReview)) as FullSetReview[];
-};
+	// Return reviews
+	return query.map(
+		(review) =>
+			({
+				reviewUUID: review.reviewUUID,
+				review: review.review,
+				starRating: review.starRating,
+				reviewDate: review.reviewDate,
+				updatedAt: review.updatedAt,
+				authorUUID: review.authorUUID,
+				authorUsername: review.author?.username || null,
+				setUUID: review.setUUID,
+			}) as FullSetReview,
+	) as FullSetReview[];
+}
 
 export default getSetReviews;

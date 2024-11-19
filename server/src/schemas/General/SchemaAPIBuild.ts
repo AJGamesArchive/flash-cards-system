@@ -1,19 +1,19 @@
 // Imports
-import { FastifySchema } from "fastify";
+import { FastifySchema } from 'fastify';
 
 export interface APIBuildReply {
-  version: string;
-};
+	version: string;
+}
 
 const schemaAPIBuild: FastifySchema = {
-  response: {
-    200: {
-      type: "object",
-      properties: {
-        version: { type: "string" },
-      },
-    },
-  },
+	response: {
+		200: {
+			type: 'object',
+			properties: {
+				version: { type: 'string' },
+			},
+		},
+	},
 };
 
 export default schemaAPIBuild;
