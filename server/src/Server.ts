@@ -87,6 +87,14 @@ import schemaPATCHUsersUserUUIDCollectionsCollectionUUID, { PATCHUsersUserUUIDCo
 import routeDELETEUsersUserUUIDCollectionsCollectionUUID from "./routes/collections/RouteDELETEUsersUserUUIDCollectionsCollectionUUID.js";
 import schemaDELETEUsersUserUUIDCollectionsCollectionUUID, { DELETEUsersUserUUIDCollectionsCollectionUUIDParams } from "./schemas/collections/SchemaDELETEUsersUserUUIDCollectionsCollectionUUID.js";
 
+// Collection Set Allocation routes & schemas
+import routeGETUserCollectionSetAllocations from "./routes/collection-set-allocation/RouteGETUserCollectionSetAllocations.js";
+import schemaGETUserCollectionSetAllocations, { GETUserCollectionSetAllocationsParams } from "./schemas/collection-set-allocation/SchemaGETUserCollectionSetAllocations.js";
+import routePOSTUserCollectionSetAllocations from "./routes/collection-set-allocation/RoutePOSTUserCollectionSetAllocations.js";
+import schemaPOSTUserCollectionSetAllocation, { POSTUserCollectionSetAllocationsParams, POSTUserCollectionSetAllocationsRequest } from "./schemas/collection-set-allocation/SchemaPOSTUserCollectionSetAllocations.js";
+import routeDELETEUserCollectionSetAllocations from "./routes/collection-set-allocation/RouteDELETEUserCollectionSetAllocations.js";
+import schemaDELETEUserCollectionSetAllocation, { DELETEUserCollectionSetAllocationsParams } from "./schemas/collection-set-allocation/SchemaDELETEUserCollectionSetAllocations.js";
+
 // Create API & Database Connection
 const server = Fastify({ logger: true }); //TODO Disable logger for production
 export const db = new PrismaClient();
@@ -118,12 +126,9 @@ server.register(swagger, {
   },
 });
 
-// Route guards
-server.decorate("/authenticate", guardAuthenticate); //! Remove later if still unused
-server.decorate("/isAdmin", guardIsAdmin); //! Remove later if still unused
-
 //TODO Update all endpoints to use errorHandler functions to clean up error hading if time permits
 //TODO Update system to allow sets to be marks as 'Public' or 'Private' by users if time permits
+//TODO Update endpoint handler functions to be within an overall timeout function if time permits
 
 // General endpoints
 server.get("/", {
@@ -252,6 +257,20 @@ server.delete('/users/:userUUID/collections/:collectionUUID', {
   schema: schemaDELETEUsersUserUUIDCollectionsCollectionUUID,
   preHandler: [guardAuthenticate<any, DELETEUsersUserUUIDCollectionsCollectionUUIDParams, any>],
 }, routeDELETEUsersUserUUIDCollectionsCollectionUUID);
+
+// Collection set allocation endpoints
+server.get('/users/:userUUID/collections/:collectionUUID/sets', {
+  schema: schemaGETUserCollectionSetAllocations,
+  preHandler: [guardAuthenticate<any, GETUserCollectionSetAllocationsParams, any>],
+}, routeGETUserCollectionSetAllocations);
+server.post('/users/:userUUID/collections/:collectionUUID/sets', {
+  schema: schemaPOSTUserCollectionSetAllocation,
+  preHandler: [guardAuthenticate<POSTUserCollectionSetAllocationsRequest, POSTUserCollectionSetAllocationsParams, any>],
+}, routePOSTUserCollectionSetAllocations);
+server.delete('/users/:userUUID/collections/:collectionUUID/sets/:setUUID', {
+  schema: schemaDELETEUserCollectionSetAllocation,
+  preHandler: [guardAuthenticate<any, DELETEUserCollectionSetAllocationsParams, any>],
+}, routeDELETEUserCollectionSetAllocations);
 
 //TODO Remember to make API Account management endpoints
 

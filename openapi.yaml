@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: TestVar - Flashcards API
   description: "A revolutionary REST API for flashcards"
-  version: 1.0.0
+  version: 2.0.0
 servers:
   - url: http://localhost:80
     description: Development server
@@ -1415,7 +1415,7 @@ paths:
     get:
       summary: "Get all sets for a given users collection"
       tags:
-        - "Collection Set Allocations"
+        - "Completed - Collection Set Allocations"
       responses:
         "200":
           description: "A list of all flashcard sets from a users collection"
@@ -1473,7 +1473,7 @@ paths:
     post:
       summary: "Create a collection set allocation for a user"
       tags:
-        - "Collection Set Allocations"
+        - "Completed - Collection Set Allocations"
       requestBody:
         required: true
         description: "Flashcard set to create allocation for"
@@ -1520,20 +1520,30 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /users/{userUUID}collections/{collectionUUID}/sets/{setUUID}:
+    parameters:
+      - name: userUUID
+        description: "UUID of user that owns the collection"
+        in: path
+        required: true
+        schema:
+          type: "string"
+      - name: collectionUUID
+        description: "UUID of collection"
+        in: path
+        required: true
+        schema:
+          type: "string"
+      - name: setUUID
+        in: path
+        required: true
+        description: "Flashcard set to delete allocation for"
+        schema:
+          type: "string"
     delete:
       summary: "Delete a collection set allocation for a user"
       tags:
-        - "Collection Set Allocations"
-      requestBody:
-        required: true
-        description: "Flashcard set to delete allocation for"
-        content:
-          application/json:
-            schema:
-              type: "object"
-              properties:
-                setUUID:
-                  type: "string"
+        - "Completed - Collection Set Allocations"
       responses:
         "204":
           description: "The set allocation was deleted successfully"
