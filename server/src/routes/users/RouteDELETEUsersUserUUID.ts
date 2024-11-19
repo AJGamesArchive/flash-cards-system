@@ -54,7 +54,7 @@ const routeDELETEUsersUserUUID = async (
   };
 
   // Return success
-  rep.status(204).send({});
+  rep.status(204).send();
   return;
 };
 

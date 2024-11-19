@@ -10,6 +10,7 @@ services:
       - "80:80"
     environment:
       NODE_ENV: production
+      PORT: 80
       DATABASE_URL: "file:./dev.db"
       JWT_SECRET: "9jzInZSfM3UbtdL1J1cbm20dy6VqvrfLtzQHFZxv"
 

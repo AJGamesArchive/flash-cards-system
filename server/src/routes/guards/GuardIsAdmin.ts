@@ -18,7 +18,7 @@ const guardIsAdmin = async <B, P, Q>(
   } catch (error: any) {
     console.warn(error);
     rep.status(403).send({
-      message: "Forbidden",
+      message: "You are not an Admin",
     } as IsAdminReplyError);
   };
 };

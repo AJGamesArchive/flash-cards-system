@@ -1028,10 +1028,24 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
   /users/{userUUID}/collections:
+    parameters:
+      - name: userUUID
+        in: path
+        required: true
+        description: UUID of collection author
+        schema:
+          type: "string"
     get:
       summary: "Get all flashcard set collections created by a user"
+      parameters:
+        - name: random
+          in: query
+          required: false
+          description: "Get a random collection by the given user"
+          schema:
+            type: "boolean"
       tags:
-        - "Collections"
+        - "Completed - Collections"
       responses:
         "200":
           description: "A list of flashcard set collections"
@@ -1041,10 +1055,29 @@ paths:
                 type: "array"
                 items:
                   type: "object"
-                  $ref: "#/components/schemas/Collection"
                   properties:
-                    numSets:
+                    collectionUUID:
                       type: "string"
+                      example: "00000000-0000-0000-0000-000000000000"
+                    name:
+                      type: "string"
+                      example: "French Beginner Sets"
+                    description:
+                      type: "string"
+                      example: "Sets to help beginners start to learn French"
+                    createdOn:
+                      type: "string"
+                      format: "date-time"
+                      example: "2024-10-14T12:00:00Z"
+                    updatedOn:
+                      type: "string"
+                      format: "date-time"
+                      example: "2024-10-14T12:00:00Z"
+                    authorUUID:
+                      type: "string"
+                      example: "00000000-0000-0000-0000-000000000000"
+                    numSets:
+                      type: "number"
         "401":
           description: "User Not Logged In"
           content:
@@ -1072,7 +1105,7 @@ paths:
     post:
       summary: "Create a new flashcard set collection"
       tags:
-        - "Collections"
+        - "Completed - Collections"
       requestBody:
         required: true
         content:
@@ -1091,10 +1124,29 @@ paths:
             application/json:
               schema:
                 type: "object"
-                $ref: "#/components/schemas/Collection"
                 properties:
-                  numSets:
+                  collectionUUID:
                     type: "string"
+                    example: "00000000-0000-0000-0000-000000000000"
+                  name:
+                    type: "string"
+                    example: "French Beginner Sets"
+                  description:
+                    type: "string"
+                    example: "Sets to help beginners start to learn French"
+                  createdOn:
+                    type: "string"
+                    format: "date-time"
+                    example: "2024-10-14T12:00:00Z"
+                  updatedOn:
+                    type: "string"
+                    format: "date-time"
+                    example: "2024-10-14T12:00:00Z"
+                  authorUUID:
+                    type: "string"
+                    example: "00000000-0000-0000-0000-000000000000"
+                  numSets:
+                    type: "number"
         "401":
           description: "User Not Logged In"
           content:
@@ -1136,7 +1188,7 @@ paths:
     get:
       summary: "Get a flashcard set collection by UUID"
       tags:
-        - "Collections"
+        - "Completed - Collections"
       responses:
         "200":
           description: "The flashcard set collection"
@@ -1144,10 +1196,29 @@ paths:
             application/json:
               schema:
                 type: "object"
-                $ref: "#/components/schemas/Collection"
                 properties:
-                  numSets:
+                  collectionUUID:
                     type: "string"
+                    example: "00000000-0000-0000-0000-000000000000"
+                  name:
+                    type: "string"
+                    example: "French Beginner Sets"
+                  description:
+                    type: "string"
+                    example: "Sets to help beginners start to learn French"
+                  createdOn:
+                    type: "string"
+                    format: "date-time"
+                    example: "2024-10-14T12:00:00Z"
+                  updatedOn:
+                    type: "string"
+                    format: "date-time"
+                    example: "2024-10-14T12:00:00Z"
+                  authorUUID:
+                    type: "string"
+                    example: "00000000-0000-0000-0000-000000000000"
+                  numSets:
+                    type: "number"
         "401":
           description: "User Not Logged In"
           content:
@@ -1175,7 +1246,7 @@ paths:
     patch:
       summary: "Update a flashcard set collection by UUID"
       tags:
-        - "Collections"
+        - "Completed - Collections"
       requestBody:
         required: true
         content:
@@ -1194,10 +1265,29 @@ paths:
             application/json:
               schema:
                 type: "object"
-                $ref: "#/components/schemas/Collection"
                 properties:
-                  numSets:
+                  collectionUUID:
                     type: "string"
+                    example: "00000000-0000-0000-0000-000000000000"
+                  name:
+                    type: "string"
+                    example: "French Beginner Sets"
+                  description:
+                    type: "string"
+                    example: "Sets to help beginners start to learn French"
+                  createdOn:
+                    type: "string"
+                    format: "date-time"
+                    example: "2024-10-14T12:00:00Z"
+                  updatedOn:
+                    type: "string"
+                    format: "date-time"
+                    example: "2024-10-14T12:00:00Z"
+                  authorUUID:
+                    type: "string"
+                    example: "00000000-0000-0000-0000-000000000000"
+                  numSets:
+                    type: "number"
         "401":
           description: "User Not Logged In"
           content:
@@ -1225,7 +1315,7 @@ paths:
     delete:
       summary: "Delete a flashcard set collection by UUID"
       tags:
-        - "Collections"
+        - "Completed - Collections"
       responses:
         "204":
           description: "The flashcard set collection was deleted"
@@ -1257,7 +1347,7 @@ paths:
     get:
       summary: "Get all flashcard set collections"
       tags:
-        - "Collections"
+        - "Completed - Collections"
       responses:
         "200":
           description: "A list of all flashcard set collections"
@@ -1267,10 +1357,29 @@ paths:
                 type: "array"
                 items:
                   type: "object"
-                  $ref: "#/components/schemas/Collection"
                   properties:
-                    numSets:
+                    collectionUUID:
                       type: "string"
+                      example: "00000000-0000-0000-0000-000000000000"
+                    name:
+                      type: "string"
+                      example: "French Beginner Sets"
+                    description:
+                      type: "string"
+                      example: "Sets to help beginners start to learn French"
+                    createdOn:
+                      type: "string"
+                      format: "date-time"
+                      example: "2024-10-14T12:00:00Z"
+                    updatedOn:
+                      type: "string"
+                      format: "date-time"
+                      example: "2024-10-14T12:00:00Z"
+                    authorUUID:
+                      type: "string"
+                      example: "00000000-0000-0000-0000-000000000000"
+                    numSets:
+                      type: "number"
         "401":
           description: "User Not Logged In"
           content:
@@ -1279,43 +1388,6 @@ paths:
                 $ref: "#/components/schemas/Error"
         "403":
           description: "You are not an Admin"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-        "500":
-          description: "Something went wrong"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-  /users/{userUUID}/collections/random:
-    get:
-      summary: "Redirect to a random flashcard set collection for a given user"
-      tags:
-        - "Collections"
-      responses:
-        "302":
-          description: "Redirect to a random flashcard set collection"
-          headers:
-            Location:
-              schema:
-                type: "string"
-                example: "/users/1/collections/1"
-        "401":
-          description: "User Not Logged In"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-        "403":
-          description: "Cannot search other users collections"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-        "404":
-          description: "User Not Found"
           content:
             application/json:
               schema:

@@ -15,8 +15,8 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "outDir": "./dist",
-    "baseUrl": "./src",
-    // "typeRoots": [".././node_modules/@types", "./src/types"]
+    // "baseUrl": "./src",
+    "typeRoots": ["./src/types/**/*"]
   },
   "include": ["./src/**/*"],
   "exclude": ["node_modules"]

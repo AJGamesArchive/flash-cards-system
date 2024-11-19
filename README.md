@@ -27,6 +27,8 @@ $ touch .env
 
 ```env
 JWT_SECRET=9jzInZSfM3UbtdL1J1cbm20dy6VqvrfLtzQHFZxv
+NODE_ENV=development
+PORT=80
 ```
 
 - Create a ``.env`` file in the ``./database`` workspace: 

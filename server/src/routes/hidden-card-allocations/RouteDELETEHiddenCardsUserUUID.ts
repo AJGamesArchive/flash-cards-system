@@ -44,7 +44,7 @@ const routeDELETEHiddenCardUserUUID = async (
   };
 
   // Return confirmation
-  rep.status(204).send({});
+  rep.status(204).send();
   return;
 };
 

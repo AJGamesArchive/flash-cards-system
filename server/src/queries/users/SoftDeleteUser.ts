@@ -13,6 +13,7 @@ async function softDeleteUser(userUUID: string): Promise<boolean> {
       },
       data: {
         deleted: true,
+        loginToken: null,
       },
     });
     return true;

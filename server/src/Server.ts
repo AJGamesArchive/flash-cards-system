@@ -73,20 +73,40 @@ import schemaPOSTHiddenCardsUserUUID, { POSTHiddenCardsUserUUIDParams, POSTHidde
 import routeDELETEHiddenCardUserUUID from "./routes/hidden-card-allocations/RouteDELETEHiddenCardsUserUUID.js";
 import schemaDELETEHiddenCardsUserUUID, { DELETEHiddenCardsUserUUIDParams, DELETEHiddenCardsUserUUIDRequest } from "./schemas/hidden-card-allocations/SchemaDELETEHiddenCardsUserUUID.js";
 
-// Load ENVs
-dotenv.config();
+// Collection routes & schemas
+import routeGETCollections from "./routes/collections/RouteGETCollections.js";
+import schemaGETCollections from "./schemas/collections/SchemaGETCollections.js";
+import routeGETUsersUserUUIDCollections from "./routes/collections/RouteGETUsersUserUUIDCollections.js";
+import schemaGETUsersUserUUIDCollections, { GETUsersUserUUIDCollectionsParams, GETUsersUserUUIDCollectionsQuery } from "./schemas/collections/SchemaGETUsersUserUUIDCollections.js";
+import routeGETUsersUserUUIDCollectionsCollectionUUID from "./routes/collections/RouteGETUsersUserUUIDCollectionsCollectionUUID.js";
+import schemaGETUsersUserUUIDCollectionsCollectionUUID, { GETUsersUserUUIDCollectionsCollectionUUIDParams } from "./schemas/collections/SchemaGETUsersUserUUIDCollectionsCollectionUUID.js";
+import routePOSTUsersUserUUIDCollections from "./routes/collections/RoutePOSTUsersUserUUIDCollections.js";
+import schemaPOSTUsersUserUUIDCollections, { POSTUsersUserUUIDCollectionsParams, POSTUsersUserUUIDCollectionsRequest } from "./schemas/collections/SchemaPOSTUsersUserUUIDCollections.js";
+import routePATCHUsersUserUUIDCollectionsCollectionUUID from "./routes/collections/RoutePATCHUsersUserUUIDCollectionsCollectionUUID.js";
+import schemaPATCHUsersUserUUIDCollectionsCollectionUUID, { PATCHUsersUserUUIDCollectionsCollectionUUIDParams, PATCHUsersUserUUIDCollectionsCollectionUUIDRequest } from "./schemas/collections/SchemaPATCHUsersUserUUIDCollectionsCollectionUUID.js";
+import routeDELETEUsersUserUUIDCollectionsCollectionUUID from "./routes/collections/RouteDELETEUsersUserUUIDCollectionsCollectionUUID.js";
+import schemaDELETEUsersUserUUIDCollectionsCollectionUUID, { DELETEUsersUserUUIDCollectionsCollectionUUIDParams } from "./schemas/collections/SchemaDELETEUsersUserUUIDCollectionsCollectionUUID.js";
 
 // Create API & Database Connection
 const server = Fastify({ logger: true }); //TODO Disable logger for production
 export const db = new PrismaClient();
 
-// Setup Fastify JWT & corresponding secret
-const jwtSecret: string | undefined = process.env.JWT_SECRET;
-if(!jwtSecret) {
-  console.error('Failed to load JWT secret ENV.');
+// Load ENVs
+dotenv.config();
+const port: number = parseInt(process.env.PORT, 10);
+if(isNaN(port)) {
+  console.error('Failed to load PORT ENV.');
   db.$disconnect();
   process.exit(1);
 };
+const jwtSecret: string = process.env.JWT_SECRET;
+if(!jwtSecret) {
+  console.error('Failed to load JWT_SECRET ENV.');
+  db.$disconnect();
+  process.exit(1);
+};
+
+// Setup Fastify JWT & corresponding secret
 server.register(fastifyJWT, { secret: jwtSecret });
 server.register(swagger, {
   swagger: {
@@ -207,11 +227,37 @@ server.delete('/hiddenCards/:userUUID', {
   preHandler: [guardAuthenticate<DELETEHiddenCardsUserUUIDRequest, DELETEHiddenCardsUserUUIDParams, any>],
 }, routeDELETEHiddenCardUserUUID);
 
+// Collection endpoints
+server.get('/collections', {
+  schema: schemaGETCollections,
+  preHandler: [guardAuthenticate<any, any, any>, guardIsAdmin<any, any, any>],
+}, routeGETCollections);
+server.get('/users/:userUUID/collections', {
+  schema: schemaGETUsersUserUUIDCollections,
+  preHandler: [guardAuthenticate<any, GETUsersUserUUIDCollectionsParams, GETUsersUserUUIDCollectionsQuery>],
+}, routeGETUsersUserUUIDCollections);
+server.get('/users/:userUUID/collections/:collectionUUID', {
+  schema: schemaGETUsersUserUUIDCollectionsCollectionUUID,
+  preHandler: [guardAuthenticate<any, GETUsersUserUUIDCollectionsCollectionUUIDParams, any>],
+}, routeGETUsersUserUUIDCollectionsCollectionUUID);
+server.post('/users/:userUUID/collections', {
+  schema: schemaPOSTUsersUserUUIDCollections,
+  preHandler: [guardAuthenticate<POSTUsersUserUUIDCollectionsRequest, POSTUsersUserUUIDCollectionsParams, any>],
+}, routePOSTUsersUserUUIDCollections);
+server.patch('/users/:userUUID/collections/:collectionUUID', {
+  schema: schemaPATCHUsersUserUUIDCollectionsCollectionUUID,
+  preHandler: [guardAuthenticate<PATCHUsersUserUUIDCollectionsCollectionUUIDRequest, PATCHUsersUserUUIDCollectionsCollectionUUIDParams, any>], 
+}, routePATCHUsersUserUUIDCollectionsCollectionUUID);
+server.delete('/users/:userUUID/collections/:collectionUUID', {
+  schema: schemaDELETEUsersUserUUIDCollectionsCollectionUUID,
+  preHandler: [guardAuthenticate<any, DELETEUsersUserUUIDCollectionsCollectionUUIDParams, any>],
+}, routeDELETEUsersUserUUIDCollectionsCollectionUUID);
+
 //TODO Remember to make API Account management endpoints
 
 // Start server
 server.listen(
-  { port: 80, host: "0.0.0.0" },
+  { port: port, host: "0.0.0.0" },
   (error: Error | null, address: string) => {
     if (error) {
       server.log.error(error);
