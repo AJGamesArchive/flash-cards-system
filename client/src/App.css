@@ -5,6 +5,9 @@
   text-align: center;
 }
 
+/*
+  * Core Page Styling Types
+*/
 .body-page-none {
   margin: 0;
 }
@@ -24,8 +27,34 @@
   height: 100%;
 }
 
+/*
+  * Default Inputgroup Formatting
+*/
 .p-inputgroup .p-inputtext, .p-fluid .p-inputgroup .p-inputtext, .p-inputgroup .p-inputwrapper, .p-fluid .p-inputgroup .p-input {
   flex: 1 1 auto;
   width: 40px;
   height: 45px;
+}
+
+/*
+  * Default Dialogue Box Style
+*/
+.emoji-role-editor-dialogue {
+  width: 45%;
+}
+
+.emoji-role-editor-dialogue .p-dialog-header {
+  background-color: #181a1f;
+}
+
+.emoji-role-editor-dialogue .p-dialog-content {
+  background-color: #353a45;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.emoji-role-editor-dialogue .p-dialog-footer {
+  background-color: #353a45;
+  padding-top: 15px;
+  border-top: solid #404348 1px;
 }

@@ -44,6 +44,19 @@ $ touch .env
 DATABASE_URL="file:./dev.db"
 ```
 
+- Create a ``.env`` file in the ``./client`` workspace: 
+
+```bash
+$ cd client
+$ touch .env
+```
+
+- Add the following ENV to ``./client/.env``:
+
+```env
+API_URL=http://localhost:80
+```
+
 - Init Database: ``yarn db:migrate``
 - Run DEV Server(s): ``yarn all:dev``
 - - This will run a **client** DEV build on: [localhost:5173](http://localhost:5173)
