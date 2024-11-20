@@ -6,13 +6,6 @@ import { ToastMessage } from "primereact/toast";
 import apiRequestError from "../../errors/APIRequestError";
 import useToastMessage, { UseToastMessageHook } from "../core/UseToastMessage";
 import APIRequestHookOptions from "../../interfaces/APIRequestOptions";
-import {
-  APIGetEndpoint,
-  APIPostEndpoint,
-  APIPutEndpoint,
-  APIPatchEndpoint,
-  APIDeleteEndpoint
-} from "../../types/services/APIEndpoints";
 import APIMethods from "../../types/services/APIMethods";
 import APIResponse from "../../types/services/APIResponse";
 import build from "../../static/Build";
@@ -23,14 +16,14 @@ import build from "../../static/Build";
  * @param endpoint Server API endpoint to target
  * @param body Object to pass as request body
  * @param options Additional request options
- * @param params Optional params to add to the URL
+ * @param queries Optional queries to add to the URL
  */
 function useServerAPI<T>(
   method: APIMethods,
-  endpoint: APIGetEndpoint | APIPostEndpoint | APIPutEndpoint | APIPatchEndpoint | APIDeleteEndpoint,
+  endpoint: string,
   body: object,
   options: APIRequestHookOptions = { immediate: true },
-  params?: string
+  queries?: object,
 ): APIResponse<T> {
   // Hooks
   const toastMessage: UseToastMessageHook = useToastMessage();
@@ -56,28 +49,33 @@ function useServerAPI<T>(
       var response; 
       switch(method) {
         case 'GET':
-          response = await api.get<T>(`${endpoint}${params ? params : ''}`, {
+          response = await api.get<T>(`${endpoint}`, {
             headers: requestHeaders,
+            params: queries ? queries : undefined,
           });
           break;
         case 'POST':
-          response = await api.post<T>(`${endpoint}${params ? params : ''}`, body, {
+          response = await api.post<T>(`${endpoint}`, body, {
             headers: requestHeaders,
+            params: queries ? queries : undefined,
           });
           break;
         case 'PUT':
-          response = await api.put<T>(`${endpoint}${params ? params : ''}`, body, {
+          response = await api.put<T>(`${endpoint}`, body, {
             headers: requestHeaders,
+            params: queries ? queries : undefined,
           });
           break;
         case 'PATCH':
-          response = await api.patch<T>(`${endpoint}${params ? params : ''}`, body, {
+          response = await api.patch<T>(`${endpoint}`, body, {
             headers: requestHeaders,
+            params: queries ? queries : undefined,
           });
           break;
         case 'DELETE':
-          response = await api.delete<T>(`${endpoint}${params ? params : ''}`, {
+          response = await api.delete<T>(`${endpoint}`, {
             headers: requestHeaders,
+            params: queries ? queries : undefined,
           });
           break;
         default:
@@ -104,7 +102,7 @@ function useServerAPI<T>(
       setLoading(false);
       return axiosError.response ? axiosError.response.status : 0;
     };
-  }, [endpoint, body, params]);
+  }, [endpoint, body, queries]);
 
   // Send request on initial render if immediate option flag is present
   useEffect(() => {
