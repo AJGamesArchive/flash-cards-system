@@ -28,6 +28,9 @@ const schemaLogin: FastifySchema = {
 			type: 'object',
 			properties: {
 				token: { type: 'string' },
+				username: { type: 'string' },
+				uuid: { type: 'string' },
+				isAdmin: { type: 'boolean' },
 			},
 		},
 		401: {

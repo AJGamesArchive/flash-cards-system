@@ -1,9 +1,10 @@
 // Core Imports
+import Fastify from 'fastify';
 import fastifyJWT from '@fastify/jwt';
+import cors from '@fastify/cors';
 import swagger from '@fastify/swagger';
 import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
-import Fastify from 'fastify';
 
 import routeConfirmLogin from './routes/auth/RouteConfirmLogin.js';
 import routeLogin from './routes/auth/RouteLogin.js';
@@ -144,7 +145,10 @@ if (!jwtSecret) {
 	process.exit(1);
 }
 
-// Setup Fastify JWT & corresponding secret
+// Setup Fastify Plugins
+server.register(cors, {
+	origin: '*', // Allow all origins, exposing API
+});
 server.register(fastifyJWT, { secret: jwtSecret });
 server.register(swagger, {
 	swagger: {

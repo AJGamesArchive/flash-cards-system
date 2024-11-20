@@ -65,7 +65,12 @@ const routeLogin = async (
 	}
 
 	// Successful login
-	rep.status(200).send({ token } as LoginReply200);
+	rep.status(200).send({
+		token,
+		username: user.username,
+		uuid: user.userUUID,
+		isAdmin: user.adminFlag,
+	} as LoginReply200);
 	return;
 };
 

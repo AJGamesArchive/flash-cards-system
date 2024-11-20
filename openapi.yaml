@@ -51,6 +51,12 @@ paths:
                 properties:
                   token:
                     type: "string"
+                  username:
+                    type: "string"
+                  uuid:
+                    type: "string"
+                  isAdmin:
+                    type: "boolean"
         "401":
           description: "Invalid login credentials"
           content:
