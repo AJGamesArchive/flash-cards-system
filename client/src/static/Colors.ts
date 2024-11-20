@@ -3,6 +3,7 @@
  */
 type CommonColors = {
   BackgroundLightBlue: string;
+  BackgroundBlue: string;
   BackgroundDarkBlue: string;
   Teal: string;
   Green: string;
@@ -23,6 +24,7 @@ type CommonColors = {
  */
 const commonColors: CommonColors = {
   BackgroundLightBlue: '#024465',
+  BackgroundBlue: '#1c293e',
   BackgroundDarkBlue: '#111827',
   Green: '#85df4a',
   Yellow: '#e4de2e',

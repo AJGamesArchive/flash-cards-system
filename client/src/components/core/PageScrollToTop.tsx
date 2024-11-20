@@ -4,15 +4,15 @@ import { ScrollTop } from 'primereact/scrolltop';
 import commonColors from '../../static/Colors';
 
 // Component Props Interface
-interface PageLoadingProps {
-  color: 'BgDarkBlue' | 'BgLightBlue';
+interface PageScrollToTopProps {
+  color: 'BgDarkBlue' | 'BgBlue' | 'BgLightBlue';
 };
 
 /**
  * React function to render the page loading component
  * @returns PageLoading Component
  */
-const PageLoading: React.FC<PageLoadingProps> = ({
+const PageScrollToTop: React.FC<PageScrollToTopProps> = ({
   color,
 }) => {
   // Return JSX
@@ -20,12 +20,14 @@ const PageLoading: React.FC<PageLoadingProps> = ({
     style={{
       background: 
         color === 'BgDarkBlue'
-          ? commonColors.BackgroundDarkBlue
-          : commonColors.BackgroundLightBlue,
+          ? commonColors.BackgroundDarkBlue :
+        color === 'BgLightBlue'
+          ? commonColors.BackgroundLightBlue
+          : commonColors.BackgroundBlue,
       borderRadius: '45px',
     }}
     icon='pi pi-arrow-up'
   />
 };
 
-export default PageLoading;
+export default PageScrollToTop;

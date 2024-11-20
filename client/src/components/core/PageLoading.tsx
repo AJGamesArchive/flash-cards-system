@@ -5,7 +5,7 @@ import { ProgressSpinner } from 'primereact/progressspinner';
 
 // Component Props Interface
 interface PageLoadingProps {
-  toast: RefObject<Toast>
+  toast?: RefObject<Toast>
 };
 
 /**

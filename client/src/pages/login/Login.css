@@ -1,0 +1,100 @@
+/*
+  * Login Panel
+*/
+.login-panel-core {
+  padding: 3%;
+  border-radius: 10px;
+  display: flex;
+  height: 100%;
+  flex-direction: row;
+  min-width: 800px;
+  max-width: 800px;
+}
+
+.login-panel-top-div {
+  display: flex;
+  height: 50%; 
+  align-items: center; 
+  justify-content: center;
+}
+
+.login-panel-left-div {
+  display: flex;
+  width: 50%; 
+  align-items: center; 
+  justify-content: center;
+}
+
+.login-panel-bottom-div {
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center;
+  height: 50%;
+  padding: 15px;
+}
+
+.login-panel-right-div {
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center;
+  width: 50%;
+  padding: 15px;
+}
+
+.login-panel-logo {
+  width: 250px;
+  border-radius: 8px; 
+  object-fit: cover;
+}
+
+/*
+  * Build Number
+*/
+.build-number {
+  color:dimgrey;
+  font-weight: bold;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.build-number-mobile {
+  color:dimgrey;
+  font-weight: bold;
+}
+
+/*
+  * Login Menu button Styling
+*/
+.p-icon.p-submenu-icon {
+  color: #dad7cd
+}
+
+.p-menuitem-text {
+  color: #dad7cd
+}
+
+.p-menuitem-icon {
+  color: #dad7cd
+}
+
+.login-panel .p-panelmenu-header-content:hover {
+  background-color: #3e5b8a;
+}
+
+.p-panelmenu .p-panelmenu-header:not(.p-disabled).p-highlight .p-panelmenu-header-content {
+  background-color: #3e5b8a;
+  border-color: #181a1f; 
+}
+
+/*
+  * Conditional Rendering
+*/
+@media (max-width: 768px) {
+  .login-panel-core {
+    height: 50%;
+    flex-direction: column;
+    min-width: 90vw;
+  }
+}

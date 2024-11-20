@@ -1,22 +1,37 @@
 // Imports
-import { useEffect } from 'react';
-// import { Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
+import { useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import useAuthListener, { UseAuthListenerHook } from './hook/auth/UseAuthListener';
+import PageError from './components/core/PageError';
+import PageLoading from './components/core/PageLoading';
+import LoginPage from './pages/login/Login';
+import BrowsSetsPage from './pages/brows-sets/BrowsSets';
 
 const App: React.FC = () => {
-  // Event handler to perform action upon the apps initial render
+  // Core Hooks
+  const authListener: UseAuthListenerHook = useAuthListener();
+
+  // Set default root page CSS class upon render
   useEffect(() => {
     document.body.classList.add('body-page-center');
   }, []);
+
+  // Return JSX
+  if(authListener.runningCheck) return <PageLoading/>;
+  if(!authListener.allowAccess) return (
+    <PageError
+      displayError='You are not logged in, please login!'
+      notLoggedIn
+    />
+  );
   return (
-    <div style={{
-      minWidth: "100%",
-      maxWidth: "800px",
-    }}>
-      <h1>TestVar</h1>
-      <h3>API URL: {import.meta.env.API_URL}</h3>
-    </div>
-  )
-}
+    <Routes>
+      <Route path="/" Component={LoginPage}/>
+      <Route path="/login" Component={LoginPage}/>
+      <Route path="/brows-sets" Component={BrowsSetsPage}/>
+    </Routes>
+  );
+};
 
 export default App;
