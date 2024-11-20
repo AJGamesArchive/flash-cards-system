@@ -1,6 +1,6 @@
 // Imports
 import './Login.css';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Toast } from 'primereact/toast';
 import { MenuItem } from 'primereact/menuitem';
 import commonColors from '../../static/Colors';
@@ -8,6 +8,7 @@ import WindowSize from '../../types/core/WindowSize';
 import useWindowSize from '../../hook/core/UseWindowSize';
 import build from '../../static/Build';
 import { PanelMenu } from 'primereact/panelmenu';
+import LoginDialogue from '../../components/login/LoginDialogue';
 
 /**
  * React function to render the login page
@@ -19,6 +20,7 @@ const LoginPage: React.FC = () => {
 
   // Page hooks
   const windowSize: WindowSize = useWindowSize();
+  const [showLogin, setShowLogin] = useState<boolean>(false);
 
   // Const to define the login options menu options
   const menuOptions: MenuItem[] = [
@@ -29,12 +31,17 @@ const LoginPage: React.FC = () => {
         {
           label: "User Login",
           icon: "pi pi-user",
-          command: () => {},
+          command: () => setShowLogin(true),
         },
         {
           label: "Generate API Key",
           icon: "pi pi-key",
-          command: () => {},
+          command: () => toast.current?.show({ //TODO Implement this time permitting
+            severity: 'info',
+            summary: 'Feature Not Implemented Yet',
+            closable: false,
+            life: 3000,
+          }),
         },
       ]
     },
@@ -45,7 +52,12 @@ const LoginPage: React.FC = () => {
         {
           label: "Forgot Password",
           icon: "pi pi-question-circle",
-          command: () => {},
+          command: () => toast.current?.show({ //TODO Implement this time permitting
+            severity: 'info',
+            summary: 'Feature Not Implemented Yet',
+            closable: false,
+            life: 3000,
+          }),
         },
       ]
     },
@@ -116,6 +128,14 @@ const LoginPage: React.FC = () => {
           <i className='pi pi-book'/> TestVar Flashcards - Build {build}
         </p>
       </div>
+      {
+        //? Login Dialogue Box
+      }
+      <LoginDialogue
+        toast={toast}
+        visible={showLogin}
+        setVisible={setShowLogin}
+      />
     </>
   );
 };

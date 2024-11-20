@@ -1,0 +1,21 @@
+/*
+  * Dialogue Footer Formatting
+*/
+.login-dialogue-footer {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-dialogue-footer-button {
+  margin-right: 10px;
+}
+
+/*
+  * Login Form Styling
+*/
+.login-form-field {
+  padding-bottom: 15px;
+}

@@ -39,21 +39,22 @@
 /*
   * Default Dialogue Box Style
 */
-.emoji-role-editor-dialogue {
+.p-dialog {
   width: 45%;
 }
 
-.emoji-role-editor-dialogue .p-dialog-header {
+.p-dialog-header {
   background-color: #181a1f;
 }
 
-.emoji-role-editor-dialogue .p-dialog-content {
+.p-dialog-content {
   background-color: #353a45;
   padding-left: 10px;
   padding-right: 10px;
+  padding-bottom: 10px;
 }
 
-.emoji-role-editor-dialogue .p-dialog-footer {
+.p-dialog-footer {
   background-color: #353a45;
   padding-top: 15px;
   border-top: solid #404348 1px;

@@ -29,7 +29,7 @@ const App: React.FC = () => {
     <Routes>
       <Route path="/" Component={LoginPage}/>
       <Route path="/login" Component={LoginPage}/>
-      <Route path="/brows-sets" Component={BrowsSetsPage}/>
+      <Route path="/browse-sets" Component={BrowsSetsPage}/>
     </Routes>
   );
 };

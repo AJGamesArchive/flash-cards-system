@@ -30,7 +30,7 @@ function useAuthListener(): UseAuthListenerHook {
   const [allowPageAccess, setAllowPageAccess] = useState<boolean>(false);
 
   // Function to track whether the user is on the login page
-  const isOnLoginPage = (): boolean => (
+  const isOnLoginPage = (): boolean => !!(
     location.pathname === '/' ||
     location.pathname === '/login'
   );
@@ -38,7 +38,7 @@ function useAuthListener(): UseAuthListenerHook {
   // Function to determine whether a user is permitted to access the current page
   function determineAccess(): void {
     if(authenticated && isOnLoginPage()) {
-      window.location.href = `/brows-sets`;
+      window.location.href = `/browse-sets`;
       return;
     };
     if(authenticated || isOnLoginPage()) {
@@ -90,15 +90,18 @@ function useAuthListener(): UseAuthListenerHook {
       setRunningCheck(false);
       return;
     };
-    saveUserJWTData();
     return;
   };
 
   // Hook to trigger the auth check each time the app location changes
   useEffect(() => {
     runAuthChecker();
-    isOnLoginPage();
   }, [location]);
+
+  // Hook to trigger saving user JWT data once the api has received it
+  useEffect(() => {
+    if(apiAuthCheck.data) saveUserJWTData();
+  }, [apiAuthCheck.data]);
 
   // Hook to trigger the determine access function each time the auth state changes
   useEffect(determineAccess, [authenticated]);

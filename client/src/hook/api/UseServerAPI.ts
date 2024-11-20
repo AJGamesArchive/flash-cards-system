@@ -36,7 +36,7 @@ function useServerAPI<T>(
 
   // Hook static data
   const requestHeaders = {
-    Authorization: localStorage.getItem('fc-jwt'),
+    Authorization: `Bearer ${localStorage.getItem('fc-jwt')}`,
     'client-build': build,
   };
 
