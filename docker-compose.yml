@@ -22,6 +22,6 @@ services:
     ports:
       - "81:80"
     environment:
-      NODE_ENV: production
+      API_URL: http://localhost:80
     depends_on:
       - server

@@ -23,7 +23,11 @@
     "choco",
     "datasource",
     "fastify",
+    "inputgroup",
+    "inputtext",
+    "inputwrapper",
     "openapi",
+    "primeicons",
     "primereact",
     "tseslint",
     "turborepo"

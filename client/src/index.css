@@ -1,3 +1,7 @@
+@import 'primereact/resources/themes/lara-dark-teal/theme.css'; /* Import PrimeReact theme */
+@import 'primereact/resources/primereact.min.css'; /* Import PrimeReact core styles */
+@import 'primeicons/primeicons.css'; /* Import PrimeIcons */
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -5,7 +9,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #0b1018;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -22,17 +26,20 @@ a:hover {
   color: #535bf2;
 }
 
-body {
+/* body {
   margin: 0;
   display: flex;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-}
+} */
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  margin: 0;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 button {
@@ -42,7 +49,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  /* background-color: #1a1a1a; */
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -54,7 +61,7 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
+/* @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
@@ -64,5 +71,28 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+} */
+
+code {
+  background-color: #181a1f;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+pre {
+  background-color: #181a1f;
+  padding: 10px;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+@media (max-width: 768px) {
+  .p-toast {
+    width: 95% !important; /* Adjust this percentage as needed */
+    left: 50% !important;  /* Center the toast horizontally */
+    transform: translateX(-50%) !important;  /* Ensure the centering is accurate */
   }
 }
