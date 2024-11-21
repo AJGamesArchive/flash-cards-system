@@ -1,7 +1,7 @@
 /*
   * Dialogue Footer Formatting
 */
-.login-dialogue-footer {
+.account-create-dialogue-footer {
   margin-top: 5px;
   display: flex;
   flex-direction: row;
@@ -9,18 +9,18 @@
   align-items: center;
 }
 
-.login-dialogue-footer-button {
+.account-create-dialogue-footer-button {
   margin-right: 10px;
 }
 
 /*
   * Login Form Styling
 */
-.login-form-field {
+.account-create-dialogue-form-field {
   padding-bottom: 15px;
 }
 
-.login-dialogue-heading-text {
+.account-create-dialogue-heading-text {
   text-align: center;
   padding-top: 10px;
   padding-bottom: 15px;

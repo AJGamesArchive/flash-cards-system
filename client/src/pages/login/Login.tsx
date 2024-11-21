@@ -9,6 +9,7 @@ import useWindowSize from '../../hook/core/UseWindowSize';
 import build from '../../static/Build';
 import { PanelMenu } from 'primereact/panelmenu';
 import LoginDialogue from '../../components/login/LoginDialogue';
+import CreateAccountDialogue from '../../components/login/CreateAccountDialogue';
 
 /**
  * React function to render the login page
@@ -21,6 +22,7 @@ const LoginPage: React.FC = () => {
   // Page hooks
   const windowSize: WindowSize = useWindowSize();
   const [showLogin, setShowLogin] = useState<boolean>(false);
+  const [showCreation, setShowCreation] = useState<boolean>(false);
 
   // Const to define the login options menu options
   const menuOptions: MenuItem[] = [
@@ -32,6 +34,11 @@ const LoginPage: React.FC = () => {
           label: "User Login",
           icon: "pi pi-user",
           command: () => setShowLogin(true),
+        },
+        {
+          label: "Create an Account",
+          icon: "pi pi-plus",
+          command: () => setShowCreation(true),
         },
         {
           label: "Generate API Key",
@@ -106,7 +113,7 @@ const LoginPage: React.FC = () => {
             Welcome!
           </h1>
           <h4>
-            Please login:
+            Please login or create an account!
           </h4>
           <PanelMenu 
             className='login-panel'
@@ -135,6 +142,14 @@ const LoginPage: React.FC = () => {
         toast={toast}
         visible={showLogin}
         setVisible={setShowLogin}
+      />
+      {
+        //? Account Creation Dialogue Box
+      }
+      <CreateAccountDialogue
+        toast={toast}
+        visible={showCreation}
+        setVisible={setShowCreation}
       />
     </>
   );

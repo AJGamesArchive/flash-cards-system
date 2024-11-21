@@ -85,17 +85,13 @@ const LoginDialogue: React.FC<LoginDialogueProps> = ({
       onHide={loginController.onDialogueHide}
     >
       {
-        //* Heading Text
+        //? Heading Text
       }
-      <div style={{
-        textAlign: 'center',
-        paddingTop: '10px',
-        paddingBottom: '15px',
-      }}>
+      <div className='login-dialogue-heading-text'>
         <b>Please enter your credentials:</b>
       </div>
       {
-        //* Username Form Field
+        //? Username Form Field
       }
       <div className="login-form-field">
         <label htmlFor="login-username">
@@ -114,7 +110,7 @@ const LoginDialogue: React.FC<LoginDialogueProps> = ({
         </div>
       </div>
       {
-        //* Password Form Field
+        //? Password Form Field
       }
       <div>
         <label htmlFor="login-password">

@@ -5,6 +5,7 @@ import APIResponse from "../../types/services/APIResponse";
 import ErrorWatch from "../../types/core/ErrorWatch";
 import ToastWatch from "../../types/core/ToastWatch";
 import castData from "../../functions/core/CastData";
+import saveUserTextInputToObject from "../../functions/core/SaveUserTextInputToObject";
 
 /**
  * Type to define the login credentials the user must provide
@@ -62,15 +63,8 @@ function useLoginController(
   );
 
   // Function to save a user input
-  const saveInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input: string = e.target.value;
-    const key: string = e.target.name;
-    setLoginCredentials((prev) => ({
-      ...prev,
-      [key]: input,
-    }));
-    return;
-  };
+  const saveInput = (e: React.ChangeEvent<HTMLInputElement>) =>
+    saveUserTextInputToObject(e, setLoginCredentials);
 
   // Function to trigger the login process
   const login = () => loginRequest.reTrigger();

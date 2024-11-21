@@ -96,7 +96,12 @@ function useServerAPI<T>(
       const toast: ToastMessage = apiRequestError(error);
       toastMessage.setToast(toast);
       const axiosError: AxiosError = error as AxiosError;
-      const errorMessage: string = `[Error: ${axiosError.response ? axiosError.response.status : 0}]: ${axiosError.message || 'An error occurred.'}`;
+      const errorMessage: string =
+        `[Error: ${
+          axiosError.response ? axiosError.response.status : 0
+        }]: ${
+          (axiosError.response && axiosError.response.data) ? (axiosError.response.data as any).message : axiosError.message || 'An error occurred.'
+        }`;
       setError(errorMessage);
       setStatus(axiosError.response ? axiosError.response.status : 0);
       setLoading(false);
