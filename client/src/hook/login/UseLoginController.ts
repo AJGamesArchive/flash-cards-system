@@ -82,7 +82,7 @@ function useLoginController(
     localStorage.setItem('fc-uuid', fetchedUserData.uuid);
     localStorage.setItem('fc-admin', String(fetchedUserData.isAdmin));
     localStorage.setItem('fc-jwt', fetchedUserData.token);
-    window.location.href = `/browse-sets`;
+    window.location.href = `/welcome`;
     return;
   };
 

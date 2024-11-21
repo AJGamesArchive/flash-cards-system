@@ -6,8 +6,11 @@ import useAuthListener, { UseAuthListenerHook } from './hook/auth/UseAuthListene
 import PageError from './components/core/PageError';
 import PageLoading from './components/core/PageLoading';
 import LoginPage from './pages/login/Login';
-import BrowsSetsPage from './pages/brows-sets/BrowsSets';
+import WelcomePage from './pages/welcome/Welcome';
 
+/**
+ * React function to render the core APP and handle app routing
+ */
 const App: React.FC = () => {
   // Core Hooks
   const authListener: UseAuthListenerHook = useAuthListener();
@@ -29,7 +32,7 @@ const App: React.FC = () => {
     <Routes>
       <Route path="/" Component={LoginPage}/>
       <Route path="/login" Component={LoginPage}/>
-      <Route path="/browse-sets" Component={BrowsSetsPage}/>
+      <Route path="/welcome" Component={WelcomePage}/>
     </Routes>
   );
 };

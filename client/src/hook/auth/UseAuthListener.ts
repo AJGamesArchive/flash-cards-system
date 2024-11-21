@@ -38,23 +38,22 @@ function useAuthListener(): UseAuthListenerHook {
   // Function to determine whether a user is permitted to access the current page
   function determineAccess(): void {
     if(authenticated && isOnLoginPage()) {
-      window.location.href = `/browse-sets`;
+      window.location.href = `/welcome`;
+      setRunningCheck(false);
       return;
     };
     if(authenticated || isOnLoginPage()) {
       setAllowPageAccess(true);
+      setRunningCheck(false);
       return;
     };
     setAllowPageAccess(false);
+    setRunningCheck(false);
     return;
   };
 
   // Function to save a logged in users core data
   function saveUserJWTData(): void {
-    if(!apiAuthCheck.data) {
-      setAuthenticated(false);
-      setRunningCheck(false);
-    };
     try {
       const data: AuthConfirmation = apiAuthCheck.data as AuthConfirmation;
       localStorage.setItem('fc-username', data.user.username);
@@ -66,7 +65,6 @@ function useAuthListener(): UseAuthListenerHook {
       return;
     };
     setAuthenticated(true);
-    setRunningCheck(false);
     return;
   };
 

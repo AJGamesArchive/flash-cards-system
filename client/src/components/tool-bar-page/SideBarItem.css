@@ -1,0 +1,24 @@
+.side-bar-item {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  padding-left: 10px;
+  background-color: #111827;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.side-bar-item:hover {
+  background-color: #212f4d;
+}
+
+.selected {
+  background-color: #052437;
+  color: #3bab99;
+}
+
+.logout:hover {
+  background-color: #e94d4d;
+}

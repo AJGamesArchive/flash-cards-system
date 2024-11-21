@@ -38,7 +38,7 @@ const PageError: React.FC<PageErrorProps> = ({
           fontSize: '100px'
         }}/>
       </div>
-      <h1>Not Logged In</h1>
+      <h1>Logged Out</h1>
       <h2>{displayError}</h2>
       <Button
         label='Login'

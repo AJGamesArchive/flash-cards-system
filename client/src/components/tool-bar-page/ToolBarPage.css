@@ -1,0 +1,30 @@
+.tool-bar-page {
+  display: flex;
+  flex-direction: row;
+}
+
+.tool-bar-page-side-bar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 20%;
+  height: 100%;
+  padding-top: 10px;
+}
+
+.tool-bar-page-side-bar-item-container {
+  width: 100%;
+}
+
+.tool-bar-page-side-bar-icon {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 10px;
+}
+
+.tool-bar-page-content {
+  display: flex;
+  width: 80%;
+  height: 100%;
+}
