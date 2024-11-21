@@ -21,6 +21,14 @@ const routePOSTUsers = async (
 	req: FastifyRequest<{ Body: POSTUsersRequest }>,
 	rep: FastifyReply,
 ): Promise<void> => {
+	// Ensure a username and password have been provided
+	if(!req.body.username || !req.body.password) {
+		rep.status(400).send({
+			message: 'Username or Password not provided',
+		} as POSTUsersReplyError);
+		return;
+	};
+
 	// Create new user object
 	const newUser: FullUser = {
 		userUUID: uuidGen(),
@@ -47,8 +55,8 @@ const routePOSTUsers = async (
 	// Create the account
 	const success: boolean = await createUser(newUser);
 	if (!success) {
-		rep.status(500).send({
-			message: 'Failed to create user',
+		rep.status(403).send({
+			message: 'Username Already In Use',
 		} as POSTUsersReplyError);
 		return;
 	}
