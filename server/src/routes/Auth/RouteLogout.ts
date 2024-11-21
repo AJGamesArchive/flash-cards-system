@@ -22,7 +22,7 @@ const routeLogout = async (
 	// Try to logout user
 	const userData: JWTData | null = await castJWTPayload(req);
 	if (!userData) return;
-	await setUserToken(userData.username, null);
+	await setUserToken(userData.uuid, null);
 	return;
 };
 

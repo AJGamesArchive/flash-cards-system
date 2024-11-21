@@ -39,12 +39,16 @@ function useAuthListener(): UseAuthListenerHook {
   function determineAccess(): void {
     if(authenticated && isOnLoginPage()) {
       window.location.href = `/welcome`;
-      setRunningCheck(false);
+      setTimeout(() => {
+        setRunningCheck(false);
+      }, 1000);
       return;
     };
     if(authenticated || isOnLoginPage()) {
       setAllowPageAccess(true);
-      setRunningCheck(false);
+      setTimeout(() => {
+        setRunningCheck(false);
+      }, 1000);
       return;
     };
     setAllowPageAccess(false);

@@ -1,0 +1,22 @@
+.top-bar-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 40px;
+  height: 100%;
+  padding-top: 5px;
+}
+
+.top-bar-item:hover {
+  background-color: #212f4d;
+}
+
+.selected {
+  background-color: #052437;
+  color: #3bab99;
+}
+
+.logout {
+  color: #e94d4d;
+}

@@ -5,7 +5,9 @@ import WindowSize from '../../types/core/WindowSize';
 import useWindowSize from '../../hook/core/UseWindowSize';
 import commonColors from '../../static/Colors';
 import SideBarItem from './SideBarItem';
+import TopBarItem from './TopBarItem';
 import toolBarPageMenuItems from '../../static/ToolBarPageMenuItems';
+import useLogoutHandler, { UseLogoutHandlerHook } from '../../hook/tool-bar-page/UseLogoutHandler';
 
 // Component Props Interface
 interface ToolBarPageProps {
@@ -15,9 +17,6 @@ interface ToolBarPageProps {
   pageHorizontalAlignment: 'Left' | 'Center' | 'Right';
   selectedItemIndex: number;
 };
-
-//TODO Make this component fully mobile compatible time permitting
-//TODO Implement the logout button with API integration
 
 /**
  * React function to render the toolbar page template component
@@ -32,8 +31,70 @@ const ToolBarPage: React.FC<ToolBarPageProps> = ({
 }) => {
   // Page hooks
   const windowSize: WindowSize = useWindowSize();
+  const logoutController: UseLogoutHandlerHook = useLogoutHandler();
 
-  // Return JSX
+  // Return Mobile JSX
+  if(windowSize.width <= 768) return (
+    <div 
+      className='tool-bar-page-mobile'
+      style={{
+        width: `${windowSize.width - 1}px`,
+        height: `${windowSize.height - 1}px`,
+      }}
+    >
+      {
+        //? Mobile Top Bar
+      }
+      <div
+        className='tool-bar-page-mobile-top-bar'
+        style={{
+          backgroundColor: commonColors.BackgroundBlue,
+        }}
+      >
+        <div className='tool-bar-page-mobile-top-bar-item-container'>
+          {
+            //? Company Logo
+          }
+          <img
+            className='tool-bar-page-mobile-top-bar-icon'
+            src="vite.svg"
+          />
+          {
+            //? Top Bar Menu Items Mapping
+          }
+          {toolBarPageMenuItems.map((item, index) => {
+            if(item.itemName === 'Admin' && localStorage.getItem('fc-admin') !== 'true') return;
+            return (
+            <div key={index}>
+              <TopBarItem
+                icon={item.icon}
+                selected={selectedItemIndex === index + 1}
+                onClick={(selectedItemIndex === index + 1) ? undefined : item.onCLick}
+              />
+            </div>
+          )})}
+        </div>
+        <div className='tool-bar-page-mobile-top-bar-item-container'>
+          <TopBarItem
+            icon={logoutController.loading ? 'pi pi-circle' : 'pi pi-sign-out'}
+            selected={logoutController.loading}
+            onClick={logoutController.loading ? undefined : logoutController.logout}
+            logoutButton
+          />
+        </div>
+      </div>
+      {
+        //? Mobile Main Page
+      }
+      <div className='tool-bar-page-mobile-content'>
+        {
+          //? Page Content Passed As Children
+        }
+        {children}
+      </div>
+    </div>
+  );
+  // Return Desktop JSX
   return (
     <div 
       className='tool-bar-page'
@@ -75,12 +136,12 @@ const ToolBarPage: React.FC<ToolBarPageProps> = ({
             </div>
           )})}
         </div>
-        <div style={{ width: '100%' }}>
+        <div className='tool-bar-page-side-bar-item-container'>
           <SideBarItem
             itemName='Logout'
-            icon='pi pi-sign-out'
-            selected={false}
-            onClick={() => {}} 
+            icon={logoutController.loading ? 'pi pi-circle' : 'pi pi-sign-out'}
+            selected={logoutController.loading}
+            onClick={logoutController.loading ? undefined : logoutController.logout}
             logoutButton
           />
         </div>
