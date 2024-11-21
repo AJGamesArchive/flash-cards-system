@@ -23,7 +23,7 @@ const TopBarItem: React.FC<TopBarItemProps> = ({
   // Return JSX
   return (
     <div
-      className={`top-bar-item${selected ? ' selected' : ''}${logoutButton ? ' logout' : ''}`}
+      className={`top-bar-item${logoutButton ? ' logout-mobile' : ''}${selected ? ' selected' : ''}`}
       onClick={onClick}
     >
       <i className={icon}/>

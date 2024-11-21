@@ -6,11 +6,19 @@ import APIResponse from "../../types/services/APIResponse";
 import AuthConfirmation from "../../types/auth/AuthConfirmation";
 
 /**
+ * Enum to define the possible auth states a user can have
+ */
+export enum AuthStates {
+  Pending,
+  Permitted,
+  Forbidden,
+};
+
+/**
  * Type to define the states exposed by the useAuthListener hook
  */
 export type UseAuthListenerHook = {
-  runningCheck: boolean;
-  allowAccess: boolean;
+  authState: AuthStates;
 };
 
 /**
@@ -19,15 +27,13 @@ export type UseAuthListenerHook = {
 function useAuthListener(): UseAuthListenerHook {
   // Hooks & states
   const location = useLocation();
-  const apiAuthCheck: APIResponse<any> = useServerAPI(
+  const apiAuthCheck: APIResponse<object> = useServerAPI(
     'GET',
     '/confirmLogin',
     {},
     { immediate: false },
   );
-  const [runningCheck, setRunningCheck] = useState<boolean>(true);
-  const [authenticated, setAuthenticated] = useState<boolean>(false);
-  const [allowPageAccess, setAllowPageAccess] = useState<boolean>(false);
+  const [authState, setAuthState] = useState<AuthStates>(AuthStates.Pending);
 
   // Function to track whether the user is on the login page
   const isOnLoginPage = (): boolean => !!(
@@ -36,23 +42,19 @@ function useAuthListener(): UseAuthListenerHook {
   );
 
   // Function to determine whether a user is permitted to access the current page
-  function determineAccess(): void {
+  function determineAccess(authenticated: boolean): void {
     if(authenticated && isOnLoginPage()) {
       window.location.href = `/welcome`;
       setTimeout(() => {
-        setRunningCheck(false);
+        setAuthState(AuthStates.Permitted);
       }, 1000);
       return;
     };
     if(authenticated || isOnLoginPage()) {
-      setAllowPageAccess(true);
-      setTimeout(() => {
-        setRunningCheck(false);
-      }, 1000);
+      setAuthState(AuthStates.Permitted);
       return;
     };
-    setAllowPageAccess(false);
-    setRunningCheck(false);
+    setAuthState(AuthStates.Forbidden);
     return;
   };
 
@@ -64,32 +66,29 @@ function useAuthListener(): UseAuthListenerHook {
       localStorage.setItem('fc-uuid', data.user.uuid);
       localStorage.setItem('fc-admin', String(data.user.isAdmin));
     } catch (error: any) {
-      setAuthenticated(false);
-      setRunningCheck(false);
+      determineAccess(false);
       return;
     };
-    setAuthenticated(true);
+    determineAccess(true);
     return;
   };
 
   // Async function run a user auth check
   async function runAuthChecker(): Promise<void> {
-    setRunningCheck(true);
+    setAuthState(AuthStates.Pending);
     // Check for any saved tokens & ids
     const token: string | null = localStorage.getItem('fc-jwt');
     const username: string | null = localStorage.getItem('fc-username');
     const uuid: string | null = localStorage.getItem('fc-uuid');
     const isAdmin: string | null = localStorage.getItem('fc-admin');
     if(!token || !username || !uuid || !isAdmin) {
-      setAuthenticated(false);
-      setRunningCheck(false);
+      determineAccess(false);
       return;
     };
     // Send API request to confirm login
     const status: number = await apiAuthCheck.reTrigger();
-    if(status !== 200) {
-      setAuthenticated(false);
-      setRunningCheck(false);
+    if(status !== 200 && status !== 204) {
+      determineAccess(false);
       return;
     };
     return;
@@ -105,13 +104,9 @@ function useAuthListener(): UseAuthListenerHook {
     if(apiAuthCheck.data) saveUserJWTData();
   }, [apiAuthCheck.data]);
 
-  // Hook to trigger the determine access function each time the auth state changes
-  useEffect(determineAccess, [authenticated]);
-
   // Return states
   return {
-    runningCheck,
-    allowAccess: allowPageAccess,
+    authState,
   };
 };
 

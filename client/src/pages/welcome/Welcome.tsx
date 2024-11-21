@@ -32,6 +32,10 @@ const WelcomePage: React.FC = () => {
         Rank:
       </b>
       <b style={{
+        fontSize:
+          (windowSize.width > 768)
+            ? '1.5rem'
+            : '1rem',
         color:
           (localStorage.getItem('fc-admin') === 'true')
             ? commonColors.Green
@@ -48,6 +52,10 @@ const WelcomePage: React.FC = () => {
         User ID:
       </b>
       <b style={{
+        fontSize:
+          (windowSize.width > 768)
+            ? '1.5rem'
+            : '1rem',
         color:
           (localStorage.getItem('fc-admin') === 'true')
             ? commonColors.Green

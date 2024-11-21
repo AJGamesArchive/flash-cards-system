@@ -34,7 +34,7 @@ const ToolBarPage: React.FC<ToolBarPageProps> = ({
   const logoutController: UseLogoutHandlerHook = useLogoutHandler();
 
   // Return Mobile JSX
-  if(windowSize.width <= 768) return (
+  if(windowSize.width <= 870) return (
     <div 
       className='tool-bar-page-mobile'
       style={{
