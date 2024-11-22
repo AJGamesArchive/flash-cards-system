@@ -862,12 +862,12 @@ paths:
                       type: "number"
                     numFlashcards:
                       type: "number"
-        "404":
-          description: "The user was not found"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+        # "404":
+        #   description: "The user was not found"
+        #   content:
+        #     application/json:
+        #       schema:
+        #         $ref: "#/components/schemas/Error"
   /flashcards/{cardUUID}/log:
     post:
       summary: "Create a flashcard usage log entry"
