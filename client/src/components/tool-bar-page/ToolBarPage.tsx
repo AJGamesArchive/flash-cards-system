@@ -60,7 +60,7 @@ const ToolBarPage: React.FC<ToolBarPageProps> = ({
           }
           <img
             className='tool-bar-page-mobile-top-bar-icon'
-            src="vite.svg"
+            src="/vite.svg"
           />
           {
             //? Top Bar Menu Items Mapping
@@ -121,7 +121,7 @@ const ToolBarPage: React.FC<ToolBarPageProps> = ({
           }
           <img
             className='tool-bar-page-side-bar-icon'
-            src="vite.svg"
+            src="/vite.svg"
           />
           {
             //? Side Bar Menu Items Mapping

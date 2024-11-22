@@ -2,7 +2,6 @@
 import React, { RefObject } from 'react';
 import { Toast } from 'primereact/toast';
 import RefreshButton from './RefreshButton';
-import BackButton from './BackButton';
 import commonColors from '../../static/Colors';
 import { Button } from 'primereact/button';
 
@@ -73,11 +72,11 @@ const PageError: React.FC<PageErrorProps> = ({
         severity='help'
         outlined
       />
-      <BackButton
-        label='Back To Portal'
+      <Button
+        label='Home'
         icon='pi pi-home'
         severity='secondary'
-        backFactor={-1}
+        onClick={() => window.location.href = `/welcome`}
         outlined
       />
     </div>

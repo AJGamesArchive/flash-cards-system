@@ -60,9 +60,9 @@ const BrowseFlashcardSetsPage: React.FC = () => {
         {localStorage.getItem('fc-username')}
       </b>
       <pre>
-        Loading: {JSON.stringify(loading)}<br/>
-        Error: {JSON.stringify(error)}<br/>
-        Sets: {JSON.stringify(allSetsController.allSets)}
+        Loading: {JSON.stringify(loading, null, 2)}<br/>
+        Error: {JSON.stringify(error, null, 2)}<br/>
+        Sets: {JSON.stringify(allSetsController.allSets, null, 2)}
       </pre>
     </ToolBarPage>
   );
