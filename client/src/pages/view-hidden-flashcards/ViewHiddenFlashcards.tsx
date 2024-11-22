@@ -1,5 +1,7 @@
 // Imports
 import './ViewHiddenFlashcards.css';
+import { useRef } from 'react';
+import { Toast } from 'primereact/toast';
 import ToolBarPage from '../../components/tool-bar-page/ToolBarPage';
 import WindowSize from '../../types/core/WindowSize';
 import useWindowSize from '../../hook/core/UseWindowSize';
@@ -10,12 +12,16 @@ import commonColors from '../../static/Colors';
  * @returns ViewHiddenFlashcardsPage Component
  */
 const ViewHiddenFlashcardsPage: React.FC = () => {
+  // Page refs
+  const toast = useRef<Toast>(null);
+
   // Page hooks
   const windowSize: WindowSize = useWindowSize();
 
   // Return JSX
   return (
     <ToolBarPage
+      toastRef={toast}
       pageDirection='Column'
       pageVerticalAlignment='Center'
       pageHorizontalAlignment='Center'

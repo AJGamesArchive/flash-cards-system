@@ -1,21 +1,45 @@
 // Imports
 import './BrowseFlashcardSets.css';
+import { useRef } from 'react';
+import { Toast } from 'primereact/toast';
 import ToolBarPage from '../../components/tool-bar-page/ToolBarPage';
 import WindowSize from '../../types/core/WindowSize';
 import useWindowSize from '../../hook/core/UseWindowSize';
 import commonColors from '../../static/Colors';
+import useAllSets, { UseAllSetsHook } from '../../hook/browse-flashcard-sets/UseAllSets';
+import ErrorWatch from '../../types/core/ErrorWatch';
+import useErrorListener from '../../hook/core/UseErrorListener';
+import useLoadingListener from '../../hook/core/UseLoadingListener';
+import useToastListener from '../../hook/core/UseToastListener';
 
 /**
  * React function to render the browse flashcard sets page
  * @returns BrowseFlashcardSetsPage Component
  */
 const BrowseFlashcardSetsPage: React.FC = () => {
+  // Page refs
+  const toast = useRef<Toast>(null);
+
   // Page hooks
   const windowSize: WindowSize = useWindowSize();
+  const allSetsController: UseAllSetsHook = useAllSets();
+
+  // Event listeners
+  const error: ErrorWatch = useErrorListener([
+    allSetsController.allSetsRequest.error,
+    allSetsController.castingError,
+  ]);
+  const loading: boolean = useLoadingListener([
+    allSetsController.allSetsRequest.loading,
+  ]);
+  useToastListener(toast, [
+    allSetsController.allSetsRequest.toast,
+  ], ['success']);
 
   // Return JSX
   return (
     <ToolBarPage
+      toastRef={toast}
       pageDirection='Column'
       pageVerticalAlignment='Center'
       pageHorizontalAlignment='Center'
@@ -35,6 +59,11 @@ const BrowseFlashcardSetsPage: React.FC = () => {
       }}>
         {localStorage.getItem('fc-username')}
       </b>
+      <pre>
+        Loading: {JSON.stringify(loading)}<br/>
+        Error: {JSON.stringify(error)}<br/>
+        Sets: {JSON.stringify(allSetsController.allSets)}
+      </pre>
     </ToolBarPage>
   );
 };

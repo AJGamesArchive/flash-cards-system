@@ -1,6 +1,7 @@
 // Core Imports
 import './ToolBarPage.css';
-import React from 'react';
+import React, { RefObject } from 'react';
+import { Toast } from 'primereact/toast';
 import WindowSize from '../../types/core/WindowSize';
 import useWindowSize from '../../hook/core/UseWindowSize';
 import commonColors from '../../static/Colors';
@@ -12,6 +13,7 @@ import useLogoutHandler, { UseLogoutHandlerHook } from '../../hook/tool-bar-page
 // Component Props Interface
 interface ToolBarPageProps {
   children: React.ReactNode;
+  toastRef: RefObject<Toast>;
   pageDirection: 'Row' | 'Column';
   pageVerticalAlignment: 'Bottom' | 'Center' | 'Top';
   pageHorizontalAlignment: 'Left' | 'Center' | 'Right';
@@ -25,6 +27,7 @@ interface ToolBarPageProps {
 const ToolBarPage: React.FC<ToolBarPageProps> = ({
   children,
   pageDirection,
+  toastRef,
   pageVerticalAlignment,
   pageHorizontalAlignment,
   selectedItemIndex,
@@ -173,6 +176,7 @@ const ToolBarPage: React.FC<ToolBarPageProps> = ({
         {
           //? Page Content Passed As Children
         }
+        <Toast ref={toastRef}/>
         {children}
       </div>
     </div>

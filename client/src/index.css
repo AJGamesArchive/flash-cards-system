@@ -87,6 +87,7 @@ pre {
   border-radius: 4px;
   overflow-x: auto;
   font-family: 'Courier New', Courier, monospace;
+  text-align: left;
 }
 
 @media (max-width: 768px) {
