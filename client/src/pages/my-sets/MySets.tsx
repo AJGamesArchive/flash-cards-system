@@ -6,7 +6,6 @@ import { Button } from 'primereact/button';
 import ToolBarPage from '../../components/tool-bar-page/ToolBarPage';
 import WindowSize from '../../types/core/WindowSize';
 import useWindowSize from '../../hook/core/UseWindowSize';
-import commonColors from '../../static/Colors';
 import useMySets, { UseMySetsHook } from '../../hook/my-sets/UseMySets';
 import ErrorWatch from '../../types/core/ErrorWatch';
 import useErrorListener from '../../hook/core/UseErrorListener';
@@ -14,6 +13,8 @@ import useLoadingListener from '../../hook/core/UseLoadingListener';
 import useToastListener from '../../hook/core/UseToastListener';
 import DebugBlock from '../../components/core/DebugBlock';
 import PageLoading from '../../components/core/PageLoading';
+import PageError from '../../components/core/PageError';
+import SetCard from '../../components/global/SetCard';
 
 /**
  * React function to render the my sets page
@@ -52,44 +53,60 @@ const MySetsPage: React.FC = () => {
       pageHorizontalAlignment='Center'
       selectedItemIndex={3}
     >
-      {loading && (
+      {error && (
+        <PageError
+          displayError={String(error)}
+        />
+      )}
+      {(!error && loading) && (
         <PageLoading/>
       )}
-      {!loading && (
+      {(!error && !loading) && (
         <>
-          {windowSize.width > 768 && <h1>My Sets</h1>}
-          {windowSize.width <= 768 && <h2>My Sets</h2>}
-          <b style={{
+          {
+            //? Set Editor Title
+          }
+          <b className='my-sets-title' style={{
             fontSize:
               (windowSize.width > 768)
-                ? '1.5rem'
-                : '1rem',
-            color:
-              (localStorage.getItem('fc-admin') === 'true')
-                ? commonColors.Green
-                : commonColors.Yellow
+                ? '2rem'
+                : '1.5rem'
           }}>
-            {localStorage.getItem('fc-username')}
+            My Sets
           </b>
-          <div style={{margin: '5px'}}>
-            <Button
-              label='Create Set'
-              icon='pi pi-plus'
-              onClick={() => window.location.href = `/my-sets/sets-editor/new`}
-              outlined
-            />
+          {
+            //? Set Card mapping
+          }
+          <div className='my-sets-grid'>
+            {mySetsController.mySets.map((set, index) => (
+              <div key={index} className='my-sets-grid-item'>
+                <SetCard set={set}>
+                  <Button
+                    icon='pi pi-play'
+                    outlined
+                  />
+                  <Button
+                    icon='pi pi-pencil'
+                    severity='info'
+                    outlined
+                  />
+                  <Button
+                    icon='pi pi-comments'
+                    severity='help'
+                    outlined
+                  />
+                  <Button
+                    icon='pi pi-trash'
+                    severity='danger'
+                    outlined
+                  />
+                </SetCard>
+              </div>
+            ))}
           </div>
-          {mySetsController.mySets.map((set, index) => (
-            <div key={index} style={{margin: '5px',  display: 'flex'}}>
-              <Button
-                label={set.name}
-                severity='help'
-                icon='pi pi-pencil'
-                onClick={() => window.location.href = `/my-sets/sets-editor/${set.setUUID}`}
-                outlined
-              />
-            </div>
-          ))}
+          {
+            //! Debug Block - Remove later
+          }
           <DebugBlock>
             Loading: {JSON.stringify(loading, null, 2)}<br/>
             Error: {JSON.stringify(error, null, 2)}<br/>
@@ -102,3 +119,6 @@ const MySetsPage: React.FC = () => {
 };
 
 export default MySetsPage;
+
+//* window.location.href = `/my-sets/sets-editor/new`
+//* window.location.href = `/my-sets/sets-editor/${set.setUUID}`

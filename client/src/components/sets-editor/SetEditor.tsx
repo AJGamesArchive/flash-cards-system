@@ -7,7 +7,7 @@ import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
 import { Divider } from "primereact/divider";
 import { classNames } from 'primereact/utils';
-import { UseSetsEditorHook } from '../../hook/my-sets/UseSetsEditor';
+import { UseSetsEditorHook } from '../../hook/sets-editor/UseSetsEditor';
 import commonColors from '../../static/Colors';
 import WindowSize from '../../types/core/WindowSize';
 import useLoadingListener from '../../hook/core/UseLoadingListener';

@@ -7,8 +7,8 @@ import ToolBarPage from '../../components/tool-bar-page/ToolBarPage';
 import WindowSize from '../../types/core/WindowSize';
 import useWindowSize from '../../hook/core/UseWindowSize';
 import SetsEditorParams from '../../interfaces/SetsEditorParams';
-import useSetsEditorSetup, { UseSetsEditorSetupHook } from '../../hook/my-sets/UseSetsEditorSetup';
-import useSetsEditor, { UseSetsEditorHook } from '../../hook/my-sets/UseSetsEditor';
+import useSetsEditorSetup, { UseSetsEditorSetupHook } from '../../hook/sets-editor/UseSetsEditorSetup';
+import useSetsEditor, { UseSetsEditorHook } from '../../hook/sets-editor/UseSetsEditor';
 import useErrorListener from '../../hook/core/UseErrorListener';
 import useLoadingListener from '../../hook/core/UseLoadingListener';
 import useToastListener from '../../hook/core/UseToastListener';
@@ -57,22 +57,20 @@ const SetsEditorPage: React.FC = () => {
       pageHorizontalAlignment='Center'
       selectedItemIndex={0}
     >
-      <>
-        {error && (
-          <PageError
-            displayError={String(error)}
-          />
-        )}
-        {(!error && loading) && (
-          <PageLoading/>
-        )}
-        {(!error && !loading) && (
-          <SetsEditor
-            windowSize={windowSize}
-            editorController={editorController}
-          />
-        )}
-      </>
+      {error && (
+        <PageError
+          displayError={String(error)}
+        />
+      )}
+      {(!error && loading) && (
+        <PageLoading/>
+      )}
+      {(!error && !loading) && (
+        <SetsEditor
+          windowSize={windowSize}
+          editorController={editorController}
+        />
+      )}
     </ToolBarPage>
   );
 };
