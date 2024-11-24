@@ -457,12 +457,12 @@ paths:
                       type: "string"
                     setUUID:
                       type: "string"
-        "404":
-          description: "No reviews were found for that set"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+        # "404":
+        #   description: "No reviews were found for that set"
+        #   content:
+        #     application/json:
+        #       schema:
+        #         $ref: "#/components/schemas/Error"
   /sets/{setUUID}/reviews/{reviewUUID}:
     parameters:
       - name: setUUID
