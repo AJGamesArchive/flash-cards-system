@@ -25,7 +25,7 @@ const ViewHiddenFlashcardsPage: React.FC = () => {
       pageDirection='Column'
       pageVerticalAlignment='Center'
       pageHorizontalAlignment='Center'
-      selectedItemIndex={5}
+      selectedItemIndex={6}
     >
       {windowSize.width > 768 && <h1>View Hidden Flashcards</h1>}
       {windowSize.width <= 768 && <h2>View Hidden Flashcards</h2>}

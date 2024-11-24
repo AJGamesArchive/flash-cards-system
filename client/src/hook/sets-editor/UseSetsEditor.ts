@@ -14,7 +14,6 @@ import { DropdownChangeEvent } from "primereact/dropdown";
 import useServerAPI from "../api/UseServerAPI";
 import APIResponse from "../../types/services/APIResponse";
 import ErrorWatch from "../../types/core/ErrorWatch";
-import { useNavigate, NavigateFunction } from "react-router-dom";
 
 /**
  * Type to define the states exposed by the useSetsEditor hook
@@ -52,7 +51,6 @@ function useSetsEditor(
   preppedData: SetEditable | null,
 ): UseSetsEditorHook {
   // Hooks & states
-  const nav: NavigateFunction = useNavigate();
   const editorToast: UseToastMessageHook = useToastMessage();
   const [setData, setSetData] = useState<BaseSet | null>(null);
   const [flashcardData, setFlashcardData] = useState<Flashcard[] | null>(null);
@@ -182,7 +180,7 @@ function useSetsEditor(
     if(status !== 200 && status !== 201) return;
     setAwaitingPageReturn(true);
     setTimeout(() => {
-      nav(-1);
+      window.location.href = `/my-sets`;
     }, 1500);
     return;
   };

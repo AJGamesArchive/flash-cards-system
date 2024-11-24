@@ -14,13 +14,18 @@ const toolBarPageMenuItems: ToolBarPageMenuItems[] = [
     onCLick: () => window.location.href = `/browse-flashcard-sets`,
   },
   {
+    itemName: 'Create a Set',
+    icon: 'pi pi-folder-plus',
+    onCLick: () => window.location.href = `/my-sets/sets-editor/new`,
+  },
+  {
     itemName: 'My Sets',
     icon: 'pi pi-folder-open',
     onCLick: () => window.location.href = `/my-sets`,
   },
   {
     itemName: 'My Collections',
-    icon: 'pi pi-bookmark',
+    icon: 'pi pi-bookmark-fill',
     onCLick: () => window.location.href = `/my-collections`,
   },
   {

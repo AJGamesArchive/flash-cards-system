@@ -55,7 +55,7 @@ const SetsEditorPage: React.FC = () => {
       pageDirection='Column'
       pageVerticalAlignment='Top'
       pageHorizontalAlignment='Center'
-      selectedItemIndex={0}
+      selectedItemIndex={editorController.newSet ? 3 : 0}
     >
       {error && (
         <PageError

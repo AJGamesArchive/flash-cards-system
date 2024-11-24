@@ -25,7 +25,7 @@ const AccountSettingsPage: React.FC = () => {
       pageDirection='Column'
       pageVerticalAlignment='Center'
       pageHorizontalAlignment='Center'
-      selectedItemIndex={6}
+      selectedItemIndex={7}
     >
       {windowSize.width > 768 && <h1>Account Settings</h1>}
       {windowSize.width <= 768 && <h2>Account Settings</h2>}

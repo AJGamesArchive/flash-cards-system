@@ -15,6 +15,7 @@ import DebugBlock from '../../components/core/DebugBlock';
 import PageLoading from '../../components/core/PageLoading';
 import PageError from '../../components/core/PageError';
 import SetCard from '../../components/global/SetCard';
+import DeleteSetDialogue from '../../components/my-sets/DeleteSetDialogue';
 
 /**
  * React function to render the my sets page
@@ -35,7 +36,10 @@ const MySetsPage: React.FC = () => {
   ]);
   const loading: boolean = useLoadingListener([
     mySetsController.mySetsRequest.loading,
+  ]);
+  const disableButtons: boolean = useLoadingListener([
     mySetsController.deleteSetRequest.loading,
+    mySetsController.preparingDeletion,
   ]);
   useToastListener(toast, [
     mySetsController.mySetsRequest.toast,
@@ -51,7 +55,7 @@ const MySetsPage: React.FC = () => {
       pageDirection='Column'
       pageVerticalAlignment='Top'
       pageHorizontalAlignment='Center'
-      selectedItemIndex={3}
+      selectedItemIndex={4}
     >
       {error && (
         <PageError
@@ -83,27 +87,39 @@ const MySetsPage: React.FC = () => {
                 <SetCard set={set}>
                   <Button
                     icon='pi pi-play'
+                    disabled={disableButtons}
                     outlined
                   />
                   <Button
                     icon='pi pi-pencil'
                     severity='info'
+                    onClick={() => window.location.href = `/my-sets/sets-editor/${set.setUUID}`}
+                    disabled={disableButtons}
                     outlined
                   />
                   <Button
                     icon='pi pi-comments'
                     severity='help'
+                    disabled={disableButtons}
                     outlined
                   />
                   <Button
                     icon='pi pi-trash'
                     severity='danger'
+                    onClick={() => mySetsController.selectSetForDeletion(set)}
+                    disabled={disableButtons}
                     outlined
                   />
                 </SetCard>
               </div>
             ))}
           </div>
+          {
+            //? Set Deletion Dialogue Box
+          }
+          <DeleteSetDialogue
+            mySetsController={mySetsController}
+          />
           {
             //! Debug Block - Remove later
           }
@@ -121,4 +137,4 @@ const MySetsPage: React.FC = () => {
 export default MySetsPage;
 
 //* window.location.href = `/my-sets/sets-editor/new`
-//* window.location.href = `/my-sets/sets-editor/${set.setUUID}`
+//* 

@@ -1,0 +1,25 @@
+/*
+  * Dialogue Footer Formatting
+*/
+.delete-set-dialogue-footer {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete-set-dialogue-footer-button {
+  margin-right: 10px;
+}
+
+/*
+  * Content Container
+*/
+.delete-set-dialogue-content {
+  text-align: center;
+  padding: 10px;
+  font-size: 1.2rem;
+  text-wrap: wrap;
+  overflow: hidden;
+}

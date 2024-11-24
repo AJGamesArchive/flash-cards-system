@@ -24,6 +24,10 @@ export type UseMySetsHook = {
   };
   castingError: ErrorWatch;
   selectSetForDeletion: (set: Set) => void;
+  deletedSet: Set | null;
+  preparingDeletion: boolean;
+  cancelSetDeletion: () => void;
+  deleteSelectedSet: () => Promise<void>;
 };
 
 /**
@@ -33,6 +37,7 @@ function useMySets(): UseMySetsHook {
   // Hooks & states
   const [mySets, setMySets] = useState<Set[]>([]);
   const [deletedSet, setDeleteSet] = useState<Set | null>(null);
+  const [preparingDeletion, setPreparingDeletion] = useState<boolean>(false);
   const [castingError, setCastingError] = useState<ErrorWatch>(null);
   const mySetsRequest: APIResponse<object> = useServerAPI(
     'GET',
@@ -47,7 +52,26 @@ function useMySets(): UseMySetsHook {
   );
 
   // Function to select a set to delete
-  const selectSetForDeletion = (set: Set) => setDeleteSet(set);
+  const selectSetForDeletion = (set: Set) => {
+    setPreparingDeletion(true);
+    setDeleteSet(set);
+    setTimeout(() => {
+      setPreparingDeletion(false);
+    }, 2000);
+    return;
+  };
+
+  // Function to cancel a set deletion
+  const cancelSetDeletion = () => setDeleteSet(null);
+
+  // Function to delete the selected set
+  const deleteSelectedSet = async () => {
+    const deletionStatus: number = await deleteSetRequest.reTrigger();
+    if(deletionStatus !== 204) return;
+    setDeleteSet(null);
+    mySetsRequest.reTrigger();;
+    return;
+  };
 
   // Hook to type-cast data received from the API
   useEffect(() => {
@@ -75,6 +99,10 @@ function useMySets(): UseMySetsHook {
     },
     castingError,
     selectSetForDeletion,
+    deletedSet,
+    preparingDeletion,
+    cancelSetDeletion,
+    deleteSelectedSet,
   };
 };
 

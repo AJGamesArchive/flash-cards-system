@@ -3,6 +3,7 @@ import './SetCard.css';
 import React from 'react';
 import Set from '../../types/global/Set';
 import commonColors from '../../static/Colors';
+import getReadableTimestamp from '../../functions/global/Timestamps';
 
 // Component Props Interface
 interface SetCardProps {
@@ -55,6 +56,16 @@ const SetCard: React.FC<SetCardProps> = ({
             <b>
               {` ${set.numReviews}`}
             </b>
+          </div>
+        </div>
+        <div className='set-card-icon-bar' style={{
+          color: commonColors.IceBlue,
+        }}>
+          <div>
+            Ctd: {` ${getReadableTimestamp(set.createdAt)}`}
+          </div>
+          <div>
+            Upd: {` ${getReadableTimestamp(set.updatedAt)}`}
           </div>
         </div>
         <div className='set-card-icon-bar'>

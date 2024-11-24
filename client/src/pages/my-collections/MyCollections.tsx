@@ -25,7 +25,7 @@ const MyCollectionsPage: React.FC = () => {
       pageDirection='Column'
       pageVerticalAlignment='Center'
       pageHorizontalAlignment='Center'
-      selectedItemIndex={4}
+      selectedItemIndex={5}
     >
       {windowSize.width > 768 && <h1>My Collections</h1>}
       {windowSize.width <= 768 && <h2>My Collections</h2>}
