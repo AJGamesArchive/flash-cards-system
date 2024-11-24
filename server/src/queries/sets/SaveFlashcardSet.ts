@@ -35,31 +35,66 @@ async function saveFlashcardSet(
 				},
 			}),
 		);
-		flashcards.forEach((flashcard) =>
-			queries.push(
-				db.flashCards.create({
-					data: {
-						cardUUID: flashcard.cardUUID,
-						question: flashcard.question,
-						answer: flashcard.answer,
-						createdAt: flashcard.createdAt,
-						updatedAt: flashcard.updatedAt,
-						set: {
-							connect: {
-								setUUID: flashcard.setUUID,
+		flashcards.forEach((flashcard) => {
+			// Add difficulty foreign key if present, otherwise nullify it
+			if(flashcard.difficulty) {
+				queries.push(
+					db.flashCards.create({
+						data: {
+							cardUUID: flashcard.cardUUID,
+							question: flashcard.question,
+							answer: flashcard.answer,
+							createdAt: flashcard.createdAt,
+							updatedAt: flashcard.updatedAt,
+							set: {
+								connect: {
+									setUUID: flashcard.setUUID,
+								},
+							},
+							difficulty: {
+								connect: {
+									difficultyUUID: String(flashcard.difficulty),
+								},
 							},
 						},
-						difficulty: {
-							connect: {
-								difficultyUUID: String(flashcard.difficulty),
+					}),
+				);
+			} else {
+				queries.push(
+					db.flashCards.create({
+						data: {
+							cardUUID: flashcard.cardUUID,
+							question: flashcard.question,
+							answer: flashcard.answer,
+							createdAt: flashcard.createdAt,
+							updatedAt: flashcard.updatedAt,
+							set: {
+								connect: {
+									setUUID: flashcard.setUUID,
+								},
 							},
 						},
-					},
-				}),
-			),
-		);
+					}),
+				);
+			}
+			return;
+		});
 	} else {
-		// Update existing set and flashcards if no new flag is present
+		// Split flashcards into two arrays - 1 new flashcards, 1 existing flashcards
+		const newFlashcards: Flashcard[] = flashcards.filter((card) => !card.setUUID);
+		const updatedFlashcards: Flashcard[] = flashcards.filter((card) => card.setUUID);
+
+		// Fetch all flashcards current saved to the set
+		const existingFlashcards = await db.flashCards.findMany({
+			where: {
+				setUUID: set.setUUID,
+			},
+			select: {
+				cardUUID: true,
+			},
+		});
+
+		// Update existing set
 		queries.push(
 			db.sets.update({
 				where: {
@@ -72,25 +107,107 @@ async function saveFlashcardSet(
 				},
 			}),
 		);
-		flashcards.forEach((flashcard) =>
+
+		// Update existing flashcards
+		updatedFlashcards.forEach((flashcard) => {
+			console.log('UPDATE') //! Remove later
+			// Add difficulty foreign key if present, otherwise nullify it
+			if(flashcard.difficulty) {
+				console.log('DIFFICULTY', flashcard.difficulty) //! Remove later
+				queries.push(
+					db.flashCards.update({
+						where: {
+							cardUUID: flashcard.cardUUID,
+						},
+						data: {
+							question: flashcard.question,
+							answer: flashcard.answer,
+							updatedAt: set.updatedAt,
+							difficulty: {
+								connect: {
+									difficultyUUID: String(flashcard.difficulty),
+								},
+							},
+						},
+					}),
+				);
+			} else {
+				queries.push(
+					db.flashCards.update({
+						where: {
+							cardUUID: flashcard.cardUUID,
+						},
+						data: {
+							question: flashcard.question,
+							answer: flashcard.answer,
+							updatedAt: set.updatedAt,
+							difficultyUUID: null,
+						},
+					}),
+				);
+			};
+			return;
+		});
+
+		// Create new flashcards
+		newFlashcards.forEach((flashcard) => {
+			// Add difficulty foreign key if present, otherwise nullify it
+			if(flashcard.difficulty) {
+				queries.push(
+					db.flashCards.create({
+						data: {
+							cardUUID: flashcard.cardUUID,
+							question: flashcard.question,
+							answer: flashcard.answer,
+							createdAt: flashcard.createdAt,
+							updatedAt: flashcard.updatedAt,
+							set: {
+								connect: {
+									setUUID: set.setUUID,
+								},
+							},
+							difficulty: {
+								connect: {
+									difficultyUUID: String(flashcard.difficulty),
+								},
+							},
+						},
+					}),
+				);
+			} else {
+				queries.push(
+					db.flashCards.create({
+						data: {
+							cardUUID: flashcard.cardUUID,
+							question: flashcard.question,
+							answer: flashcard.answer,
+							createdAt: flashcard.createdAt,
+							updatedAt: flashcard.updatedAt,
+							set: {
+								connect: {
+									setUUID: set.setUUID,
+								},
+							},
+						},
+					}),
+				);
+			};
+			return;
+		});
+
+		// Delete any flashcards that have been removed from the set
+		existingFlashcards.forEach((flashcard) => {
+			const present: boolean = updatedFlashcards.some((card) => card.cardUUID === flashcard.cardUUID);
+			if(present) return;
 			queries.push(
-				db.flashCards.update({
+				db.flashCards.delete({
 					where: {
 						cardUUID: flashcard.cardUUID,
 					},
-					data: {
-						question: flashcard.question,
-						answer: flashcard.answer,
-						updatedAt: set.updatedAt,
-						difficulty: {
-							connect: {
-								difficultyUUID: String(flashcard.difficulty),
-							},
-						},
-					},
 				}),
-			),
-		);
+			);
+			return;
+		});
 	}
 
 	// Make all DB updates in transaction

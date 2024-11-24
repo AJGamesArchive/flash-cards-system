@@ -89,7 +89,10 @@ const schemaPUTSetsSetUUID: FastifySchema = {
 						cardUUID: { type: 'string' },
 						question: { type: 'string' },
 						answer: { type: 'string' },
-						difficulty: { type: 'string', enum: ['Easy', 'Medium', 'Hard'] },
+						difficulty: {
+							type: ['string', 'null'],
+							enum: ['Easy', 'Medium', 'Hard', null],
+						},
 						createdAt: { type: 'string', format: 'date-time' },
 						updatedAt: { type: 'string', format: 'date-time' },
 						setUUID: { type: 'string' },
