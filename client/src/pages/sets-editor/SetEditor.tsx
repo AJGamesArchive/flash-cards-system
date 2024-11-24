@@ -6,7 +6,6 @@ import { Toast } from 'primereact/toast';
 import ToolBarPage from '../../components/tool-bar-page/ToolBarPage';
 import WindowSize from '../../types/core/WindowSize';
 import useWindowSize from '../../hook/core/UseWindowSize';
-import commonColors from '../../static/Colors';
 import SetsEditorParams from '../../interfaces/SetsEditorParams';
 import useSetsEditorSetup, { UseSetsEditorSetupHook } from '../../hook/my-sets/UseSetsEditorSetup';
 import useSetsEditor, { UseSetsEditorHook } from '../../hook/my-sets/UseSetsEditor';
@@ -16,6 +15,7 @@ import useToastListener from '../../hook/core/UseToastListener';
 import ErrorWatch from '../../types/core/ErrorWatch';
 import PageLoading from '../../components/core/PageLoading';
 import PageError from '../../components/core/PageError';
+import SetsEditor from '../../components/sets-editor/SetEditor';
 
 /**
  * React function to render the sets editor page
@@ -29,7 +29,7 @@ const SetsEditorPage: React.FC = () => {
   const windowSize: WindowSize = useWindowSize();
   const params = useParams<SetsEditorParams>();
   const editorSetup: UseSetsEditorSetupHook = useSetsEditorSetup(params.setUUID);
-  const editorController: UseSetsEditorHook = useSetsEditor(editorSetup.editorData);
+  const editorController: UseSetsEditorHook = useSetsEditor((params.setUUID === 'new'), editorSetup.editorData);
   const error: ErrorWatch = useErrorListener([
     editorSetup.setRequest.error,
     editorSetup.cardsRequest.error,
@@ -38,58 +38,40 @@ const SetsEditorPage: React.FC = () => {
   ]);
   const loading: boolean = useLoadingListener([
     editorSetup.preparing,
-    !editorController.data,
+    !editorController.setData,
+    !editorController.flashcardData,
+    editorController.awaitPageReturn,
   ]);
-  useToastListener(toast, [], []);
-
-  // Data loading template
-  const pageLoading: JSX.Element = (
-    <PageLoading/>
-  );
-
-  // Data error template
-  const pageError: JSX.Element = (
-    <PageError
-      displayError={String(error)}
-    />
-  );
-
-  // Page Content template
-  const pageContent: JSX.Element = (
-    <>
-      {windowSize.width > 768 && <h1>Sets Editor</h1>}
-      {windowSize.width <= 768 && <h2>Sets Editor</h2>}
-      <b style={{
-        fontSize:
-          (windowSize.width > 768)
-            ? '1.5rem'
-            : '1rem',
-        color:
-          (localStorage.getItem('fc-admin') === 'true')
-            ? commonColors.Green
-            : commonColors.Yellow
-      }}>
-        {localStorage.getItem('fc-username')}
-      </b>
-      <pre>
-        Params: {JSON.stringify(params, null, 2)}
-      </pre>
-    </>
-  );
+  useToastListener(toast, [
+    editorController.editorToast,
+    editorController.createRequest.toast,
+    editorController.updateRequest.toast,
+  ], []);
 
   // Return JSX
   return (
     <ToolBarPage
       toastRef={toast}
       pageDirection='Column'
-      pageVerticalAlignment='Center'
+      pageVerticalAlignment='Top'
       pageHorizontalAlignment='Center'
       selectedItemIndex={0}
     >
       <>
-        {error && pageError}
-        {(!error && loading) && pageLoading}
-        {(!error && !loading) && pageContent}
+        {error && (
+          <PageError
+            displayError={String(error)}
+          />
+        )}
+        {(!error && loading) && (
+          <PageLoading/>
+        )}
+        {(!error && !loading) && (
+          <SetsEditor
+            windowSize={windowSize}
+            editorController={editorController}
+          />
+        )}
       </>
     </ToolBarPage>
   );

@@ -1,5 +1,6 @@
 // Imports
 import Set from "../../types/global/Set";
+import { BaseSet } from "../../types/global/Set";
 import Flashcard from "../../types/global/Flashcard";
 import useServerAPI from "../api/UseServerAPI";
 import APIResponse from "../../types/services/APIResponse";
@@ -13,14 +14,7 @@ import castData from "../../functions/core/CastData";
  * Type to define the set data that users can edit
  */
 export type SetEditable = {
-  setDetails: {
-    setUUID: string;
-    name: string;
-    description: string;
-    createdAt: string | Date;
-    updatedAt: string | Date;
-    authorUUID: string;
-  };
+  setDetails: BaseSet;
   flashcards: Flashcard[];
 };
 
@@ -79,9 +73,9 @@ function useSetsEditorSetup(
           setUUID: '',
           name: '',
           description: '',
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          authorUUID: '',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          authorUUID: localStorage.getItem('fc-uuid') || '',
         },
         flashcards: [],
       },
@@ -102,8 +96,8 @@ function useSetsEditorSetup(
         setUUID: fetchedSet.setUUID,
         name: fetchedSet.name,
         description: fetchedSet.description,
-        createdAt: new Date(fetchedSet.createdAt),
-        updatedAt: new Date(fetchedSet.updatedAt),
+        createdAt: fetchedSet.createdAt,
+        updatedAt: fetchedSet.updatedAt,
         authorUUID: fetchedSet.authorUUID,
       },
       flashcards: fetchedCards,

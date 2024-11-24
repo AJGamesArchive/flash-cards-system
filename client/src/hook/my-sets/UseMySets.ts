@@ -17,7 +17,13 @@ export type UseMySetsHook = {
     loading: boolean;
     error: ErrorWatch;
   };
+  deleteSetRequest: {
+    toast: ToastWatch;
+    loading: boolean;
+    error: ErrorWatch;
+  };
   castingError: ErrorWatch;
+  selectSetForDeletion: (set: Set) => void;
 };
 
 /**
@@ -25,13 +31,23 @@ export type UseMySetsHook = {
  */
 function useMySets(): UseMySetsHook {
   // Hooks & states
+  const [mySets, setMySets] = useState<Set[]>([]);
+  const [deletedSet, setDeleteSet] = useState<Set | null>(null);
+  const [castingError, setCastingError] = useState<ErrorWatch>(null);
   const mySetsRequest: APIResponse<object> = useServerAPI(
     'GET',
     `/users/${localStorage.getItem('fc-uuid')}/sets`,
     {},
   );
-  const [mySets, setMySets] = useState<Set[]>([]);
-  const [castingError, setCastingError] = useState<ErrorWatch>(null);
+  const deleteSetRequest: APIResponse<object> = useServerAPI(
+    'DELETE',
+    `/sets/${deletedSet?.setUUID}`,
+    {},
+    { immediate: false },
+  );
+
+  // Function to select a set to delete
+  const selectSetForDeletion = (set: Set) => setDeleteSet(set);
 
   // Hook to type-cast data received from the API
   useEffect(() => {
@@ -52,7 +68,13 @@ function useMySets(): UseMySetsHook {
       loading: mySetsRequest.loading,
       error: mySetsRequest.error,
     },
+    deleteSetRequest: {
+      loading: deleteSetRequest.loading,
+      error: deleteSetRequest.error,
+      toast: deleteSetRequest.toast,
+    },
     castingError,
+    selectSetForDeletion,
   };
 };
 

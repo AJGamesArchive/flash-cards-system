@@ -8,6 +8,7 @@
   background-color: #111827;
   margin-top: 2px;
   margin-bottom: 2px;
+  cursor: pointer;
 }
 
 .side-bar-item:hover {

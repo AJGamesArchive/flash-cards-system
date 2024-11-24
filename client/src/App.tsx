@@ -9,7 +9,7 @@ import LoginPage from './pages/login/Login';
 import WelcomePage from './pages/welcome/Welcome';
 import BrowseFlashcardSetsPage from './pages/browse-flashcard-sets/BrowseFlashcardSets';
 import MySetsPage from './pages/my-sets/MySets';
-import SetsEditorPage from './pages/my-sets/SetEditor';
+import SetsEditorPage from './pages/sets-editor/SetEditor';
 import MyCollectionsPage from './pages/my-collections/MyCollections';
 import ViewHiddenFlashcardsPage from './pages/view-hidden-flashcards/ViewHiddenFlashcards';
 import AccountSettingsPage from './pages/account-settings/AccountSettings';

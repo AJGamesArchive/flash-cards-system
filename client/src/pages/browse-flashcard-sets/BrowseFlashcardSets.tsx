@@ -11,6 +11,7 @@ import ErrorWatch from '../../types/core/ErrorWatch';
 import useErrorListener from '../../hook/core/UseErrorListener';
 import useLoadingListener from '../../hook/core/UseLoadingListener';
 import useToastListener from '../../hook/core/UseToastListener';
+import DebugBlock from '../../components/core/DebugBlock';
 
 /**
  * React function to render the browse flashcard sets page
@@ -41,7 +42,7 @@ const BrowseFlashcardSetsPage: React.FC = () => {
     <ToolBarPage
       toastRef={toast}
       pageDirection='Column'
-      pageVerticalAlignment='Center'
+      pageVerticalAlignment='Top'
       pageHorizontalAlignment='Center'
       selectedItemIndex={2}
     >
@@ -59,11 +60,11 @@ const BrowseFlashcardSetsPage: React.FC = () => {
       }}>
         {localStorage.getItem('fc-username')}
       </b>
-      <pre>
+      <DebugBlock>
         Loading: {JSON.stringify(loading, null, 2)}<br/>
         Error: {JSON.stringify(error, null, 2)}<br/>
         Sets: {JSON.stringify(allSetsController.allSets, null, 2)}
-      </pre>
+      </DebugBlock>
     </ToolBarPage>
   );
 };

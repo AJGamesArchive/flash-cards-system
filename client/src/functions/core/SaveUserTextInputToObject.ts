@@ -2,12 +2,12 @@
 import { SetStateAction } from "react";
 
 /**
- * Function to save a users text input from a UI input box and save it to the state of a given state object
+ * Function to take a users text input from a UI input box and save it to the state of a given state object
  * @param e UI Input Text Object
  * @param setStateObject State Object
  */
 const saveUserTextInputToObject = <T>(
-  e: React.ChangeEvent<HTMLInputElement>,
+  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   setStateObject: (value: SetStateAction<T>) => void,
 ): void => {
   const input: string = e.target.value;

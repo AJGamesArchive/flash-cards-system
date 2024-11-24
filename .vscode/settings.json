@@ -25,6 +25,7 @@
     "fastify",
     "inputgroup",
     "inputtext",
+    "inputtextarea",
     "inputwrapper",
     "openapi",
     "panelmenu",
