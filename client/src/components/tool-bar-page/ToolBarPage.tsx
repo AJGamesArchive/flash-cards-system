@@ -13,7 +13,7 @@ import useLogoutHandler, { UseLogoutHandlerHook } from '../../hook/tool-bar-page
 // Component Props Interface
 interface ToolBarPageProps {
   children: React.ReactNode;
-  toastRef: RefObject<Toast>;
+  toastRef?: RefObject<Toast>;
   pageDirection: 'Row' | 'Column';
   pageVerticalAlignment: 'Bottom' | 'Center' | 'Top';
   pageHorizontalAlignment: 'Left' | 'Center' | 'Right';
@@ -93,6 +93,7 @@ const ToolBarPage: React.FC<ToolBarPageProps> = ({
         {
           //? Page Content Passed As Children
         }
+        <Toast ref={toastRef}/>
         {children}
       </div>
     </div>

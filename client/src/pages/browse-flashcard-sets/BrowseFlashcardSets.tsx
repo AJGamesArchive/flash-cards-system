@@ -89,6 +89,7 @@ const BrowseFlashcardSetsPage: React.FC = () => {
                   <Button
                     icon='pi pi-comments'
                     severity='help'
+                    onClick={() => window.location.href = `/sets/${set.setUUID}/reviews`}
                     outlined
                   />
                 </SetCard>

@@ -11,7 +11,6 @@ import ErrorWatch from '../../types/core/ErrorWatch';
 import useErrorListener from '../../hook/core/UseErrorListener';
 import useLoadingListener from '../../hook/core/UseLoadingListener';
 import useToastListener from '../../hook/core/UseToastListener';
-import DebugBlock from '../../components/core/DebugBlock';
 import PageLoading from '../../components/core/PageLoading';
 import PageError from '../../components/core/PageError';
 import SetCard from '../../components/global/SetCard';
@@ -100,6 +99,7 @@ const MySetsPage: React.FC = () => {
                   <Button
                     icon='pi pi-comments'
                     severity='help'
+                    onClick={() => window.location.href = `/sets/${set.setUUID}/reviews`}
                     disabled={disableButtons}
                     outlined
                   />
@@ -120,14 +120,6 @@ const MySetsPage: React.FC = () => {
           <DeleteSetDialogue
             mySetsController={mySetsController}
           />
-          {
-            //! Debug Block - Remove later
-          }
-          <DebugBlock>
-            Loading: {JSON.stringify(loading, null, 2)}<br/>
-            Error: {JSON.stringify(error, null, 2)}<br/>
-            Sets: {JSON.stringify(mySetsController.mySets, null, 2)}
-          </DebugBlock>
         </>
       )}
     </ToolBarPage>

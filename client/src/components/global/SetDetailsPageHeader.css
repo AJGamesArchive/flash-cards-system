@@ -1,0 +1,14 @@
+.set-details-page-header-title {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.set-details-page-header-icon {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 150px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}

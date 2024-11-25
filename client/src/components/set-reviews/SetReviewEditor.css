@@ -1,0 +1,38 @@
+.set-review-editor-container {
+  width: 100%;
+}
+
+.set-review-editor-container-card {
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.set-review-editor-title {
+  font-size: 1.2rem;
+  padding-bottom: 10px;
+}
+
+.set-review-editor-form-field {
+  padding-bottom: 10px;
+  text-align: left;
+}
+
+.set-review-editor-star-selection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.set-review-editor-star-selection-heading {
+  padding-bottom: 5px;
+}
+
+.set-review-editor-button-field {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}

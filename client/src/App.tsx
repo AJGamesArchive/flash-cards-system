@@ -10,6 +10,7 @@ import WelcomePage from './pages/welcome/Welcome';
 import BrowseFlashcardSetsPage from './pages/browse-flashcard-sets/BrowseFlashcardSets';
 import MySetsPage from './pages/my-sets/MySets';
 import SetsEditorPage from './pages/sets-editor/SetEditor';
+import SetReviewsPage from './pages/set-reviews/SetReviews';
 import MyCollectionsPage from './pages/my-collections/MyCollections';
 import ViewHiddenFlashcardsPage from './pages/view-hidden-flashcards/ViewHiddenFlashcards';
 import AccountSettingsPage from './pages/account-settings/AccountSettings';
@@ -44,6 +45,7 @@ const App: React.FC = () => {
         <Route path="/browse-flashcard-sets" Component={BrowseFlashcardSetsPage}/>
         <Route path="/my-sets" Component={MySetsPage}/>
         <Route path="/my-sets/sets-editor/:setUUID" Component={SetsEditorPage}/>
+        <Route path="/sets/:setUUID/reviews" Component={SetReviewsPage}/>
         <Route path="/my-collections" Component={MyCollectionsPage}/>
         <Route path="/view-hidden-flashcards" Component={ViewHiddenFlashcardsPage}/>
         <Route path="/account-settings" Component={AccountSettingsPage}/>
