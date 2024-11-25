@@ -97,6 +97,7 @@ const routePOSTSets = async (
 		newSet,
 		newFlashcards,
 		true,
+		user.isAdmin,
 	);
 	if (saveStatus !== 200) {
 		rep.status(saveStatus).send({

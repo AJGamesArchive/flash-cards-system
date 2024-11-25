@@ -63,12 +63,8 @@ const routePOSTUsers = async (
 
 	// Return created user
 	rep.status(201).send({
-		userUUID: newUser.userUUID,
-		username: newUser.username,
-		adminFlag: newUser.adminFlag,
+		...newUser,
 		userSince: newUser.userSince.toISOString(),
-		deleted: newUser.deleted,
-		apiAccount: newUser.apiAccount,
 	} as POSTUsersReply201);
 	return;
 };

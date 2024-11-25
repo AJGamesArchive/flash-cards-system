@@ -14,10 +14,39 @@ async function saveFlashcardSet(
 	set: FlashcardSet,
 	flashcards: Flashcard[],
 	newFlag?: boolean,
+	adminFlag?: boolean,
 ): Promise<number> {
 	// Generate DB update queries for each set amd flashcard
 	let queries: any[] = [];
-	if (newFlag) {
+	if (newFlag) { //TODO FIX THIS FUCKERY!!!
+		// Increment set creation counter if user is not admin
+		if(!adminFlag) {
+			const config = await db.systemConfig.findUnique({
+				where: {
+					configUUID: '7d6456e7-53f9-4d23-a547-a2590dd5bc30',
+				},
+				select: {
+					creationCounter: true,
+					setCreationLimit: true,
+				},
+			});
+			if(config) {
+				console.log(config, config.creationCounter + 1);
+				// queries.push(
+					db.systemConfig.update({
+						where: {
+							configUUID: '7d6456e7-53f9-4d23-a547-a2590dd5bc30',
+						},
+						data: {
+							creationCounter: config.creationCounter + 1,
+						},
+					})
+				// );
+			} else {
+				console.warn('WARNING: Failed to increment creation counter. Failed to fetch creation config.');
+			};
+		};
+
 		// Create new set and new flashcards if new flag is present
 		queries.push(
 			db.sets.create({
@@ -212,7 +241,7 @@ async function saveFlashcardSet(
 
 	// Make all DB updates in transaction
 	try {
-		await db.$transaction(queries);
+		await db.$transaction(queries, { isolationLevel: 'Serializable' });
 		return 200;
 	} catch (error: any) {
 		console.error(error);
