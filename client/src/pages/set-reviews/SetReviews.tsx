@@ -18,6 +18,7 @@ import PageLoading from '../../components/core/PageLoading';
 import SetDetailsPageHeader from '../../components/global/SetDetailsPageHeader';
 import SetReviewEditor from '../../components/set-reviews/SetReviewEditor';
 import SetReviewCard from '../../components/set-reviews/SetReviewCard';
+import commonColors from '../../static/Colors';
 
 /**
  * React function to render the set reviews page
@@ -93,6 +94,11 @@ const SetReviewsPage: React.FC = () => {
           {
             //? Set Review Mappings
           }
+          {(!reviewHandler.createReview.flag && reviewHandler.reviews.length === 0) && (
+            <i style={{color: commonColors.BluePurple}}>
+              There are currently no reviews for this set!
+            </i>
+          )}
           {!reviewHandler.createReview.flag && reviewHandler.reviews.map((review, index) => (
             <SetReviewCard
               key={index}

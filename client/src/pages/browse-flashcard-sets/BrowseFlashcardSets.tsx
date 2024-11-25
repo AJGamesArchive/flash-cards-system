@@ -79,6 +79,7 @@ const BrowseFlashcardSetsPage: React.FC = () => {
                 <SetCard set={set}>
                   <Button
                     icon='pi pi-play'
+                    onClick={() => window.location.href = `/revise-flashcards/${set.setUUID}/shuffle`}
                     outlined
                   />
                   <Button

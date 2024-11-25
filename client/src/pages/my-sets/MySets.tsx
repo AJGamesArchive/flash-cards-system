@@ -87,6 +87,7 @@ const MySetsPage: React.FC = () => {
                   <Button
                     icon='pi pi-play'
                     disabled={disableButtons}
+                    onClick={() => window.location.href = `/revise-flashcards/${set.setUUID}/shuffle`}
                     outlined
                   />
                   <Button

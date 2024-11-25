@@ -11,6 +11,7 @@ import BrowseFlashcardSetsPage from './pages/browse-flashcard-sets/BrowseFlashca
 import MySetsPage from './pages/my-sets/MySets';
 import SetsEditorPage from './pages/sets-editor/SetEditor';
 import SetReviewsPage from './pages/set-reviews/SetReviews';
+import ReviseFlashcardsPage from './pages/revise-flashcards/ReviseFlashcards';
 import MyCollectionsPage from './pages/my-collections/MyCollections';
 import ViewHiddenFlashcardsPage from './pages/view-hidden-flashcards/ViewHiddenFlashcards';
 import AccountSettingsPage from './pages/account-settings/AccountSettings';
@@ -46,6 +47,7 @@ const App: React.FC = () => {
         <Route path="/my-sets" Component={MySetsPage}/>
         <Route path="/my-sets/sets-editor/:setUUID" Component={SetsEditorPage}/>
         <Route path="/sets/:setUUID/reviews" Component={SetReviewsPage}/>
+        <Route path="/revise-flashcards/:setUUID/:query" Component={ReviseFlashcardsPage}/>
         <Route path="/my-collections" Component={MyCollectionsPage}/>
         <Route path="/view-hidden-flashcards" Component={ViewHiddenFlashcardsPage}/>
         <Route path="/account-settings" Component={AccountSettingsPage}/>
