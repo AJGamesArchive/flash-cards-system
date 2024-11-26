@@ -12,7 +12,7 @@
     "dev": "tsc-watch --onSuccess \"node dist/Server.js\"",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
-    "test": "jest",
+    "test": "jest --config jest.config.js",
     "test-majestic": "majestic"
   },
   "dependencies": {

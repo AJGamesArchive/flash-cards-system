@@ -529,7 +529,6 @@ server.listen(
 		if (error) {
 			server.log.error(error);
 			db.$disconnect();
-			process.exit(1);
 		}
 		console.log(`API ready on: ${address}`);
 	},

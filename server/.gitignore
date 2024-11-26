@@ -5,3 +5,4 @@ dist-ssr
 *.rest
 .turbo
 *.rest
+/coverage
