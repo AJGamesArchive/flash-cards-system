@@ -1,0 +1,79 @@
+/*
+  * Flashcard Flipping CSS
+*/
+.flashcard {
+  perspective: 1000px;
+}
+
+.flashcard-inner {
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  height: auto;
+  width: 700px;
+  padding: 5px;
+  border-radius: 10px;
+  border: 1px solid;
+  text-wrap: wrap;
+}
+
+.flashcard.flipped .flashcard-inner {
+  transform: rotateY(180deg);
+}
+
+.flashcard-front, .flashcard-back {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+.flashcard-back {
+  transform: rotateY(180deg);
+}
+
+/*
+  * Flashcard Styling
+*/
+.flashcard-card-top-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flashcard-card-prefix {
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.flashcard-card-question {
+  padding: 20px;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.flashcard-card-inner-bottom-container {
+  padding-top: 10px;
+}
+
+.flashcard-card-icon-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 42px;
+  overflow: hidden;
+}
+
+/*
+  * Conditional Rendering
+*/
+@media (max-width: 768px) {
+  .flashcard-card-container {
+    width: 95%;
+  }
+}

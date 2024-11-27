@@ -1,0 +1,213 @@
+// Core Imports
+import './FlashcardCard.css';
+import React from 'react';
+import { Button } from 'primereact/button';
+import Flashcard from '../../types/global/Flashcard';
+import commonColors from '../../static/Colors';
+import getDifficultyTag from '../global/DifficultyTag';
+
+// Component Props Interface
+interface FlashcardCardProps {
+  flashcard: Flashcard;
+  flipped: boolean;
+  onFlipped: () => void;
+  onHide: () => void;
+  onRefresh: () => void;
+};
+
+/**
+ * React function to render the flashcard card component
+ * @returns FlashcardCard Component
+ */
+const FlashcardCard: React.FC<FlashcardCardProps> = ({
+  flashcard,
+  flipped,
+  onFlipped,
+  onHide,
+  onRefresh,
+}) => {
+  // Flashcard Header Template
+  const renderFlashcardHeader = (sideTitle: string) => (
+    <>
+      {
+        //? Flashcard Top Button Bar
+      }
+      <div>
+        <div className='flashcard-card-top-bar'>
+          <div>
+            <Button
+              icon='pi pi-refresh'
+              onClick={onRefresh}
+              severity='help'
+              outlined
+            />
+          </div>
+          <div>
+            {getDifficultyTag(flashcard.difficulty)}<br/>
+          </div>
+          <div>
+            <Button
+              icon='pi pi-eye-slash'
+              onClick={onHide}
+              severity='help'
+              outlined
+            />
+          </div>
+        </div>
+        <div className='flashcard-card-prefix' style={{
+          color: commonColors.IceBlue,
+        }}>
+          {sideTitle}
+        </div>
+      </div>
+    </>
+  );
+
+  // Flashcard Footer Template
+  const flashcardFooter = (
+    <div className='flashcard-card-inner-bottom-container'>
+      <div className='flashcard-card-icon-bar'>
+        <Button
+          label='Flip Flashcard'
+          icon='pi pi-sync'
+          onClick={onFlipped}
+          style={{
+            color:
+              flashcard.difficulty === 'Easy' ? commonColors.Green :
+              flashcard.difficulty === 'Medium' ? commonColors.Yellow :
+              flashcard.difficulty === 'Hard' ? commonColors.Red :
+              commonColors.BluePurple,
+          }}
+          outlined
+        />
+      </div>
+    </div>
+  );
+
+  // Return JSX
+  return (
+    <div className={`flashcard ${flipped ? 'flipped' : ''}`}>
+      <div className="flashcard-inner" style={{
+        backgroundColor: commonColors.BackgroundDarkBlue,
+        borderColor:
+          flashcard.difficulty === 'Easy' ? commonColors.Green :
+          flashcard.difficulty === 'Medium' ? commonColors.Yellow :
+          flashcard.difficulty === 'Hard' ? commonColors.Red :
+          commonColors.BluePurple,
+      }}>
+        {
+          //? Flashcard Front
+        }
+        {!flipped && (
+          <div className="flashcard-front">
+            {
+              //? Flashcard Top Button Bar
+            }
+            {renderFlashcardHeader('Question')}
+            {
+              //? Flashcard Question / Answer
+            }
+            <div className='flashcard-card-question'>
+              {flashcard.question}
+            </div>
+            {
+              //? Flashcard Bottom Button Bar
+            }
+            {flashcardFooter}
+          </div>
+        )}
+        {
+          //? Flashcard Back
+        }
+        {flipped && (
+          <div className="flashcard-back">
+            {
+              //? Flashcard Top Button Bar
+            }
+            {renderFlashcardHeader('Answer')}
+            {
+              //? Flashcard Question / Answer
+            }
+            <div className='flashcard-card-question'>
+              {flashcard.answer}
+            </div>
+            {
+              //? Flashcard Bottom Button Bar
+            }
+            {flashcardFooter}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+  return (
+    <div className='flashcard-card-container' style={{
+      backgroundColor: commonColors.BackgroundDarkBlue,
+      borderColor:
+        flashcard.difficulty === 'Easy' ? commonColors.Green :
+        flashcard.difficulty === 'Medium' ? commonColors.Yellow :
+        flashcard.difficulty === 'Hard' ? commonColors.Red :
+        commonColors.BluePurple,
+    }}>
+      <div>
+        {
+          //? Flashcard Top Button Bar
+        }
+        <div className='flashcard-card-top-bar'>
+          <div>
+            <Button
+              icon='pi pi-refresh'
+              onClick={onRefresh}
+              severity='help'
+              outlined
+            />
+          </div>
+          <div>
+            {getDifficultyTag(flashcard.difficulty)}<br/>
+          </div>
+          <div>
+            <Button
+              icon='pi pi-eye-slash'
+              onClick={onHide}
+              severity='help'
+              outlined
+            />
+          </div>
+        </div>
+        <div className='flashcard-card-prefix' style={{
+          color: commonColors.IceBlue,
+        }}>
+          {flipped ? 'Answer' : 'Question'}
+        </div>
+      </div>
+      {
+        //? Flashcard Question / Answer
+      }
+      <div className='flashcard-card-question'>
+        {flipped ? flashcard.answer : flashcard.question}
+      </div>
+      {
+        //? Flashcard Bottom Button Bar
+      }
+      <div className='flashcard-card-inner-bottom-container'>
+        <div className='flashcard-card-icon-bar'>
+          <Button
+            label='Flip Flashcard'
+            icon='pi pi-sync'
+            onClick={onFlipped}
+            style={{
+              color:
+                flashcard.difficulty === 'Easy' ? commonColors.Green :
+                flashcard.difficulty === 'Medium' ? commonColors.Yellow :
+                flashcard.difficulty === 'Hard' ? commonColors.Red :
+                commonColors.BluePurple,
+            }}
+            outlined
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default FlashcardCard;

@@ -2,7 +2,10 @@
 import './ReviseFlashcards.css';
 import { useRef } from 'react';
 import { Toast } from 'primereact/toast';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import { Divider } from 'primereact/divider';
 import { useParams } from 'react-router-dom';
+import Flashcard from '../../types/global/Flashcard';
 import ReviseFLashcardsParams from '../../interfaces/ReviseFlashcardsParams';
 import ToolBarPage from '../../components/tool-bar-page/ToolBarPage';
 import WindowSize from '../../types/core/WindowSize';
@@ -16,6 +19,7 @@ import useToastListener from '../../hook/core/UseToastListener';
 import ErrorWatch from '../../types/core/ErrorWatch';
 import PageLoading from '../../components/core/PageLoading';
 import PageError from '../../components/core/PageError';
+import FlashcardCard from '../../components/revise-flashcards/FlashcardCard';
 
 /**
  * React function to render the revise flashcards page
@@ -51,6 +55,17 @@ const ReviseFlashcardsPage: React.FC = () => {
     revisionController.getHiddenCardsRequest.toast,
   ], ['success']);
 
+  // Flashcard Render Template
+  const renderFlashcard = (flashcard: Flashcard) => (
+    <FlashcardCard
+      flashcard={flashcard}
+      flipped={revisionController.cardFlipped}
+      onFlipped={revisionController.flipCard}
+      onRefresh={() => {}}
+      onHide={() => {}}
+    />
+  );
+
   // Return JSX
   return (
     <ToolBarPage
@@ -79,11 +94,22 @@ const ReviseFlashcardsPage: React.FC = () => {
           >
             <></>
           </SetDetailsPageHeader>
+          <Divider/>
+          {
+            //? Flashcard Viewer
+          }
+          {revisionController.flashcards.length === 0 && (
+            <ProgressSpinner/>
+          )}
+          {revisionController.flashcards.length > 0 && 
+            renderFlashcard(revisionController.flashcards[revisionController.currentFlashcardIndex])}
           {
             //! Debug Block - Remove Later
           }
           <DebugBlock>
             Params: {JSON.stringify(params, null, 2)}<br/>
+            Current Flashcard Index: {JSON.stringify(revisionController.currentFlashcardIndex, null, 2)}<br/>
+            Card Flipped: {JSON.stringify(revisionController.cardFlipped, null, 2)}<br/>
             Set: {JSON.stringify(revisionController.set, null, 2)}<br/>
             FLashcards: {JSON.stringify(revisionController.flashcards, null, 2)}<br/>
             Hidden Cards: {JSON.stringify(revisionController.hiddenCards, null, 2)}<br/>
