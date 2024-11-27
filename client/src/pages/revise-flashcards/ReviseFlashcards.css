@@ -1,0 +1,26 @@
+.flashcard-reviser-loading-cards {
+  padding: 100px;
+}
+
+.flashcard-reviser-buttons {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.flashcard-reviser-buttons button {
+  margin: 0 5px;
+}
+
+.flashcard-reviser-card-counter {
+  margin: 0 5px;
+  width: 80px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}

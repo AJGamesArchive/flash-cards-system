@@ -11,7 +11,8 @@ interface FlashcardCardProps {
   flashcard: Flashcard;
   flipped: boolean;
   onFlipped: () => void;
-  onHide: () => void;
+  hidingCard: boolean;
+  onHide: (cardUUID: string) => void;
   onRefresh: () => void;
 };
 
@@ -23,6 +24,7 @@ const FlashcardCard: React.FC<FlashcardCardProps> = ({
   flashcard,
   flipped,
   onFlipped,
+  hidingCard,
   onHide,
   onRefresh,
 }) => {
@@ -48,7 +50,8 @@ const FlashcardCard: React.FC<FlashcardCardProps> = ({
           <div>
             <Button
               icon='pi pi-eye-slash'
-              onClick={onHide}
+              onClick={() => onHide(flashcard.cardUUID)}
+              loading={hidingCard}
               severity='help'
               outlined
             />
@@ -137,74 +140,6 @@ const FlashcardCard: React.FC<FlashcardCardProps> = ({
             {flashcardFooter}
           </div>
         )}
-      </div>
-    </div>
-  );
-  return (
-    <div className='flashcard-card-container' style={{
-      backgroundColor: commonColors.BackgroundDarkBlue,
-      borderColor:
-        flashcard.difficulty === 'Easy' ? commonColors.Green :
-        flashcard.difficulty === 'Medium' ? commonColors.Yellow :
-        flashcard.difficulty === 'Hard' ? commonColors.Red :
-        commonColors.BluePurple,
-    }}>
-      <div>
-        {
-          //? Flashcard Top Button Bar
-        }
-        <div className='flashcard-card-top-bar'>
-          <div>
-            <Button
-              icon='pi pi-refresh'
-              onClick={onRefresh}
-              severity='help'
-              outlined
-            />
-          </div>
-          <div>
-            {getDifficultyTag(flashcard.difficulty)}<br/>
-          </div>
-          <div>
-            <Button
-              icon='pi pi-eye-slash'
-              onClick={onHide}
-              severity='help'
-              outlined
-            />
-          </div>
-        </div>
-        <div className='flashcard-card-prefix' style={{
-          color: commonColors.IceBlue,
-        }}>
-          {flipped ? 'Answer' : 'Question'}
-        </div>
-      </div>
-      {
-        //? Flashcard Question / Answer
-      }
-      <div className='flashcard-card-question'>
-        {flipped ? flashcard.answer : flashcard.question}
-      </div>
-      {
-        //? Flashcard Bottom Button Bar
-      }
-      <div className='flashcard-card-inner-bottom-container'>
-        <div className='flashcard-card-icon-bar'>
-          <Button
-            label='Flip Flashcard'
-            icon='pi pi-sync'
-            onClick={onFlipped}
-            style={{
-              color:
-                flashcard.difficulty === 'Easy' ? commonColors.Green :
-                flashcard.difficulty === 'Medium' ? commonColors.Yellow :
-                flashcard.difficulty === 'Hard' ? commonColors.Red :
-                commonColors.BluePurple,
-            }}
-            outlined
-          />
-        </div>
       </div>
     </div>
   );

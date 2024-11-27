@@ -15,9 +15,13 @@ export type UseFLashcardReviserHook = {
   set: Set | null;
   flashcards: Flashcard[];
   currentFlashcardIndex: number;
+  nextFlashcard: () => void;
+  previousFlashcard: () => void;
+  resyncFlashcards: () => void;
   cardFlipped: boolean;
   flipCard: () => void;
   hiddenCards: string[];
+  hideFlashcard: (cardUUID: string) => Promise<void>;
   getSetRequest: {
     loading: boolean;
     apiError: ErrorWatch;
@@ -36,6 +40,10 @@ export type UseFLashcardReviserHook = {
     castingError: ErrorWatch;
     toast: ToastWatch;
   };
+  hideCardRequest: {
+    loading: boolean;
+    toast: ToastWatch;
+  },
 };
 
 /**
@@ -49,6 +57,7 @@ function useFlashcardReviser(
   const [set, setSet] = useState<Set | null>(null);
   const [setCastingError, setSetCastingError] = useState<ErrorWatch>(null);
   const [flashcards, setFLashcards] = useState<Flashcard[]>([]);
+  const [filteredFlashcards, setFilteredFlashcards] = useState<Flashcard[]>([]);
   const [flashcardCastingError, setFlashcardCastingError] = useState<ErrorWatch>(null);
   const [currentFlashcardIndex, setCurrentFlashcardIndex] = useState<number>(0);
   const [cardFlipped, setCardFlipped] = useState<boolean>(false);
@@ -71,9 +80,48 @@ function useFlashcardReviser(
     `/hiddenCards/${localStorage.getItem('fc-uuid')}`,
     {},
   );
+  const hideCardRequest: APIResponse<object> = useServerAPI(
+    'POST',
+    `/hiddenCards/${localStorage.getItem('fc-uuid')}`,
+    {},
+    { immediate: false },
+  );
 
   // Function to flip the flashcard
   const flipCard = () => setCardFlipped(!cardFlipped);
+
+  // Function to move to the next flashcard
+  const nextFlashcard = () => {
+    if(currentFlashcardIndex < filteredFlashcards.length - 1) {
+      setCurrentFlashcardIndex(currentFlashcardIndex + 1);
+    } else {
+      setCurrentFlashcardIndex(0);
+    };
+    setCardFlipped(false);
+    return;
+  };
+
+  // Function to move to the previous flashcard
+  const previousFlashcard = () => {
+    if(currentFlashcardIndex > 0) {
+      setCurrentFlashcardIndex(currentFlashcardIndex - 1);
+    } else {
+      setCurrentFlashcardIndex(filteredFlashcards.length - 1);
+    };
+    setCardFlipped(false);
+    return;
+  };
+
+  // Function to re-sync the flashcards
+  const resyncFlashcards = () => getFlashcardsRequest.reTrigger();
+
+  // Function to hide a flashcard
+  const hideFlashcard = async (cardUUID: string) => {
+    const status: number = await hideCardRequest.reTrigger({ cardUUID });
+    if(status !== 201) return;
+    getHiddenCardsRequest.reTrigger();
+    return;
+  };
 
   // Hook to type-cast set data received from the API
   useEffect(() => {
@@ -112,14 +160,29 @@ function useFlashcardReviser(
     );
   }, [getHiddenCardsRequest.data]);
 
+  // Hook to filter flashcards based on hidden cards
+  useEffect(() => {
+    if(flashcards.length > 0 && hiddenCards.length > 0) {
+      setFilteredFlashcards(flashcards.filter((flashcard) => !hiddenCards.includes(flashcard.cardUUID)));
+    } else {
+      setFilteredFlashcards(flashcards);
+    };
+    setCurrentFlashcardIndex(0);
+    setCardFlipped(false);
+  }, [flashcards, hiddenCards]);
+
   // Return states
   return {
     set,
-    flashcards,
+    flashcards: filteredFlashcards,
     currentFlashcardIndex,
+    nextFlashcard,
+    previousFlashcard,
+    resyncFlashcards,
     cardFlipped,
     flipCard,
     hiddenCards,
+    hideFlashcard,
     getSetRequest: {
       loading: getSetRequest.loading,
       apiError: getSetRequest.error,
@@ -138,6 +201,10 @@ function useFlashcardReviser(
       castingError: hiddenCardsCastingError,
       toast: getHiddenCardsRequest.toast,
     },
+    hideCardRequest: {
+      loading: hideCardRequest.loading,
+      toast: hideCardRequest.toast,
+    }
   };
 };
 

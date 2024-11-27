@@ -20,6 +20,8 @@ import ErrorWatch from '../../types/core/ErrorWatch';
 import PageLoading from '../../components/core/PageLoading';
 import PageError from '../../components/core/PageError';
 import FlashcardCard from '../../components/revise-flashcards/FlashcardCard';
+import commonColors from '../../static/Colors';
+import HoverButton from '../../components/core/HoverButton';
 
 /**
  * React function to render the revise flashcards page
@@ -38,6 +40,8 @@ const ReviseFlashcardsPage: React.FC = () => {
   );
   const loading: boolean = useLoadingListener([
     revisionController.getSetRequest.loading,
+  ]);
+  const loadingFlashcards: boolean = useLoadingListener([
     revisionController.getFlashcardsRequest.loading,
     revisionController.getHiddenCardsRequest.loading,
   ]);
@@ -54,16 +58,49 @@ const ReviseFlashcardsPage: React.FC = () => {
     revisionController.getFlashcardsRequest.toast,
     revisionController.getHiddenCardsRequest.toast,
   ], ['success']);
+  useToastListener(toast, [
+    revisionController.hideCardRequest.toast,
+  ], []);
 
-  // Flashcard Render Template
+  // Flashcard Reviser Render Template
   const renderFlashcard = (flashcard: Flashcard) => (
-    <FlashcardCard
-      flashcard={flashcard}
-      flipped={revisionController.cardFlipped}
-      onFlipped={revisionController.flipCard}
-      onRefresh={() => {}}
-      onHide={() => {}}
-    />
+    <>
+      <FlashcardCard
+        flashcard={flashcard}
+        flipped={revisionController.cardFlipped}
+        onFlipped={revisionController.flipCard}
+        onRefresh={revisionController.resyncFlashcards}
+        hidingCard={revisionController.hideCardRequest.loading}
+        onHide={revisionController.hideFlashcard}
+      />
+      <div className='flashcard-reviser-buttons'>
+        <HoverButton
+          icon='pi pi-arrow-left'
+          onClick={revisionController.previousFlashcard}
+          className='flashcard-reviser-back-button'
+          backgroundColor={commonColors.BackgroundBlue}
+          hoverColor={commonColors.BluePurple}
+          textColor={commonColors.White}
+          hoverTextColor={commonColors.Black}
+          raised
+        />
+        <div className='flashcard-reviser-card-counter' style={{
+          backgroundColor: commonColors.BackgroundDarkBlue,
+        }}>
+          {`${revisionController.currentFlashcardIndex + 1} / ${revisionController.flashcards.length}`}
+        </div>
+        <HoverButton
+          icon='pi pi-arrow-right'
+          onClick={revisionController.nextFlashcard}
+          className='flashcard-reviser-next-button'
+          backgroundColor={commonColors.BackgroundBlue}
+          hoverColor={commonColors.Blue}
+          textColor={commonColors.White}
+          hoverTextColor={commonColors.Black}
+          raised
+        />
+      </div>
+    </>
   );
 
   // Return JSX
@@ -98,10 +135,12 @@ const ReviseFlashcardsPage: React.FC = () => {
           {
             //? Flashcard Viewer
           }
-          {revisionController.flashcards.length === 0 && (
-            <ProgressSpinner/>
+          {(loadingFlashcards || revisionController.flashcards.length === 0) && (
+            <div className='flashcard-reviser-loading-cards'>
+              <ProgressSpinner/>
+            </div>
           )}
-          {revisionController.flashcards.length > 0 && 
+          {(!loadingFlashcards && revisionController.flashcards.length > 0) && 
             renderFlashcard(revisionController.flashcards[revisionController.currentFlashcardIndex])}
           {
             //! Debug Block - Remove Later

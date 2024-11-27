@@ -14,6 +14,7 @@ type CommonColors = {
   IceBlue: string;
   Orange: string;
   White: string;
+  Black: string;
   DeepBlue: string;
   Purple: string;
   BluePurple: string;
@@ -35,6 +36,7 @@ const commonColors: CommonColors = {
   IceBlue: '#87ccff',
   Orange: '#ffa44c',
   White: '#FFFFFF',
+  Black: '#000000',
   DeepBlue: '#244cff',
   Purple: '#d285ff',
   BluePurple: '#7b94e5',

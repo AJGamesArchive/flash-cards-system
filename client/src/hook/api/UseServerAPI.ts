@@ -40,8 +40,12 @@ function useServerAPI<T>(
     'client-build': build,
   };
 
-  // Function to send API request
-  const sendRequest = useCallback(async (): Promise<number> => {
+  /**
+   * Function to send the HTTP request
+   * @param reqBody Optional request body
+   * @returns HTTP status code
+   */
+  const sendRequest = useCallback(async (reqBody?: object): Promise<number> => {
     setLoading(true);
     setError(null);
     setData(null);
@@ -55,19 +59,19 @@ function useServerAPI<T>(
           });
           break;
         case 'POST':
-          response = await api.post<T>(`${endpoint}`, body, {
+          response = await api.post<T>(`${endpoint}`, reqBody ? reqBody : body, {
             headers: requestHeaders,
             params: queries ? queries : undefined,
           });
           break;
         case 'PUT':
-          response = await api.put<T>(`${endpoint}`, body, {
+          response = await api.put<T>(`${endpoint}`, reqBody ? reqBody : body, {
             headers: requestHeaders,
             params: queries ? queries : undefined,
           });
           break;
         case 'PATCH':
-          response = await api.patch<T>(`${endpoint}`, body, {
+          response = await api.patch<T>(`${endpoint}`, reqBody ? reqBody : body, {
             headers: requestHeaders,
             params: queries ? queries : undefined,
           });

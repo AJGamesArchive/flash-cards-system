@@ -11,7 +11,7 @@ type APIResponse<T> = {
   loading: boolean;
   error: ErrorWatch;
   toast: ToastWatch;
-  reTrigger: () => Promise<number>;
+  reTrigger: (reqBody?: object) => Promise<number>;
 };
 
 export default APIResponse;
