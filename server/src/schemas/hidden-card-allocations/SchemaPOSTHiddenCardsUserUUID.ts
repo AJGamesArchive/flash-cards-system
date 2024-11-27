@@ -10,7 +10,6 @@ export interface POSTHiddenCardsUserUUIDRequest {
 }
 
 export interface POSTHiddenCardsUserUUIDReply201 {
-	allocationUUID: string;
 	userUUID: string;
 	cardUUID: string;
 }
@@ -38,11 +37,10 @@ const schemaPOSTHiddenCardsUserUUID: FastifySchema = {
 		201: {
 			type: 'object',
 			properties: {
-				allocationUUID: { type: 'string' },
 				userUUID: { type: 'string' },
 				cardUUID: { type: 'string' },
 			},
-			required: ['allocationUUID', 'userUUID', 'cardUUID'],
+			required: ['userUUID', 'cardUUID'],
 		},
 		401: {
 			type: 'object',
