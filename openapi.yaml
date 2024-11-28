@@ -461,12 +461,12 @@ paths:
                       type: "string"
                     setUUID:
                       type: "string"
-        # "404":
-        #   description: "No reviews were found for that set"
-        #   content:
-        #     application/json:
-        #       schema:
-        #         $ref: "#/components/schemas/Error"
+        "404":
+          description: "No reviews were found for that set"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /sets/{setUUID}/reviews/{reviewUUID}:
     parameters:
       - name: setUUID
@@ -868,12 +868,12 @@ paths:
                       type: "number"
                     averageRating:
                       type: "number"
-        # "404":
-        #   description: "The user was not found"
-        #   content:
-        #     application/json:
-        #       schema:
-        #         $ref: "#/components/schemas/Error"
+        "404":
+          description: "No Sets Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /logs/flashcards:
     post:
       summary: "Create a flashcard usage log entry"

@@ -7,10 +7,8 @@ import getSetReviews, {
 import {
 	GETSetsSetUUIDReviewsParams,
 	GETSetsSetUUIDReviewsReply200,
-	// GETSetsSetUUIDReviewsReplyError,
+	GETSetsSetUUIDReviewsReplyError,
 } from '../../schemas/set-reviews/SchemaGETSetsSetUUIDReviews.js';
-
-//TODO Find a better way to detecting 'Set Not Found' and re-add 404 if time permits
 
 /**
  * Route to fetch all set reviews from the DB
@@ -21,6 +19,12 @@ const routeGETSetSetUUIDReviews = async (
 ): Promise<void> => {
 	// Fetch reviews
 	const allReviews: FullSetReview[] = await getSetReviews(req.params.setUUID);
+	if (allReviews.length === 0) {
+		rep.status(404).send({
+			message: 'No Reviews Found',
+		} as GETSetsSetUUIDReviewsReplyError);
+		return;
+	};
 
 	// Return reviews
 	rep.status(200).send(
