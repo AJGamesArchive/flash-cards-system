@@ -1,14 +1,11 @@
 // Imports
 import { FastifySchema } from 'fastify';
 
-export interface POSTFlashcardCardUUIDLogParams {
-	cardUUID: string;
-}
-
 export interface POSTFlashcardCardUUIDLogRequest {
 	faceDownTime: number;
 	revisionTime: number;
 	timesFlipped: number;
+	cardUUID: string;
 }
 
 export interface POSTFlashcardCardUUIDLogReply201 {
@@ -24,21 +21,20 @@ export interface POSTFlashcardLCardUUIDogReplyError {
 }
 
 const schemaPOSTFlashcardCardUUIDLog: FastifySchema = {
-	params: {
-		type: 'object',
-		properties: {
-			cardUUID: { type: 'string' },
-		},
-		required: ['cardUUID'],
-	},
 	body: {
 		type: 'object',
 		properties: {
 			faceDownTime: { type: 'number' },
 			revisionTime: { type: 'number' },
 			timesFlipped: { type: 'number' },
+			cardUUID: { type: 'string' },
 		},
-		required: ['faceDownTime', 'revisionTime', 'timesFlipped'],
+		required: [
+			'faceDownTime',
+			'revisionTime',
+			'timesFlipped',
+			'cardUUID',
+		],
 	},
 	response: {
 		201: {

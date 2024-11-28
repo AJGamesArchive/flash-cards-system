@@ -4,7 +4,6 @@ import { v4 as uuidGen } from 'uuid';
 
 import addFlashcardUsageLog from '../../queries/flashcard-logs/AddFlashcardUsageLog.js';
 import {
-	POSTFlashcardCardUUIDLogParams,
 	POSTFlashcardCardUUIDLogRequest,
 	POSTFlashcardCardUUIDLogReply201,
 	POSTFlashcardLCardUUIDogReplyError,
@@ -17,7 +16,6 @@ import FlashcardUsageLog from '../../types/FlashcardUsageLog.js';
  */
 const routePOSTFlashcardsCardUUIDlog = async (
 	req: FastifyRequest<{
-		Params: POSTFlashcardCardUUIDLogParams;
 		Body: POSTFlashcardCardUUIDLogRequest;
 	}>,
 	rep: FastifyReply,
@@ -28,7 +26,7 @@ const routePOSTFlashcardsCardUUIDlog = async (
 		faceDownTime: req.body.faceDownTime,
 		revisionTime: req.body.revisionTime,
 		timesFlipped: req.body.timesFlipped,
-		cardUUID: req.params.cardUUID,
+		cardUUID: req.body.cardUUID,
 	};
 
 	// Add log to DB

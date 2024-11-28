@@ -75,7 +75,6 @@ import schemaPOSTUsersUserUUIDCollections, {
 	POSTUsersUserUUIDCollectionsRequest,
 } from './schemas/collections/SchemaPOSTUsersUserUUIDCollections.js';
 import schemaPOSTFlashcardCardUUIDLog, {
-	POSTFlashcardCardUUIDLogParams,
 	POSTFlashcardCardUUIDLogRequest,
 } from './schemas/flashcard-logs/SchemaPOSTFlashcardCardUUIDLog.js';
 import schemaAPIBuild from './schemas/general/SchemaAPIBuild.js';
@@ -353,13 +352,13 @@ server.delete(
 
 // Flashcard log endpoints
 server.post(
-	'/flashcards/:cardUUID/log',
+	'/logs/flashcards',
 	{
 		schema: schemaPOSTFlashcardCardUUIDLog,
 		preHandler: [
 			guardAuthenticate<
 				POSTFlashcardCardUUIDLogRequest,
-				POSTFlashcardCardUUIDLogParams,
+				any,
 				any
 			>,
 		],

@@ -868,18 +868,11 @@ paths:
         #     application/json:
         #       schema:
         #         $ref: "#/components/schemas/Error"
-  /flashcards/{cardUUID}/log:
+  /logs/flashcards:
     post:
       summary: "Create a flashcard usage log entry"
       tags:
-        - "Completed - Flashcard Logs"
-      parameters:
-        - name: cardUUID
-          in: path
-          required: true
-          description: UUID of flashcard the log is for
-          schema:
-            type: "string"
+        - "Completed - AI Training Logs"
       requestBody:
         required: true
         content:
@@ -888,10 +881,12 @@ paths:
               type: "object"
               properties:
                 faceDownTime:
-                  type: "string"
+                  type: "number"
                 revisionTime:
-                  type: "string"
+                  type: "number"
                 timesFlipped:
+                  type: "number"
+                cardUUID:
                   type: "string"
       responses:
         "201":
@@ -904,11 +899,11 @@ paths:
                   logUUID:
                     type: "string"
                   faceDownTime:
-                    type: "string"
+                    type: "number"
                   revisionTime:
-                    type: "string"
+                    type: "number"
                   timesFlipped:
-                    type: "string"
+                    type: "number"
                   cardUUID:
                     type: "string"
         "401":
