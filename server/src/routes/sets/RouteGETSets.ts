@@ -23,7 +23,7 @@ const routeGETSets = async (
 					createdAt: fullSet.createdAt.toISOString(),
 					updatedAt: fullSet.updatedAt.toISOString(),
 				}) as GETSetsReply200,
-		) as GETSetsReply200[],
+		).sort((a, b) => b.averageRating - a.averageRating) as GETSetsReply200[],
 	);
 	return;
 };

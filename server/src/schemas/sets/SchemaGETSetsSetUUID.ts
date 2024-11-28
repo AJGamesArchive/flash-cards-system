@@ -15,6 +15,7 @@ export interface GETSetsSetUUIDReply200 {
 	authorUsername: string;
 	numReviews: number;
 	numFlashcards: number;
+	averageRating: number;
 }
 
 export interface GETSetsSetUUIDReplyError {
@@ -41,7 +42,8 @@ const schemaGETSetsSetUUID: FastifySchema = {
 				authorUUID: { type: 'string' },
 				authorUsername: { type: 'string' },
 				numReviews: { type: 'number' },
-				numFlashcards: { type: 'string' },
+				numFlashcards: { type: 'number' },
+				averageRating: { type: 'number'},
 			},
 			required: [
 				'setUUID',
@@ -53,6 +55,7 @@ const schemaGETSetsSetUUID: FastifySchema = {
 				'authorUsername',
 				'numReviews',
 				'numFlashcards',
+				'averageRating',
 			],
 		},
 		404: {

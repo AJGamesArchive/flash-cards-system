@@ -16,6 +16,7 @@ export interface GETUserCollectionSetAllocationsReply200 {
 	authorUsername: string;
 	numReviews: number;
 	numFlashcards: number;
+	averageRating: number;
 }
 
 export interface GETUserCollectionSetAllocationsReplyError {
@@ -45,7 +46,8 @@ const schemaGETUserCollectionSetAllocations: FastifySchema = {
 					authorUUID: { type: 'string' },
 					authorUsername: { type: 'string' },
 					numReviews: { type: 'number' },
-					numFlashcards: { type: 'string' },
+					numFlashcards: { type: 'number' },
+					averageRating: { type: 'number' },
 				},
 				required: [
 					'setUUID',
@@ -57,6 +59,7 @@ const schemaGETUserCollectionSetAllocations: FastifySchema = {
 					'authorUsername',
 					'numReviews',
 					'numFlashcards',
+					'averageRating',
 				],
 			},
 		},

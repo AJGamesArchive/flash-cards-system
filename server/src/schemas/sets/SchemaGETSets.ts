@@ -11,6 +11,7 @@ export interface GETSetsReply200 {
 	authorUsername: string;
 	numReviews: number;
 	numFlashcards: number;
+	averageRating: number;
 }
 
 const schemaGETSets: FastifySchema = {
@@ -28,7 +29,8 @@ const schemaGETSets: FastifySchema = {
 					authorUUID: { type: 'string' },
 					authorUsername: { type: 'string' },
 					numReviews: { type: 'number' },
-					numFlashcards: { type: 'string' },
+					numFlashcards: { type: 'number' },
+					averageRating: { type: 'number' },
 				},
 				required: [
 					'setUUID',
@@ -40,6 +42,7 @@ const schemaGETSets: FastifySchema = {
 					'authorUsername',
 					'numReviews',
 					'numFlashcards',
+					'averageRating',
 				],
 			},
 		},

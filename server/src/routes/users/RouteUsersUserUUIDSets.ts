@@ -36,7 +36,7 @@ const routeUsersUserUUIDSets = async (
 					createdAt: fullSet.createdAt.toISOString(),
 					updatedAt: fullSet.updatedAt.toISOString(),
 				}) as UserUserUUIDSetsReply200,
-		) as UserUserUUIDSetsReply200[],
+		).sort((a, b) => b.averageRating - a.averageRating) as UserUserUUIDSetsReply200[],
 	);
 	return;
 };

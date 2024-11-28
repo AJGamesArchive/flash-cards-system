@@ -158,6 +158,8 @@ paths:
                       type: "number"
                     numFlashcards:
                       type: "number"
+                    averageRating:
+                      type: "number"
     post:
       summary: "Create a new flashcard set with flashcards"
       description: "There can only be 20 new flashcard sets created per day"
@@ -274,6 +276,8 @@ paths:
                   numReviews:
                     type: "number"
                   numFlashcards:
+                    type: "number"
+                  averageRating:
                     type: "number"
         "404":
           description: "The flashcard set was not found"
@@ -862,6 +866,8 @@ paths:
                       type: "number"
                     numFlashcards:
                       type: "number"
+                    averageRating:
+                      type: "number"
         # "404":
         #   description: "The user was not found"
         #   content:
@@ -1404,7 +1410,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /users/{userUUID}collections/{collectionUUID}/sets:
+  /users/{userUUID}/collections/{collectionUUID}/sets:
     parameters:
       - name: userUUID
         description: "UUID of user that owns the collection"
@@ -1451,6 +1457,8 @@ paths:
                     numReviews:
                       type: "number"
                     numFlashcards:
+                      type: "number"
+                    averageRating:
                       type: "number"
         "401":
           description: "User Not Logged In"
@@ -1526,7 +1534,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /users/{userUUID}collections/{collectionUUID}/sets/{setUUID}:
+  /users/{userUUID}/collections/{collectionUUID}/sets/{setUUID}:
     parameters:
       - name: userUUID
         description: "UUID of user that owns the collection"

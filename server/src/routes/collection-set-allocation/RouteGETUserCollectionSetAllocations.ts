@@ -59,7 +59,7 @@ const routeGETUserCollectionSetAllocations = async (
 					createdAt: set.createdAt.toISOString(),
 					updatedAt: set.updatedAt.toISOString(),
 				}) as GETUserCollectionSetAllocationsReply200,
-		) as GETUserCollectionSetAllocationsReply200[],
+		).sort((a, b) => b.averageRating - a.averageRating) as GETUserCollectionSetAllocationsReply200[],
 	);
 	return;
 };

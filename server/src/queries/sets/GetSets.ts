@@ -1,5 +1,6 @@
 // Imports
 import { db } from '../../Server.js';
+import calculateAverageSetRating from '../../functions/sets/CalculateAverageSetRating.js';
 
 /**
  * Type to define set data returned from the DB
@@ -14,6 +15,7 @@ export type FullSet = {
 	authorUsername: string;
 	numReviews: number;
 	numFlashcards: number;
+	averageRating: number;
 };
 
 /**
@@ -47,7 +49,7 @@ async function getSets(
 					},
 					setReview: {
 						select: {
-							reviewUUID: true,
+							starRating: true,
 						},
 					},
 					flashCards: {
@@ -71,7 +73,7 @@ async function getSets(
 					},
 					setReview: {
 						select: {
-							reviewUUID: true,
+							starRating: true,
 						},
 					},
 					flashCards: {
@@ -93,7 +95,7 @@ async function getSets(
 				},
 				setReview: {
 					select: {
-						reviewUUID: true,
+						starRating: true,
 					},
 				},
 				flashCards: {
@@ -118,6 +120,7 @@ async function getSets(
 				authorUsername: set.author.username,
 				numReviews: set.setReview.length,
 				numFlashcards: set.flashCards.length,
+				averageRating: calculateAverageSetRating(set.setReview.map((review) => review.starRating)),
 			}) as FullSet,
 	) as FullSet[];
 }
