@@ -103,19 +103,10 @@ const FlashcardCard: React.FC<FlashcardCardProps> = ({
         }
         {!flipped && (
           <div className="flashcard-front">
-            {
-              //? Flashcard Top Button Bar
-            }
             {renderFlashcardHeader('Question')}
-            {
-              //? Flashcard Question / Answer
-            }
             <div className='flashcard-card-question'>
               {flashcard.question}
             </div>
-            {
-              //? Flashcard Bottom Button Bar
-            }
             {flashcardFooter}
           </div>
         )}
@@ -124,19 +115,10 @@ const FlashcardCard: React.FC<FlashcardCardProps> = ({
         }
         {flipped && (
           <div className="flashcard-back">
-            {
-              //? Flashcard Top Button Bar
-            }
             {renderFlashcardHeader('Answer')}
-            {
-              //? Flashcard Question / Answer
-            }
             <div className='flashcard-card-question'>
               {flashcard.answer}
             </div>
-            {
-              //? Flashcard Bottom Button Bar
-            }
             {flashcardFooter}
           </div>
         )}

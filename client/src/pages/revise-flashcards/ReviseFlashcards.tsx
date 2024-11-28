@@ -11,7 +11,6 @@ import ToolBarPage from '../../components/tool-bar-page/ToolBarPage';
 import WindowSize from '../../types/core/WindowSize';
 import useWindowSize from '../../hook/core/UseWindowSize';
 import SetDetailsPageHeader from '../../components/global/SetDetailsPageHeader';
-import DebugBlock from '../../components/core/DebugBlock';
 import useFlashcardReviser, { UseFLashcardReviserHook } from '../../hook/revise-flashcards/UseFlashcardReviser';
 import useLoadingListener from '../../hook/core/UseLoadingListener';
 import useErrorListener from '../../hook/core/UseErrorListener';
@@ -142,17 +141,6 @@ const ReviseFlashcardsPage: React.FC = () => {
           )}
           {(!loadingFlashcards && revisionController.flashcards.length > 0) && 
             renderFlashcard(revisionController.flashcards[revisionController.currentFlashcardIndex])}
-          {
-            //! Debug Block - Remove Later
-          }
-          <DebugBlock>
-            Params: {JSON.stringify(params, null, 2)}<br/>
-            Current Flashcard Index: {JSON.stringify(revisionController.currentFlashcardIndex, null, 2)}<br/>
-            Card Flipped: {JSON.stringify(revisionController.cardFlipped, null, 2)}<br/>
-            Set: {JSON.stringify(revisionController.set, null, 2)}<br/>
-            FLashcards: {JSON.stringify(revisionController.flashcards, null, 2)}<br/>
-            Hidden Cards: {JSON.stringify(revisionController.hiddenCards, null, 2)}<br/>
-          </DebugBlock>
         </>
       )}
     </ToolBarPage>

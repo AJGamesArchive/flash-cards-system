@@ -7,6 +7,8 @@ import useServerAPI from "../api/UseServerAPI";
 import ToastWatch from "../../types/core/ToastWatch";
 import Set from "../../types/global/Set";
 import Flashcard from "../../types/global/Flashcard";
+import FlashcardUsageLog from "../../types/global/FlashcardUsageLog";
+import FlashcardUsageTimer from "../../classes/FlashcardUsageTimer";
 
 /**
  * Type to define the states exposed by the useFlashcardReviser hook
@@ -63,6 +65,8 @@ function useFlashcardReviser(
   const [cardFlipped, setCardFlipped] = useState<boolean>(false);
   const [hiddenCards, setHiddenCards] = useState<string[]>([]);
   const [hiddenCardsCastingError, setHiddenCardsCastingError] = useState<ErrorWatch>(null);
+  const [logs, setLogs] = useState<FlashcardUsageLog[]>([]);
+  const [recorder] = useState<FlashcardUsageTimer>(new FlashcardUsageTimer());
   const getSetRequest: APIResponse<object> = useServerAPI(
     'GET',
     `/sets/${setUUID}`,
@@ -86,12 +90,26 @@ function useFlashcardReviser(
     {},
     { immediate: false },
   );
+  const logRequest: APIResponse<object> = useServerAPI(
+    'POST',
+    `/logs/flashcards`,
+    {},
+    { immediate: false },
+  );
 
-  // Function to flip the flashcard
-  const flipCard = () => setCardFlipped(!cardFlipped);
+  // Function to flip the flashcard and record the flip
+  const flipCard = () => {
+    recorder.logFlip(cardFlipped);
+    setCardFlipped(!cardFlipped);
+    return;
+  };
 
-  // Function to move to the next flashcard
+  // Function to move to the next flashcard and save current card log
   const nextFlashcard = () => {
+    recorder.saveLog(
+      filteredFlashcards[currentFlashcardIndex].cardUUID,
+      setLogs,
+    );
     if(currentFlashcardIndex < filteredFlashcards.length - 1) {
       setCurrentFlashcardIndex(currentFlashcardIndex + 1);
     } else {
@@ -103,6 +121,10 @@ function useFlashcardReviser(
 
   // Function to move to the previous flashcard
   const previousFlashcard = () => {
+    recorder.saveLog(
+      filteredFlashcards[currentFlashcardIndex].cardUUID,
+      setLogs,
+    );
     if(currentFlashcardIndex > 0) {
       setCurrentFlashcardIndex(currentFlashcardIndex - 1);
     } else {
@@ -113,13 +135,32 @@ function useFlashcardReviser(
   };
 
   // Function to re-sync the flashcards
-  const resyncFlashcards = () => getFlashcardsRequest.reTrigger();
+  const resyncFlashcards = () => {
+    recorder.saveLog(
+      filteredFlashcards[currentFlashcardIndex].cardUUID,
+      setLogs,
+    );
+    getFlashcardsRequest.reTrigger();
+    return;
+  };
 
   // Function to hide a flashcard
   const hideFlashcard = async (cardUUID: string) => {
+    recorder.saveLog(
+      filteredFlashcards[currentFlashcardIndex].cardUUID,
+      setLogs,
+    );
     const status: number = await hideCardRequest.reTrigger({ cardUUID });
     if(status !== 201) return;
     getHiddenCardsRequest.reTrigger();
+    return;
+  };
+
+  // Function to save a flashcard log
+  const saveLog = async () => {
+    const status: number = await logRequest.reTrigger(logs[0]);
+    if(status !== 201) return;
+    setLogs((prev) => prev.slice(1));
     return;
   };
 
@@ -136,17 +177,13 @@ function useFlashcardReviser(
 
   // Hook to type-cast flashcard data received from the API
   useEffect(() => {
-    if(getFlashcardsRequest.data) {
-      castData(
-        'Flashcards',
-        getFlashcardsRequest,
-        null,
-        setFLashcards,
-        setFlashcardCastingError,
-      );
-      setCardFlipped(false);
-      setCurrentFlashcardIndex(0);
-    };
+    if(getFlashcardsRequest.data) castData(
+      'Flashcards',
+      getFlashcardsRequest,
+      null,
+      setFLashcards,
+      setFlashcardCastingError,
+    );
   }, [getFlashcardsRequest.data]);
 
   // Hook to type-cast hidden cards data received from the API
@@ -169,7 +206,13 @@ function useFlashcardReviser(
     };
     setCurrentFlashcardIndex(0);
     setCardFlipped(false);
+    recorder.startLog();
   }, [flashcards, hiddenCards]);
+
+  // Hook to log flashcard usage
+  useEffect(() => {
+    if(logs.length > 0 && !logRequest.loading) saveLog();
+  }, [logs]);
 
   // Return states
   return {
@@ -204,7 +247,7 @@ function useFlashcardReviser(
     hideCardRequest: {
       loading: hideCardRequest.loading,
       toast: hideCardRequest.toast,
-    }
+    },
   };
 };
 
