@@ -3,9 +3,6 @@ import { FastifySchema } from 'fastify';
 
 export interface DELETEHiddenCardsUserUUIDParams {
 	userUUID: string;
-}
-
-export interface DELETEHiddenCardsUserUUIDRequest {
 	cardUUID: string;
 }
 
@@ -18,15 +15,9 @@ const schemaDELETEHiddenCardsUserUUID: FastifySchema = {
 		type: 'object',
 		properties: {
 			userUUID: { type: 'string' },
-		},
-		required: ['userUUID'],
-	},
-	body: {
-		type: 'object',
-		properties: {
 			cardUUID: { type: 'string' },
 		},
-		required: ['cardUUID'],
+		required: ['userUUID', 'cardUUID'],
 	},
 	response: {
 		204: {},

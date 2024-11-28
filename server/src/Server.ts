@@ -80,7 +80,6 @@ import schemaPOSTFlashcardCardUUIDLog, {
 import schemaAPIBuild from './schemas/general/SchemaAPIBuild.js';
 import schemaDELETEHiddenCardsUserUUID, {
 	DELETEHiddenCardsUserUUIDParams,
-	DELETEHiddenCardsUserUUIDRequest,
 } from './schemas/hidden-card-allocations/SchemaDELETEHiddenCardsUserUUID.js';
 import schemaGETHiddenCardsUserUUID from './schemas/hidden-card-allocations/SchemaGETHiddenCardsUserUUID.js';
 import schemaPOSTHiddenCardsUserUUID, {
@@ -389,12 +388,12 @@ server.post(
 	routePOSTHiddenCardUserUUID,
 );
 server.delete(
-	'/hiddenCards/:userUUID',
+	'/hiddenCards/:userUUID/:cardUUID',
 	{
 		schema: schemaDELETEHiddenCardsUserUUID,
 		preHandler: [
 			guardAuthenticate<
-				DELETEHiddenCardsUserUUIDRequest,
+				any,
 				DELETEHiddenCardsUserUUIDParams,
 				any
 			>,

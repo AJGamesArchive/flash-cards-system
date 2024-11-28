@@ -988,19 +988,24 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /hiddenCards/{userUUID}/{cardUUID}:
     delete:
       summary: "Delete a hidden card allocation from a user"
       tags:
         - Completed - Hidden Card Allocations
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: "object"
-              properties:
-                cardUUID:
-                  type: "string"
+      parameters:
+        - name: userUUID
+          in: path
+          required: true
+          description: UUID of user to delete hidden card allocation for
+          schema:
+            type: "string"
+        - name: cardUUID
+          in: path
+          required: true
+          description: UUID of card to delete hidden card allocation for
+          schema:
+            type: "string"
       responses:
         "204":
           description: "Allocation deleted successfully"

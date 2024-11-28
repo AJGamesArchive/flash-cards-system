@@ -5,7 +5,6 @@ import castJWTPayload from '../../functions/utilities/CastJWTPayload.js';
 import deleteUserCardAllocation from '../../queries/hidden-card-allocations/DeleteUserCardAllocation.js';
 import {
 	DELETEHiddenCardsUserUUIDParams,
-	DELETEHiddenCardsUserUUIDRequest,
 	DELETEHiddenCardsUserUUIDReplyError,
 } from '../../schemas/hidden-card-allocations/SchemaDELETEHiddenCardsUserUUID.js';
 import JWTData from '../../types/JWTData.js';
@@ -17,7 +16,6 @@ import JWTData from '../../types/JWTData.js';
 const routeDELETEHiddenCardUserUUID = async (
 	req: FastifyRequest<{
 		Params: DELETEHiddenCardsUserUUIDParams;
-		Body: DELETEHiddenCardsUserUUIDRequest;
 	}>,
 	rep: FastifyReply,
 ): Promise<void> => {
@@ -41,7 +39,7 @@ const routeDELETEHiddenCardUserUUID = async (
 	// Delete card allocation
 	const success: boolean = await deleteUserCardAllocation(
 		req.params.userUUID,
-		req.body.cardUUID,
+		req.params.cardUUID,
 	);
 	if (!success) {
 		rep.status(404).send({
