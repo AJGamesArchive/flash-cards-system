@@ -3,6 +3,7 @@
  */
 interface APIRequestHookOptions {
   immediate?: boolean;
+  ignoreStatusCodes?: number[];
 };
 
 export default APIRequestHookOptions;

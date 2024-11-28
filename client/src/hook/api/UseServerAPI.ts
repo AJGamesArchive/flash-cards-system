@@ -22,7 +22,10 @@ function useServerAPI<T>(
   method: APIMethods,
   endpoint: string,
   body: object,
-  options: APIRequestHookOptions = { immediate: true },
+  options: APIRequestHookOptions = {
+    immediate: true,
+    ignoreStatusCodes: [],
+  },
   queries?: object,
 ): APIResponse<T> {
   // Hooks
@@ -42,6 +45,7 @@ function useServerAPI<T>(
 
   /**
    * Function to send a stateless HTTP request
+   * @param overrideIgnoreStatusCodes Optional list of status codes to ignore
    * @param reqEndpoint Optional request endpoint
    * @param reqBody Optional request body
    * @param reqQueries Optional request queries
@@ -51,11 +55,14 @@ function useServerAPI<T>(
    * @returns HTTP status code
    */
   const sendBackgroundRequest = async (
+    overrideIgnoreStatusCodes?: number[],
     reqEndpoint?: string,
     reqBody?: object,
     reqQueries?: object,
   ): Promise<number> => {
+    // Send request
     try {
+      // Send HTTP request based on given params
       var response; 
       switch(method) {
         case 'GET':
@@ -106,6 +113,8 @@ function useServerAPI<T>(
         default:
           throw new Error('Invalid HTTP Method');
       };
+
+      // Handle successful request
       toastMessage.setToast({
         severity: 'success',
         summary: 'Success!',
@@ -115,23 +124,53 @@ function useServerAPI<T>(
       });
       return response.status;
     } catch (error: any) {
+      // Handle failed request
+      const axiosError: AxiosError = error as AxiosError;
+
+      // Return a neutral response if the error code is in the ignore list
+      if(
+        axiosError.response &&
+        ((overrideIgnoreStatusCodes)
+          ? overrideIgnoreStatusCodes.includes(axiosError.response.status)
+          : options.ignoreStatusCodes?.includes(axiosError.response.status)
+        )
+      ) {
+        if(axiosError.response && axiosError.response.data) toastMessage.setToast({
+          severity: 'info',
+          summary: (axiosError.response.data as any).message,
+          closeIcon: 'pi pi-times',
+          life: 3000,
+        });
+        setStatus(axiosError.response.status);
+        setLoading(false);
+        return axiosError.response.status;
+      };
+
+      // Handle error and return status code
       const toast: ToastMessage = apiRequestError(error);
       toastMessage.setToast(toast);
-      const axiosError: AxiosError = error as AxiosError;
       return axiosError.response ? axiosError.response.status : 0;
     };
   };
 
   /**
    * Function to send the HTTP request
+   * @param overrideIgnoreStatusCodes Optional list of status codes to ignore
    * @param reqBody Optional request body
    * @returns HTTP status code
    */
-  const sendRequest = useCallback(async (reqBody?: object): Promise<number> => {
+  const sendRequest = useCallback(async (
+    overrideIgnoreStatusCodes?: number[],
+    reqBody?: object
+  ): Promise<number> => {
+    // Reset states
     setLoading(true);
     setError(null);
     setData(null);
+
+    // Send request
     try {
+      // Send HTTP request based on given params
       var response; 
       switch(method) {
         case 'GET':
@@ -167,6 +206,8 @@ function useServerAPI<T>(
         default:
           throw new Error('Invalid HTTP Method');
       };
+
+      // Handle successful request
       toastMessage.setToast({
         severity: 'success',
         summary: 'Success!',
@@ -179,9 +220,31 @@ function useServerAPI<T>(
       setLoading(false);
       return response.status;
     } catch (error: any) {
+      // Handle failed request
+      const axiosError: AxiosError = error as AxiosError;
+
+      // Return a neutral response if the error code is in the ignore list
+      if(
+        axiosError.response &&
+        ((overrideIgnoreStatusCodes)
+          ? overrideIgnoreStatusCodes.includes(axiosError.response.status)
+          : options.ignoreStatusCodes?.includes(axiosError.response.status)
+        )
+      ) {
+        if(axiosError.response && axiosError.response.data) toastMessage.setToast({
+          severity: 'info',
+          summary: (axiosError.response.data as any).message,
+          closeIcon: 'pi pi-times',
+          life: 3000,
+        });
+        setStatus(axiosError.response.status);
+        setLoading(false);
+        return axiosError.response.status;
+      };
+
+      // Handle error and return status code
       const toast: ToastMessage = apiRequestError(error);
       toastMessage.setToast(toast);
-      const axiosError: AxiosError = error as AxiosError;
       const errorMessage: string =
         `[Error: ${
           axiosError.response ? axiosError.response.status : 0

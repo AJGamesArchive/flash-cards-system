@@ -10,7 +10,6 @@ import ErrorWatch from '../../types/core/ErrorWatch';
 import useErrorListener from '../../hook/core/UseErrorListener';
 import useLoadingListener from '../../hook/core/UseLoadingListener';
 import useToastListener from '../../hook/core/UseToastListener';
-import DebugBlock from '../../components/core/DebugBlock';
 import PageLoading from '../../components/core/PageLoading';
 import PageError from '../../components/core/PageError';
 import SetCard from '../../components/global/SetCard';
@@ -97,14 +96,6 @@ const BrowseFlashcardSetsPage: React.FC = () => {
               </div>
             ))}
           </div>
-          {
-            //! Debug Block - Remove later
-          }
-          <DebugBlock>
-            Loading: {JSON.stringify(loading, null, 2)}<br/>
-            Error: {JSON.stringify(error, null, 2)}<br/>
-            Sets: {JSON.stringify(allSetsController.allSets, null, 2)}
-          </DebugBlock>
         </>
       )}
     </ToolBarPage>
