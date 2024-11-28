@@ -21,6 +21,7 @@ import PageError from '../../components/core/PageError';
 import FlashcardCard from '../../components/revise-flashcards/FlashcardCard';
 import commonColors from '../../static/Colors';
 import HoverButton from '../../components/core/HoverButton';
+import HiddenFlashcardsDialogue from '../../components/revise-flashcards/HiddenFlashcardsDialogue';
 
 /**
  * React function to render the revise flashcards page
@@ -59,7 +60,26 @@ const ReviseFlashcardsPage: React.FC = () => {
   ], ['success']);
   useToastListener(toast, [
     revisionController.hideCardRequest.toast,
+    revisionController.unhideCardRequest.toast,
   ], []);
+
+  // View Hidden Cards Button Template
+  const viewHiddenCardsButton = (
+    <div>
+      <HoverButton
+        label='View Hidden Cards'
+        icon='pi pi-eye'
+        onClick={revisionController.toggleHiddenCards}
+        backgroundColor={commonColors.BackgroundBlue}
+        hoverColor={commonColors.IceBlue}
+        textColor={commonColors.White}
+        hoverTextColor={commonColors.Black}
+        visible={revisionController.getHiddenCardUUIDs().length !== 0}
+        badgeValue={String(revisionController.getHiddenCardUUIDs().length)}
+        raised
+      />
+    </div>
+  );
 
   // Flashcard Reviser Render Template
   const renderFlashcard = (flashcard: Flashcard) => (
@@ -70,13 +90,13 @@ const ReviseFlashcardsPage: React.FC = () => {
         onFlipped={revisionController.flipCard}
         onRefresh={revisionController.resyncFlashcards}
         hidingCard={revisionController.hideCardRequest.loading}
+        hideToggleIcon='pi pi-eye-slash'
         onHide={revisionController.hideFlashcard}
       />
       <div className='flashcard-reviser-buttons'>
         <HoverButton
           icon='pi pi-arrow-left'
           onClick={revisionController.previousFlashcard}
-          className='flashcard-reviser-back-button'
           backgroundColor={commonColors.BackgroundBlue}
           hoverColor={commonColors.BluePurple}
           textColor={commonColors.White}
@@ -91,7 +111,6 @@ const ReviseFlashcardsPage: React.FC = () => {
         <HoverButton
           icon='pi pi-arrow-right'
           onClick={revisionController.nextFlashcard}
-          className='flashcard-reviser-next-button'
           backgroundColor={commonColors.BackgroundBlue}
           hoverColor={commonColors.Blue}
           textColor={commonColors.White}
@@ -99,6 +118,7 @@ const ReviseFlashcardsPage: React.FC = () => {
           raised
         />
       </div>
+      {viewHiddenCardsButton}
     </>
   );
 
@@ -134,13 +154,30 @@ const ReviseFlashcardsPage: React.FC = () => {
           {
             //? Flashcard Viewer
           }
-          {(loadingFlashcards || revisionController.flashcards.length === 0) && (
+          {(loadingFlashcards && revisionController.flashcards.length === 0 && revisionController.getHiddenCardUUIDs().length === 0) && (
             <div className='flashcard-reviser-loading-cards'>
               <ProgressSpinner/>
             </div>
           )}
+          {(!loadingFlashcards && revisionController.flashcards.length === 0 && revisionController.getHiddenCardUUIDs().length !== 0) && (
+            <div>
+              <i style={{
+                color: commonColors.Yellow,
+              }}>
+                <b>All flashcards have been hidden. Please un-hide some flashcards!</b>
+              </i>
+              <br/><br/>
+              {viewHiddenCardsButton}
+            </div>
+          )}
           {(!loadingFlashcards && revisionController.flashcards.length > 0) && 
             renderFlashcard(revisionController.flashcards[revisionController.currentFlashcardIndex])}
+          {
+            //? Hidden Cards Dialogue Box
+          }
+          <HiddenFlashcardsDialogue
+            revisionController={revisionController}
+          />
         </>
       )}
     </ToolBarPage>

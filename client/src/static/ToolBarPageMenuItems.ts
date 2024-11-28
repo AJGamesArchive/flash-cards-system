@@ -29,11 +29,6 @@ const toolBarPageMenuItems: ToolBarPageMenuItems[] = [
     onCLick: () => window.location.href = `/my-collections`,
   },
   {
-    itemName: 'View Hidden Flashcards',
-    icon: 'pi pi-eye-slash',
-    onCLick: () => window.location.href = `/view-hidden-flashcards`,
-  },
-  {
     itemName: 'Account Settings',
     icon: 'pi pi-cog',
     onCLick: () => window.location.href = `/account-settings`,

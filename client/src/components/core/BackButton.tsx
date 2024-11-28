@@ -10,8 +10,11 @@ interface BackButtonProps {
   severity?: 'help' | 'secondary' | 'success' | 'info' | 'warning' | 'danger';
   outlined?: boolean;
   raised?: boolean;
+  visible?: boolean;
   disabled?: boolean;
   style?: React.CSSProperties;
+  badgeValue?: string;
+  badgeClassName?: 'p-badge-success' | 'p-badge-warning' | 'p-badge-danger' | 'p-badge-info' | 'p-badge-secondary';
   backFactor: number;
 };
 
@@ -25,9 +28,12 @@ const BackButton: React.FC<BackButtonProps> = ({
   severity,
   outlined,
   raised,
+  visible,
   disabled,
   style,
-  backFactor
+  backFactor,
+  badgeValue,
+  badgeClassName,
 }) => {
   // Component variable
   const navigate = useNavigate();
@@ -40,12 +46,15 @@ const BackButton: React.FC<BackButtonProps> = ({
 
   // Return JSX
   return <Button
-    label={label ? label : undefined}
-    icon={icon ? icon : undefined}
+    label={label}
+    icon={icon}
     onClick={goBack}
-    severity={severity ? severity : undefined}
+    severity={severity}
+    badge={badgeValue}
+    badgeClassName={badgeClassName}
     outlined={outlined}
     raised={raised}
+    visible={visible}
     disabled={disabled}
     style={style}
   />

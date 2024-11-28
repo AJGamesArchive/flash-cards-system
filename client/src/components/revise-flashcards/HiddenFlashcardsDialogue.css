@@ -1,0 +1,27 @@
+/*
+  * Dialogue Footer Formatting
+*/
+.hidden-cards-dialogue-footer {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.hidden-cards-dialogue-footer-button {
+  margin-right: 10px;
+}
+
+.hidden-cards-dialogue-content {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hidden-cards-dialogue-flashcard {
+  margin: 2.5px;
+  text-align: center;
+}

@@ -25,7 +25,7 @@ const AdminPage: React.FC = () => {
       pageDirection='Column'
       pageVerticalAlignment='Center'
       pageHorizontalAlignment='Center'
-      selectedItemIndex={8}
+      selectedItemIndex={7}
     >
       {windowSize.width > 768 && <h1>Admin Page</h1>}
       {windowSize.width <= 768 && <h2>Admin Page</h2>}

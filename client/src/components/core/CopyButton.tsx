@@ -11,8 +11,11 @@ interface CopyButtonProps {
   severity?: 'help' | 'secondary' | 'success' | 'info' | 'warning' | 'danger';
   outlined?: boolean;
   raised?: boolean;
+  visible?: boolean;
   disabled?: boolean;
   style?: React.CSSProperties;
+  badgeValue?: string;
+  badgeClassName?: 'p-badge-success' | 'p-badge-warning' | 'p-badge-danger' | 'p-badge-info' | 'p-badge-secondary';
   onAlert: (message: ToastMessage) => void;
 };
 
@@ -26,8 +29,11 @@ const CopyButton: React.FC<CopyButtonProps> = ({
   severity,
   outlined,
   raised,
+  visible,
   disabled,
   style,
+  badgeValue,
+  badgeClassName,
   onAlert
 }) => {
   // Function to handle copying text to device clipboard
@@ -52,12 +58,15 @@ const CopyButton: React.FC<CopyButtonProps> = ({
 
   // Return JSX
   return <Button
-    label={label ? label : undefined}
-    icon={icon ? icon : undefined}
+    label={label}
+    icon={icon}
     onClick={copyText}
-    severity={severity ? severity : undefined}
+    severity={severity}
     outlined={outlined}
+    badge={badgeValue}
+    badgeClassName={badgeClassName}
     raised={raised}
+    visible={visible}
     disabled={disabled}
     style={style}
   />

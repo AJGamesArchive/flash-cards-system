@@ -16,6 +16,7 @@ import FlashcardUsageTimer from "../../classes/FlashcardUsageTimer";
 export type UseFLashcardReviserHook = {
   set: Set | null;
   flashcards: Flashcard[];
+  allFlashcards: Flashcard[];
   currentFlashcardIndex: number;
   nextFlashcard: () => void;
   previousFlashcard: () => void;
@@ -24,6 +25,11 @@ export type UseFLashcardReviserHook = {
   flipCard: () => void;
   hiddenCards: string[];
   hideFlashcard: (cardUUID: string) => Promise<void>;
+  showHiddenCards: boolean;
+  toggleHiddenCards: () => void;
+  getHiddenCardUUIDs: () => string[];
+  unhideHiddenCard: (cardUUID: string) => Promise<void>;
+  unhideAllHiddenCards: () => Promise<void>;
   getSetRequest: {
     loading: boolean;
     apiError: ErrorWatch;
@@ -46,6 +52,10 @@ export type UseFLashcardReviserHook = {
     loading: boolean;
     toast: ToastWatch;
   },
+  unhideCardRequest: {
+    loading: boolean;
+    toast: ToastWatch;
+  };
 };
 
 /**
@@ -65,6 +75,7 @@ function useFlashcardReviser(
   const [cardFlipped, setCardFlipped] = useState<boolean>(false);
   const [hiddenCards, setHiddenCards] = useState<string[]>([]);
   const [hiddenCardsCastingError, setHiddenCardsCastingError] = useState<ErrorWatch>(null);
+  const [showHiddenCards, setShowHiddenCards] = useState<boolean>(false);
   const [logs, setLogs] = useState<FlashcardUsageLog[]>([]);
   const [recorder] = useState<FlashcardUsageTimer>(new FlashcardUsageTimer());
   const getSetRequest: APIResponse<object> = useServerAPI(
@@ -86,6 +97,12 @@ function useFlashcardReviser(
   );
   const hideCardRequest: APIResponse<object> = useServerAPI(
     'POST',
+    `/hiddenCards/${localStorage.getItem('fc-uuid')}`,
+    {},
+    { immediate: false },
+  );
+  const unhideCardRequest: APIResponse<object> = useServerAPI(
+    'DELETE',
     `/hiddenCards/${localStorage.getItem('fc-uuid')}`,
     {},
     { immediate: false },
@@ -156,6 +173,37 @@ function useFlashcardReviser(
     return;
   };
 
+  // Function to toggle showing hidden flashcards
+  const toggleHiddenCards = () => setShowHiddenCards(!showHiddenCards);
+
+  // Function to return the UUIDs of all hidden cards
+  const getHiddenCardUUIDs = (): string[] => flashcards.filter((flashcard) =>
+    hiddenCards.includes(flashcard.cardUUID)).map((flashcard)=>
+      flashcard.cardUUID);
+
+  // Function to un-hide a flashcard
+  const unhideHiddenCard = async (cardUUID: string) => {
+    const status: number = await unhideCardRequest.sendBackgroundRequest(
+      `/hiddenCards/${localStorage.getItem('fc-uuid')}/${cardUUID}`,
+    );
+    if(status !== 204) return;
+    getHiddenCardsRequest.reTrigger();
+    return;
+  };
+
+  // Function to un-hide all flashcards
+  const unhideAllHiddenCards = async () => {
+    const hiddenCards: string[] = getHiddenCardUUIDs();
+    for(const card of hiddenCards) {
+      await unhideCardRequest.sendBackgroundRequest(
+        `/hiddenCards/${localStorage.getItem('fc-uuid')}/${card}`,
+      );
+    };
+    getHiddenCardsRequest.reTrigger();
+    setShowHiddenCards(false);
+    return;
+  };
+
   // Function to save a flashcard log
   const saveLog = async () => {
     const status: number = await logRequest.reTrigger(logs[0]);
@@ -218,6 +266,7 @@ function useFlashcardReviser(
   return {
     set,
     flashcards: filteredFlashcards,
+    allFlashcards: flashcards,
     currentFlashcardIndex,
     nextFlashcard,
     previousFlashcard,
@@ -226,6 +275,11 @@ function useFlashcardReviser(
     flipCard,
     hiddenCards,
     hideFlashcard,
+    getHiddenCardUUIDs,
+    showHiddenCards,
+    toggleHiddenCards,
+    unhideHiddenCard,
+    unhideAllHiddenCards,
     getSetRequest: {
       loading: getSetRequest.loading,
       apiError: getSetRequest.error,
@@ -247,6 +301,10 @@ function useFlashcardReviser(
     hideCardRequest: {
       loading: hideCardRequest.loading,
       toast: hideCardRequest.toast,
+    },
+    unhideCardRequest: {
+      loading: unhideCardRequest.loading,
+      toast: unhideCardRequest.toast,
     },
   };
 };

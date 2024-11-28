@@ -13,9 +13,12 @@ interface HoverButtonProps {
   severity?: 'help' | 'secondary' | 'success' | 'info' | 'warning' | 'danger';
   outlined?: boolean;
   raised?: boolean;
+  visible?: boolean;
   disabled?: boolean;
   className?: string;
   style?: React.CSSProperties;
+  badgeValue?: string;
+  badgeClassName?: 'p-badge-success' | 'p-badge-warning' | 'p-badge-danger' | 'p-badge-info' | 'p-badge-secondary';
   onClick: () => void;
 };
 
@@ -33,14 +36,17 @@ const HoverButton: React.FC<HoverButtonProps> = ({
   severity,
   outlined,
   raised,
+  visible,
   disabled,
   className,
   style,
+  badgeValue,
+  badgeClassName,
   onClick,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
-  const buttonStyle = {
+  const buttonStyle: React.CSSProperties = {
     ...style,
     backgroundColor: isHovered ? hoverColor : backgroundColor,
     color: isHovered ? hoverTextColor : textColor,
@@ -48,14 +54,17 @@ const HoverButton: React.FC<HoverButtonProps> = ({
 
   // Return JSX
   return <Button
-    label={label ? label : undefined}
-    icon={icon ? icon : undefined}
+    label={label}
+    icon={icon}
     onClick={onClick}
     onMouseEnter={() => setIsHovered(true)}
     onMouseLeave={() => setIsHovered(false)}
-    severity={severity ? severity : undefined}
+    severity={severity}
+    badge={badgeValue}
+    badgeClassName={badgeClassName}
     outlined={outlined}
     raised={raised}
+    visible={visible}
     disabled={disabled}
     className={className}
     style={buttonStyle}

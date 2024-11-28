@@ -41,6 +41,88 @@ function useServerAPI<T>(
   };
 
   /**
+   * Function to send a stateless HTTP request
+   * @param reqEndpoint Optional request endpoint
+   * @param reqBody Optional request body
+   * @param reqQueries Optional request queries
+   * @note If no params are passed, the hook will use the default values
+   * @note Will not update any hook states
+   * @note Will still trigger UI toasts
+   * @returns HTTP status code
+   */
+  const sendBackgroundRequest = async (
+    reqEndpoint?: string,
+    reqBody?: object,
+    reqQueries?: object,
+  ): Promise<number> => {
+    try {
+      var response; 
+      switch(method) {
+        case 'GET':
+          response = await api.get<T>(
+            `${reqEndpoint ? reqEndpoint : endpoint}`,
+            {
+              headers: requestHeaders,
+              params: reqQueries ? reqQueries : queries ? queries : undefined,
+            }
+          );
+          break;
+        case 'POST':
+          response = await api.post<T>(
+            `${reqEndpoint ? reqEndpoint : endpoint}`, reqBody ? reqBody : body,
+            {
+              headers: requestHeaders,
+              params: reqQueries ? reqQueries : queries ? queries : undefined,
+            }
+          );
+          break;
+        case 'PUT':
+          response = await api.put<T>(
+            `${reqEndpoint ? reqEndpoint : endpoint}`, reqBody ? reqBody : body,
+            {
+              headers: requestHeaders,
+              params: reqQueries ? reqQueries : queries ? queries : undefined,
+            }
+          );
+          break;
+        case 'PATCH':
+          response = await api.patch<T>(
+            `${reqEndpoint ? reqEndpoint : endpoint}`, reqBody ? reqBody : body,
+            {
+              headers: requestHeaders,
+              params: reqQueries ? reqQueries : queries ? queries : undefined,
+            }
+          );
+          break;
+        case 'DELETE':
+          response = await api.delete<T>(
+            `${reqEndpoint ? reqEndpoint : endpoint}`,
+            {
+              headers: requestHeaders,
+              params: reqQueries ? reqQueries : queries ? queries : undefined,
+            }
+          );
+          break;
+        default:
+          throw new Error('Invalid HTTP Method');
+      };
+      toastMessage.setToast({
+        severity: 'success',
+        summary: 'Success!',
+        detail: (response.data as any).message ? (response.data as any).message : undefined,
+        closeIcon: 'pi pi-times',
+        life: 3000,
+      });
+      return response.status;
+    } catch (error: any) {
+      const toast: ToastMessage = apiRequestError(error);
+      toastMessage.setToast(toast);
+      const axiosError: AxiosError = error as AxiosError;
+      return axiosError.response ? axiosError.response.status : 0;
+    };
+  };
+
+  /**
    * Function to send the HTTP request
    * @param reqBody Optional request body
    * @returns HTTP status code
@@ -125,7 +207,8 @@ function useServerAPI<T>(
     loading,
     error,
     toast: toastMessage.toast,
-    reTrigger: sendRequest
+    reTrigger: sendRequest,
+    sendBackgroundRequest,
   };
 };
 

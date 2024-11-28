@@ -12,6 +12,7 @@ type APIResponse<T> = {
   error: ErrorWatch;
   toast: ToastWatch;
   reTrigger: (reqBody?: object) => Promise<number>;
+  sendBackgroundRequest: (reqEndpoint?: string, reqBody?: object, reqQuery?: object) => Promise<number>;
 };
 
 export default APIResponse;

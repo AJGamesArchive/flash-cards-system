@@ -13,7 +13,8 @@ interface FlashcardCardProps {
   onFlipped: () => void;
   hidingCard: boolean;
   onHide: (cardUUID: string) => void;
-  onRefresh: () => void;
+  hideToggleIcon: 'pi pi-eye' | 'pi pi-eye-slash';
+  onRefresh?: () => void;
 };
 
 /**
@@ -26,6 +27,7 @@ const FlashcardCard: React.FC<FlashcardCardProps> = ({
   onFlipped,
   hidingCard,
   onHide,
+  hideToggleIcon,
   onRefresh,
 }) => {
   // Flashcard Header Template
@@ -40,7 +42,8 @@ const FlashcardCard: React.FC<FlashcardCardProps> = ({
             <Button
               icon='pi pi-refresh'
               onClick={onRefresh}
-              severity='help'
+              disabled={!onRefresh}
+              severity={!onRefresh ? 'secondary' : 'help'}
               outlined
             />
           </div>
@@ -49,10 +52,10 @@ const FlashcardCard: React.FC<FlashcardCardProps> = ({
           </div>
           <div>
             <Button
-              icon='pi pi-eye-slash'
+              icon={hideToggleIcon}
               onClick={() => onHide(flashcard.cardUUID)}
               loading={hidingCard}
-              severity='help'
+              severity={hideToggleIcon === 'pi pi-eye' ? 'info' : 'help'}
               outlined
             />
           </div>

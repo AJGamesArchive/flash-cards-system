@@ -9,7 +9,10 @@ interface RefreshButtonProps {
   severity?: 'help' | 'secondary' | 'success' | 'info' | 'warning' | 'danger';
   outlined?: boolean;
   raised?: boolean;
+  visible?: boolean;
   disabled?: boolean;
+  badgeValue?: string;
+  badgeClassName?: 'p-badge-success' | 'p-badge-warning' | 'p-badge-danger' | 'p-badge-info' | 'p-badge-secondary';
   style?: React.CSSProperties;
 };
 
@@ -23,17 +26,23 @@ const RefreshButton: React.FC<RefreshButtonProps> = ({
   severity,
   outlined,
   raised,
+  visible,
   disabled,
+  badgeValue,
+  badgeClassName,
   style,
 }) => {
   // Return JSX
   return <Button
-    label={label ? label : undefined}
-    icon={icon ? icon : undefined}
+    label={label}
+    icon={icon}
     onClick={() => window.location.reload()}
-    severity={severity ? severity : undefined}
+    severity={severity}
+    badge={badgeValue}
+    badgeClassName={badgeClassName}
     outlined={outlined}
     raised={raised}
+    visible={visible}
     disabled={disabled}
     style={style}
   />

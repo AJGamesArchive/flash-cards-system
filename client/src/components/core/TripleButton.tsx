@@ -9,10 +9,13 @@ interface TripleButtonProps {
   severity?: 'help' | 'secondary' | 'success' | 'info' | 'warning' | 'danger';
   outlined?: boolean;
   raised?: boolean;
+  visible?: boolean;
   disabled?: boolean;
   loading?: boolean;
   className?: string;
   style?: React.CSSProperties;
+  badgeValue?: string;
+  badgeClassName?: 'p-badge-success' | 'p-badge-warning' | 'p-badge-danger' | 'p-badge-info' | 'p-badge-secondary';
   onTripleClick: () => void;
 };
 
@@ -26,10 +29,13 @@ const TripleButton: React.FC<TripleButtonProps> = ({
   severity,
   outlined,
   raised,
+  visible,
   disabled,
   loading,
   className,
   style,
+  badgeValue,
+  badgeClassName,
   onTripleClick
 }) => {
   // Component variable
@@ -56,12 +62,15 @@ const TripleButton: React.FC<TripleButtonProps> = ({
 
   // Return JSX
   return <Button
-    label={label ? label : undefined}
-    icon={icon ? icon : undefined}
+    label={label}
+    icon={icon}
     onClick={tripleClickHandler}
     severity={clickNum === 1 ? severity : clickNum === 2 ? 'warning' : 'danger'}
+    badge={badgeValue}
+    badgeClassName={badgeClassName}
     outlined={outlined}
     raised={raised}
+    visible={visible}
     disabled={disabled}
     loading={loading}
     className={className}
