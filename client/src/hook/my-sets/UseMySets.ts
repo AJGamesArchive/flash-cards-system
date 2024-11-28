@@ -43,6 +43,7 @@ function useMySets(): UseMySetsHook {
     'GET',
     `/users/${localStorage.getItem('fc-uuid')}/sets`,
     {},
+    { immediate: true, ignoreStatusCodes: [404] },
   );
   const deleteSetRequest: APIResponse<object> = useServerAPI(
     'DELETE',

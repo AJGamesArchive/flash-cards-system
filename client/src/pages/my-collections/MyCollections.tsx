@@ -13,6 +13,7 @@ import ErrorWatch from '../../types/core/ErrorWatch';
 import PageLoading from '../../components/core/PageLoading';
 import PageError from '../../components/core/PageError';
 import DebugBlock from '../../components/core/DebugBlock';
+import commonColors from '../../static/Colors';
 
 /**
  * React function to render the my collections page
@@ -34,7 +35,7 @@ const MyCollectionsPage: React.FC = () => {
   ]);
   useToastListener(toast, [
     myCollectionHandler.myCollectionsRequest.toast,
-  ], ['success']);
+  ], ['success', 'info']);
 
   // Return JSX
   return (
@@ -66,6 +67,13 @@ const MyCollectionsPage: React.FC = () => {
           }}>
             My Collections
           </b>
+          {myCollectionHandler.myCollections.length === 0 && (
+            <b style={{
+              color: commonColors.BluePurple,
+            }}>
+              <i>You have no collections. Please create some collections and come back!</i>
+            </b>
+          )}
           {
             //! Debug Block - Remove Later
           }

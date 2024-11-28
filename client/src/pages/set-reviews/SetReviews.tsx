@@ -45,7 +45,7 @@ const SetReviewsPage: React.FC = () => {
   useToastListener(toast, [
     reviewHandler.getReviewsRequest.toast,
     reviewHandler.getSetRequest.toast,
-  ], ['success']);
+  ], ['success', 'info']);
 
   // Return JSX
   return (

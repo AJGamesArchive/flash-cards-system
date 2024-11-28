@@ -15,6 +15,8 @@ import PageLoading from '../../components/core/PageLoading';
 import PageError from '../../components/core/PageError';
 import SetCard from '../../components/global/SetCard';
 import DeleteSetDialogue from '../../components/my-sets/DeleteSetDialogue';
+import commonColors from '../../static/Colors';
+import HoverButton from '../../components/core/HoverButton';
 
 /**
  * React function to render the my sets page
@@ -42,7 +44,7 @@ const MySetsPage: React.FC = () => {
   ]);
   useToastListener(toast, [
     mySetsController.mySetsRequest.toast,
-  ], ['success']);
+  ], ['success', 'info']);
   useToastListener(toast, [
     mySetsController.deleteSetRequest.toast,
   ], []);
@@ -77,6 +79,28 @@ const MySetsPage: React.FC = () => {
           }}>
             My Sets
           </b>
+          {mySetsController.mySets.length === 0 && (
+            <>
+              <b style={{
+                color: commonColors.BluePurple,
+              }}>
+                <i>You have no sets. Please create some sets and come back!</i>
+              </b><br/>
+              <div>
+                <HoverButton
+                  label='Create New Set'
+                  icon='pi pi-plus'
+                  onClick={() => window.location.href = `/my-sets/sets-editor/new`}
+                  disabled={disableButtons}
+                  backgroundColor={commonColors.BackgroundBlue}
+                  hoverColor={commonColors.Teal}
+                  textColor={commonColors.White}
+                  hoverTextColor={commonColors.Black}
+                  outlined
+                />
+              </div>
+            </>
+          )}
           {
             //? Set Card mapping
           }

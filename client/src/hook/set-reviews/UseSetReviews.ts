@@ -50,6 +50,7 @@ function useSetReviews(
     'GET',
     `/sets/${setUUID}/reviews`,
     {},
+    { immediate: true, ignoreStatusCodes: [404] },
   );
   const getSetRequest: APIResponse<object> = useServerAPI(
     'GET',
