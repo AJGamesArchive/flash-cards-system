@@ -13,51 +13,13 @@
 ## Setup
 
 - Install Yarn Package Manager: ``npm install -g yarn`` or ``choco install yarn``
-- Ensure you're running **NodeJS v18**
-- Clone Repo: ``git clone <repo-link>``
+- Ensure you're running **NodeJS v18** - *Unfortunately needed for one dependency that is yet to be updated to Node20*
+- Clone Repo: ``git clone https://github.com/AJGamesArchive/flash-cards-system.git``
 - Install Dependencies: ``yarn install``
-- Create a ``.env`` file in the ``./server`` workspace:
-
-```bash
-$ cd server
-$ touch .env
-```
-
-- Add the following ENV to ``./server/.env``:
-
-```env
-JWT_SECRET=9jzInZSfM3UbtdL1J1cbm20dy6VqvrfLtzQHFZxv
-NODE_ENV=development
-PORT=80
-```
-
-- Create a ``.env`` file in the ``./database`` workspace: 
-
-```bash
-$ cd database
-$ touch .env
-```
-
-- Add the following ENV to ``./database/.env``:
-
-```env
-DATABASE_URL="file:./dev.db"
-```
-
-- Create a ``.env`` file in the ``./client`` workspace: 
-
-```bash
-$ cd client
-$ touch .env
-```
-
-- Add the following ENV to ``./client/.env``:
-
-```env
-API_URL=http://localhost:80
-```
-
-- Init Database: ``yarn db:migrate``
+- Create a ``.env`` file in the ``./server`` workspace based off the ``.env.example``
+- Create a ``.env`` file in the ``./database`` workspace based off the ``.env.example``
+- Create a ``.env`` file in the ``./client`` workspace based off the ``.env.example``
+- Init & **Seed** Database: ``yarn db:migrate``
 - Run DEV Server(s): ``yarn all:dev``
 - - This will run a **client** DEV build on: [localhost:5173](http://localhost:5173)
 - - This will run a **server** DEV build on: [localhost:80](http://localhost:80)
@@ -141,5 +103,5 @@ The following section outlines the technology used for client and server code-ba
 
 ## Database
 
-- DBMS: [Prisma](https://pris.ly/d/prisma-schema)
+- ORM: [Prisma](https://pris.ly/d/prisma-schema)
 - Database: [SQLite3](https://www.sqlite.org/docs.html)
