@@ -1,6 +1,7 @@
 // Core Imports
 import './SetCard.css';
 import React from 'react';
+import { Rating } from 'primereact/rating';
 import Set from '../../types/global/Set';
 import commonColors from '../../static/Colors';
 import getReadableTimestamp from '../../functions/global/Timestamps';
@@ -50,6 +51,14 @@ const SetCard: React.FC<SetCardProps> = ({
             <b>
               {` ${set.numFlashcards}`}
             </b>
+          </div>
+          <div>
+            <Rating
+              value={set.averageRating}
+              stars={5}
+              cancel={false}
+              readOnly
+            />
           </div>
           <div>
             <i className='pi pi-comment set-card-icon'/>

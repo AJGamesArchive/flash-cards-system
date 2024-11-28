@@ -11,6 +11,7 @@ type Set = {
   authorUsername: string;
   numReviews: number;
   numFlashcards: number;
+  averageRating: number;
 };
 
 /**

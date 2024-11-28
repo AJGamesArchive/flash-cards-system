@@ -1,6 +1,7 @@
 // Core Imports
 import './SetDetailsPageHeader.css';
 import React from 'react';
+import { Rating } from 'primereact/rating';
 import Set from '../../types/global/Set';
 import commonColors from '../../static/Colors';
 import WindowSize from '../../types/core/WindowSize';
@@ -51,6 +52,14 @@ const SetDetailsPageHeader: React.FC<SetDetailsPageHeaderProps> = ({
           <b>
             {` ${set?.numFlashcards}`}
           </b>
+        </div>
+        <div>
+          <Rating
+            value={set?.averageRating}
+            stars={5}
+            cancel={false}
+            readOnly
+          />
         </div>
         <div>
           <i className='pi pi-comment set-card-icon'/>
