@@ -167,7 +167,7 @@ function useFlashcardReviser(
       filteredFlashcards[currentFlashcardIndex].cardUUID,
       setLogs,
     );
-    const status: number = await hideCardRequest.reTrigger({ cardUUID });
+    const status: number = await hideCardRequest.reTrigger(undefined, { cardUUID });
     if(status !== 201) return;
     getHiddenCardsRequest.reTrigger();
     return;
@@ -184,6 +184,7 @@ function useFlashcardReviser(
   // Function to un-hide a flashcard
   const unhideHiddenCard = async (cardUUID: string) => {
     const status: number = await unhideCardRequest.sendBackgroundRequest(
+      undefined,
       `/hiddenCards/${localStorage.getItem('fc-uuid')}/${cardUUID}`,
     );
     if(status !== 204) return;
@@ -196,6 +197,7 @@ function useFlashcardReviser(
     const hiddenCards: string[] = getHiddenCardUUIDs();
     for(const card of hiddenCards) {
       await unhideCardRequest.sendBackgroundRequest(
+        undefined,
         `/hiddenCards/${localStorage.getItem('fc-uuid')}/${card}`,
       );
     };
@@ -206,7 +208,7 @@ function useFlashcardReviser(
 
   // Function to save a flashcard log
   const saveLog = async () => {
-    const status: number = await logRequest.reTrigger(logs[0]);
+    const status: number = await logRequest.reTrigger(undefined, logs[0]);
     if(status !== 201) return;
     setLogs((prev) => prev.slice(1));
     return;
