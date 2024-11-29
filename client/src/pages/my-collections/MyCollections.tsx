@@ -14,6 +14,7 @@ import PageLoading from '../../components/core/PageLoading';
 import PageError from '../../components/core/PageError';
 import DebugBlock from '../../components/core/DebugBlock';
 import commonColors from '../../static/Colors';
+import CollectionEditorDialogue from '../../components/my-collections/CollectionEditorDialogue';
 
 /**
  * React function to render the my collections page
@@ -74,6 +75,17 @@ const MyCollectionsPage: React.FC = () => {
               <i>You have no collections. Please create some collections and come back!</i>
             </b>
           )}
+          {
+            //? Collection Editor Dialogue
+          }
+          <CollectionEditorDialogue
+            toast={toast}
+            visible={false}
+            setVisible={() => {}}
+            newCollectionFlag={false}
+            collectionName={''}
+            collectionDescription={''}
+          />
           {
             //! Debug Block - Remove Later
           }

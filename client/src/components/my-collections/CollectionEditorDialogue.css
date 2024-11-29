@@ -1,0 +1,14 @@
+/*
+  * Dialogue Footer Formatting
+*/
+.collection-editor-dialogue-footer {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.collection-editor-dialogue-footer-button {
+  margin-right: 10px;
+}

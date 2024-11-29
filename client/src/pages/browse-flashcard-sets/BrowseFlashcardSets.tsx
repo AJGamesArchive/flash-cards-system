@@ -15,6 +15,8 @@ import PageError from '../../components/core/PageError';
 import SetCard from '../../components/global/SetCard';
 import { Button } from 'primereact/button';
 
+//TODO Add a search box that searches set names and descriptions
+
 /**
  * React function to render the browse flashcard sets page
  * @returns BrowseFlashcardSetsPage Component
