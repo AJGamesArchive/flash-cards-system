@@ -2,6 +2,7 @@
 import './MyCollections.css';
 import { useRef } from 'react';
 import { Toast } from 'primereact/toast';
+import { Button } from 'primereact/button';
 import ToolBarPage from '../../components/tool-bar-page/ToolBarPage';
 import WindowSize from '../../types/core/WindowSize';
 import useWindowSize from '../../hook/core/UseWindowSize';
@@ -15,6 +16,8 @@ import PageError from '../../components/core/PageError';
 import DebugBlock from '../../components/core/DebugBlock';
 import commonColors from '../../static/Colors';
 import CollectionEditorDialogue from '../../components/my-collections/CollectionEditorDialogue';
+import CollectionCard from '../../components/my-collections/CollectionCard';
+import TripleButton from '../../components/core/TripleButton';
 
 /**
  * React function to render the my collections page
@@ -76,15 +79,52 @@ const MyCollectionsPage: React.FC = () => {
             </b>
           )}
           {
+            //? Collection Mappings
+          }
+          <div>
+            <Button
+              label='Create Collection'
+              icon='pi pi-plus'
+              onClick={() => myCollectionHandler.openCollectionEditor()}
+              outlined
+            />
+          </div>
+          <div className='my-collections-grid'>
+            {myCollectionHandler.myCollections.map((collection, index) => (
+              <div key={index} className='my-collections-grid-item'>
+                <CollectionCard
+                  collection={collection}
+                >
+                  <Button
+                    icon='pi pi-folder-open'
+                    onClick={() => {}}
+                    outlined
+                  />
+                  <Button
+                    icon='pi pi-pencil'
+                    onClick={() => myCollectionHandler.openCollectionEditor(collection)}
+                    severity='info'
+                    outlined
+                  />
+                  <TripleButton
+                    icon='pi pi-trash'
+                    onTripleClick={() => {}}
+                    severity='secondary'
+                    outlined
+                  />
+                </CollectionCard>
+              </div>
+            ))}
+          </div>
+          {
             //? Collection Editor Dialogue
           }
           <CollectionEditorDialogue
             toast={toast}
-            visible={false}
-            setVisible={() => {}}
-            newCollectionFlag={false}
-            collectionName={''}
-            collectionDescription={''}
+            visible={myCollectionHandler.selectedCollection !== undefined}
+            closeEditor={myCollectionHandler.closeCollectionEditor}
+            selectedCollection={myCollectionHandler.selectedCollection}
+            reFetchCollections={myCollectionHandler.myCollectionsRequest.reTrigger}
           />
           {
             //! Debug Block - Remove Later

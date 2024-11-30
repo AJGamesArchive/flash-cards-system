@@ -2,22 +2,23 @@
 import './CollectionEditorDialogue.css';
 import React, { RefObject } from 'react';
 import { Toast } from 'primereact/toast';
+import { classNames } from 'primereact/utils';
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
+import { InputText } from 'primereact/inputtext';
 import useLoadingListener from '../../hook/core/UseLoadingListener';
 import useToastListener from '../../hook/core/UseToastListener';
 import useErrorListener from '../../hook/core/UseErrorListener';
 import ErrorWatch from '../../types/core/ErrorWatch';
-import useCollectionEditor, { UseCollectionEditorHook } from '../../hook/my-collections/UseCollectionEditor';
+import useCollectionEditor, { UseCollectionEditorHook, CoreCollectionDetails } from '../../hook/my-collections/UseCollectionEditor';
 
 // Component Props Interface
 interface CollectionEditorDialogueProps {
   toast: RefObject<Toast>;
   visible: boolean;
-  setVisible: (state: boolean) => void;
-  newCollectionFlag: boolean;
-  collectionName: string | null;
-  collectionDescription: string | null;
+  closeEditor: () => void;
+  selectedCollection: CoreCollectionDetails | null | undefined;
+  reFetchCollections: () => Promise<number>;
 };
 
 /**
@@ -27,27 +28,29 @@ interface CollectionEditorDialogueProps {
 const CollectionEditorDialogue: React.FC<CollectionEditorDialogueProps> = ({
   toast,
   visible,
-  setVisible,
-  newCollectionFlag,
-  collectionName,
-  collectionDescription
+  closeEditor,
+  selectedCollection,
+  reFetchCollections,
 }) => {
   // Component Hooks
   const editorController: UseCollectionEditorHook = useCollectionEditor(
     visible,
-    newCollectionFlag,
-    collectionName,
-    collectionDescription
+    selectedCollection,
+    closeEditor,
+    reFetchCollections,
   );
   const saving: boolean = useLoadingListener([
-    
+    editorController.creationRequest.loading,
+    editorController.updateRequest.loading,
   ]);
   const error: ErrorWatch = useErrorListener([
-    
+    editorController.creationRequest.error,
+    editorController.updateRequest.error,
   ]);
   useToastListener(toast, [
-    
-  ], ['success']);
+    editorController.creationRequest.toast,
+    editorController.updateRequest.toast,
+  ], []);
 
   // Template to define the footer of the dialogue box
   const footer = (
@@ -58,17 +61,17 @@ const CollectionEditorDialogue: React.FC<CollectionEditorDialogueProps> = ({
             label="Cancel"
             disabled={saving}
             icon="pi pi-times"
-            onClick={() => {}}
+            onClick={closeEditor}
             severity='secondary'
             raised
           />
         </div>
         <div className="collection-editor-dialogue-footer-button">
           <Button
-            label={newCollectionFlag ? 'Create' : 'Save'}
+            label={!selectedCollection ? 'Create' : 'Save'}
             loading={saving}
-            icon={newCollectionFlag ? 'pi pi-plus' : 'pi pi-save'}
-            onClick={() => {}}
+            icon={!selectedCollection ? 'pi pi-plus' : 'pi pi-save'}
+            onClick={editorController.saveCollection}
             raised
           />
         </div>
@@ -87,11 +90,65 @@ const CollectionEditorDialogue: React.FC<CollectionEditorDialogueProps> = ({
       focusOnShow={false}
       closeOnEscape={true}
       breakpoints={{ '1250px': '55vw', '1000px': '70vw', '820px': '75vw', '768px': '90vw', '400px': '95vw' }} 
-      header='Login' 
+      header={!selectedCollection ? 'Create Collection' : 'Edit Collection'}
       footer={footer} 
-      onHide={() => {}}
+      onHide={closeEditor}
     >
-      Beep Boop
+      {
+        //? Heading Text
+      }
+      <div className='collection-editor-dialogue-heading-text'>
+        <b>Please enter collection details:</b>
+      </div>
+      {
+        //? Name Field
+      }
+      <div className="collection-editor-form-field">
+        <label htmlFor="collection-editor-name">
+          <b>Name</b>
+        </label>
+        <div className="p-inputgroup flex-1">
+          <InputText 
+            id="collection-editor-name"
+            value={editorController.coreDetails.name}
+            name={'name'}
+            onChange={editorController.saveInput}
+            className={classNames({ 'p-invalid': !editorController.coreDetails.name })}
+            placeholder='Enter Collection Name'
+            disabled={saving}
+          />
+        </div>
+      </div>
+      {
+        //? Description Field
+      }
+      <div>
+        <label htmlFor="collection-editor-description">
+          <b>Description</b>
+        </label>
+        <div className="p-inputgroup flex-1">
+          <InputText 
+            id="collection-editor-description"
+            value={editorController.coreDetails.description}
+            name={'description'}
+            onChange={editorController.saveInput}
+            className={classNames({ 'p-invalid': !editorController.coreDetails.description })}
+            placeholder='Enter Collection Description'
+            disabled={saving}
+          />
+        </div>
+      </div>
+      {
+        //? Output any errors returned by the API
+      }
+      {(error) && (
+        <div className="p-error" style={{
+          textAlign: 'center',
+          paddingTop: '10px',
+        }}>
+          <b>{error}</b>
+        </div>
+      )}
     </Dialog>
   );
 };

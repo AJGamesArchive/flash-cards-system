@@ -12,3 +12,16 @@
 .collection-editor-dialogue-footer-button {
   margin-right: 10px;
 }
+
+/*
+  * Editor Styling
+*/
+.collection-editor-form-field {
+  padding-bottom: 15px;
+}
+
+.collection-editor-dialogue-heading-text {
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 15px;
+}
