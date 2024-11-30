@@ -51,10 +51,10 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
           color: commonColors.LightGreen,
         }}>
           <div>
-            Ctd: {` ${getReadableTimestamp(collection.createdOn)}`}
+            Ctd: {` ${getReadableTimestamp(collection.createdAt)}`}
           </div>
           <div>
-            Upd: {` ${getReadableTimestamp(collection.updatedOn)}`}
+            Upd: {` ${getReadableTimestamp(collection.updatedAt)}`}
           </div>
         </div>
         <div className='collection-card-icon-bar'>

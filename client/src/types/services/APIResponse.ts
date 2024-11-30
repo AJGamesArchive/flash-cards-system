@@ -13,6 +13,7 @@ type APIResponse<T> = {
   toast: ToastWatch;
   reTrigger: (
     overrideIgnoreStatusCodes?: number[],
+    reqEndpoint?: string,
     reqBody?: object,
   ) => Promise<number>;
   sendBackgroundRequest: (

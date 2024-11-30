@@ -40,6 +40,9 @@ const MyCollectionsPage: React.FC = () => {
   useToastListener(toast, [
     myCollectionHandler.myCollectionsRequest.toast,
   ], ['success', 'info']);
+  useToastListener(toast, [
+    myCollectionHandler.deletionRequest.toast,
+  ], []);
 
   // Return JSX
   return (
@@ -98,18 +101,21 @@ const MyCollectionsPage: React.FC = () => {
                   <Button
                     icon='pi pi-folder-open'
                     onClick={() => {}}
+                    disabled={myCollectionHandler.deletionRequest.loading}
                     outlined
                   />
                   <Button
                     icon='pi pi-pencil'
                     onClick={() => myCollectionHandler.openCollectionEditor(collection)}
                     severity='info'
+                    disabled={myCollectionHandler.deletionRequest.loading}
                     outlined
                   />
                   <TripleButton
                     icon='pi pi-trash'
-                    onTripleClick={() => {}}
+                    onTripleClick={() => myCollectionHandler.deleteCollection(collection.collectionUUID)}
                     severity='secondary'
+                    disabled={myCollectionHandler.deletionRequest.loading}
                     outlined
                   />
                 </CollectionCard>

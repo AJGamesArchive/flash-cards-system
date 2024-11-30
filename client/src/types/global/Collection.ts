@@ -5,8 +5,8 @@ type Collection = {
   collectionUUID: string;
   name: string;
   description: string;
-  createdOn: string;
-  updatedOn: string;
+  createdAt: string;
+  updatedAt: string;
   authorUUID: string;
   numSets: number;
 };

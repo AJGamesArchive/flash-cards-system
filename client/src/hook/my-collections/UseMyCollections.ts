@@ -23,6 +23,11 @@ export type UseMyCollectionsHook = {
     castingError: ErrorWatch;
     reTrigger: () => Promise<number>;
   };
+  deleteCollection: (collectionUUID: string) => Promise<void>;
+  deletionRequest: {
+    loading: boolean;
+    toast: ToastWatch;
+  };
 };
 
 /**
@@ -39,6 +44,12 @@ function useMyCollections(): UseMyCollectionsHook {
     {},
     { immediate: true, ignoreStatusCodes: [404] },
   );
+  const deletionRequest: APIResponse<object> = useServerAPI(
+    'DELETE',
+    ``,
+    {},
+    { immediate: false },
+  );
 
   // Function to open the collection editor in the required mode
   const openCollectionEditor = (collection?: Collection) => setSelectedCollection(
@@ -51,6 +62,15 @@ function useMyCollections(): UseMyCollectionsHook {
 
   // Function to close the collection editor
   const closeCollectionEditor = () => setSelectedCollection(undefined);
+
+  // Function to delete a request
+  const deleteCollection = async (collectionUUID: string) => {
+    const status: number = await deletionRequest.reTrigger(
+      undefined,
+      `/users/${localStorage.getItem('fc-uuid')}/collections/${collectionUUID}`,
+    );
+    if(status === 204) myCollectionsRequest.reTrigger();
+  };
 
   // Hook to type-cast collection data received from the API
   useEffect(() => {
@@ -75,6 +95,11 @@ function useMyCollections(): UseMyCollectionsHook {
       apiError: myCollectionsRequest.error,
       castingError: collectionCastingError,
       reTrigger: myCollectionsRequest.reTrigger,
+    },
+    deleteCollection,
+    deletionRequest: {
+      loading: deletionRequest.loading,
+      toast: deletionRequest.toast,
     },
   };
 };

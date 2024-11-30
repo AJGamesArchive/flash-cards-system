@@ -66,47 +66,47 @@ function useServerAPI<T>(
       var response; 
       switch(method) {
         case 'GET':
-          response = await api.get<T>(
-            `${reqEndpoint ? reqEndpoint : endpoint}`,
+          response = await api.get<T>(`${reqEndpoint ?? endpoint}`,
             {
               headers: requestHeaders,
-              params: reqQueries ? reqQueries : queries ? queries : undefined,
+              params: reqQueries ?? queries ?? undefined,
             }
           );
           break;
         case 'POST':
-          response = await api.post<T>(
-            `${reqEndpoint ? reqEndpoint : endpoint}`, reqBody ? reqBody : body,
+          response = await api.post<T>(`${reqEndpoint ?? endpoint}`,
+            reqBody ?? body,
             {
               headers: requestHeaders,
-              params: reqQueries ? reqQueries : queries ? queries : undefined,
+              params: reqQueries ?? queries ?? undefined,
             }
           );
           break;
         case 'PUT':
-          response = await api.put<T>(
-            `${reqEndpoint ? reqEndpoint : endpoint}`, reqBody ? reqBody : body,
+          response = await api.put<T>(`${reqEndpoint ?? endpoint}`,
+            reqBody ?? body,
             {
               headers: requestHeaders,
-              params: reqQueries ? reqQueries : queries ? queries : undefined,
+              params: reqQueries ?? queries ?? undefined,
             }
           );
           break;
         case 'PATCH':
           response = await api.patch<T>(
-            `${reqEndpoint ? reqEndpoint : endpoint}`, reqBody ? reqBody : body,
+            `${reqEndpoint ?? endpoint}`,
+            reqBody ?? body,
             {
               headers: requestHeaders,
-              params: reqQueries ? reqQueries : queries ? queries : undefined,
+              params: reqQueries ?? queries ?? undefined,
             }
           );
           break;
         case 'DELETE':
           response = await api.delete<T>(
-            `${reqEndpoint ? reqEndpoint : endpoint}`,
+            `${reqEndpoint ?? endpoint}`,
             {
               headers: requestHeaders,
-              params: reqQueries ? reqQueries : queries ? queries : undefined,
+              params: reqQueries ?? queries ?? undefined,
             }
           );
           break;
@@ -161,6 +161,7 @@ function useServerAPI<T>(
    */
   const sendRequest = useCallback(async (
     overrideIgnoreStatusCodes?: number[],
+    reqEndpoint?: string,
     reqBody?: object
   ): Promise<number> => {
     // Reset states
@@ -174,34 +175,47 @@ function useServerAPI<T>(
       var response; 
       switch(method) {
         case 'GET':
-          response = await api.get<T>(`${endpoint}`, {
-            headers: requestHeaders,
-            params: queries ? queries : undefined,
-          });
+          response = await api.get<T>(`${ reqEndpoint ?? endpoint}`,
+            {
+              headers: requestHeaders,
+              params: queries ?? undefined,
+            }
+          );
           break;
         case 'POST':
-          response = await api.post<T>(`${endpoint}`, reqBody ? reqBody : body, {
-            headers: requestHeaders,
-            params: queries ? queries : undefined,
-          });
+          response = await api.post<T>(`${reqEndpoint ?? endpoint}`,
+            reqBody ?? body,
+            {
+              headers: requestHeaders,
+              params: queries ?? undefined,
+            }
+          );
           break;
         case 'PUT':
-          response = await api.put<T>(`${endpoint}`, reqBody ? reqBody : body, {
-            headers: requestHeaders,
-            params: queries ? queries : undefined,
-          });
+          response = await api.put<T>(`${reqEndpoint ?? endpoint}`,
+            reqBody ?? body,
+            {
+              headers: requestHeaders,
+              params: queries ?? undefined,
+            }
+          );
           break;
         case 'PATCH':
-          response = await api.patch<T>(`${endpoint}`, reqBody ? reqBody : body, {
-            headers: requestHeaders,
-            params: queries ? queries : undefined,
-          });
+          response = await api.patch<T>(`${reqEndpoint ?? endpoint}`,
+            reqBody ?? body,
+            {
+              headers: requestHeaders,
+              params: queries ?? undefined,
+            }
+          );
           break;
         case 'DELETE':
-          response = await api.delete<T>(`${endpoint}`, {
-            headers: requestHeaders,
-            params: queries ? queries : undefined,
-          });
+          response = await api.delete<T>(`${reqEndpoint ?? endpoint}`,
+            {
+              headers: requestHeaders,
+              params: queries ?? undefined,
+            }
+          );
           break;
         default:
           throw new Error('Invalid HTTP Method');
