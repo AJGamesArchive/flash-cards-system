@@ -24,3 +24,7 @@
   align-items: center;
   font-weight: bold;
 }
+
+.flashcard-reviser-flashcard-container {
+  max-width: 98%;
+}

@@ -92,39 +92,41 @@ const FlashcardCard: React.FC<FlashcardCardProps> = ({
 
   // Return JSX
   return (
-    <div className={`flashcard ${flipped ? 'flipped' : ''}`}>
-      <div className="flashcard-inner" style={{
-        backgroundColor: commonColors.BackgroundDarkBlue,
-        borderColor:
-          flashcard.difficulty === 'Easy' ? commonColors.Green :
-          flashcard.difficulty === 'Medium' ? commonColors.Yellow :
-          flashcard.difficulty === 'Hard' ? commonColors.Red :
-          commonColors.BluePurple,
-      }}>
-        {
-          //? Flashcard Front
-        }
-        {!flipped && (
-          <div className="flashcard-front">
-            {renderFlashcardHeader('Question')}
-            <div className='flashcard-card-question'>
-              {flashcard.question}
+    <div className='flashcard-base-container'>
+      <div className={`flashcard ${flipped ? 'flipped' : ''}`}>
+        <div className="flashcard-inner" style={{
+          backgroundColor: commonColors.BackgroundDarkBlue,
+          borderColor:
+            flashcard.difficulty === 'Easy' ? commonColors.Green :
+            flashcard.difficulty === 'Medium' ? commonColors.Yellow :
+            flashcard.difficulty === 'Hard' ? commonColors.Red :
+            commonColors.BluePurple,
+        }}>
+          {
+            //? Flashcard Front
+          }
+          {!flipped && (
+            <div className="flashcard-front">
+              {renderFlashcardHeader('Question')}
+              <div className='flashcard-card-question'>
+                {flashcard.question}
+              </div>
+              {flashcardFooter}
             </div>
-            {flashcardFooter}
-          </div>
-        )}
-        {
-          //? Flashcard Back
-        }
-        {flipped && (
-          <div className="flashcard-back">
-            {renderFlashcardHeader('Answer')}
-            <div className='flashcard-card-question'>
-              {flashcard.answer}
+          )}
+          {
+            //? Flashcard Back
+          }
+          {flipped && (
+            <div className="flashcard-back">
+              {renderFlashcardHeader('Answer')}
+              <div className='flashcard-card-question'>
+                {flashcard.answer}
+              </div>
+              {flashcardFooter}
             </div>
-            {flashcardFooter}
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

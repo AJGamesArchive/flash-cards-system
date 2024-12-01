@@ -1,6 +1,10 @@
 /*
   * Flashcard Flipping CSS
 */
+.flashcard-base-container {
+  max-width: 100%;
+}
+
 .flashcard {
   perspective: 1000px;
 }
@@ -9,7 +13,7 @@
   transition: transform 0.6s;
   transform-style: preserve-3d;
   height: auto;
-  width: 700px;
+  /* width: 700px; */
   padding: 5px;
   border-radius: 10px;
   border: 1px solid;

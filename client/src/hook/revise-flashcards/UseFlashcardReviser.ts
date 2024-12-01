@@ -167,7 +167,7 @@ function useFlashcardReviser(
       filteredFlashcards[currentFlashcardIndex].cardUUID,
       setLogs,
     );
-    const status: number = await hideCardRequest.reTrigger(undefined, { cardUUID });
+    const status: number = await hideCardRequest.reTrigger(undefined, undefined, { cardUUID });
     if(status !== 201) return;
     getHiddenCardsRequest.reTrigger();
     return;
@@ -208,7 +208,7 @@ function useFlashcardReviser(
 
   // Function to save a flashcard log
   const saveLog = async () => {
-    const status: number = await logRequest.reTrigger(undefined, logs[0]);
+    const status: number = await logRequest.reTrigger(undefined, undefined, logs[0]);
     if(status !== 201) return;
     setLogs((prev) => prev.slice(1));
     return;

@@ -83,7 +83,7 @@ const ReviseFlashcardsPage: React.FC = () => {
 
   // Flashcard Reviser Render Template
   const renderFlashcard = (flashcard: Flashcard) => (
-    <>
+    <div className='flashcard-reviser-flashcard-container'>
       <FlashcardCard
         flashcard={flashcard}
         flipped={revisionController.cardFlipped}
@@ -119,7 +119,7 @@ const ReviseFlashcardsPage: React.FC = () => {
         />
       </div>
       {viewHiddenCardsButton}
-    </>
+    </div>
   );
 
   // Return JSX
