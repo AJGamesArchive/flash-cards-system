@@ -89,6 +89,9 @@
   .set-editor-flex-row-full-div {
     flex-direction: column;
   }
+  .set-editor-flex-row-half-div {
+    width: 100%;
+  }
   .set-editor-set-details-container {
     width: 95%;
   }
