@@ -27,4 +27,5 @@
 
 .flashcard-reviser-flashcard-container {
   max-width: 98%;
+  min-width: 60%;
 }

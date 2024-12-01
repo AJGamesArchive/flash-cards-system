@@ -14,6 +14,7 @@
   transform-style: preserve-3d;
   height: auto;
   /* width: 700px; */
+  width: 100%;
   padding: 5px;
   border-radius: 10px;
   border: 1px solid;

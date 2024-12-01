@@ -19,9 +19,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
 
 .hidden-cards-dialogue-flashcard {
   margin: 2.5px;
   text-align: center;
+  width: 95%;
 }
