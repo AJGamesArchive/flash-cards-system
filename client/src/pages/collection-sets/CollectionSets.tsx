@@ -13,12 +13,11 @@ import useToastListener from '../../hook/core/UseToastListener';
 import ErrorWatch from '../../types/core/ErrorWatch';
 import PageLoading from '../../components/core/PageLoading';
 import PageError from '../../components/core/PageError';
-import DebugBlock from '../../components/core/DebugBlock';
 import commonColors from '../../static/Colors';
 import SetCard from '../../components/global/SetCard';
+import { Button } from 'primereact/button';
+import TripleButton from '../../components/core/TripleButton';
 import useCollectionSets, { UseCollectionSetsHook } from '../../hook/collection-sets/UseCollectionSets';
-
-//TODO Finish implementing this page once you can add sets to collections
 
 /**
  * React function to render the collection sets page
@@ -37,6 +36,9 @@ const CollectionSetsPage: React.FC = () => {
   const loading: boolean = useLoadingListener([
     collectionSetsHandler.setsRequest.loading,
   ]);
+  const removingSet: boolean = useLoadingListener([
+    collectionSetsHandler.removeRequest.loading,
+  ]);
   const error: ErrorWatch = useErrorListener([
     collectionSetsHandler.setsRequest.apiError,
     collectionSetsHandler.setsRequest.castingError,
@@ -44,6 +46,9 @@ const CollectionSetsPage: React.FC = () => {
   useToastListener(toast, [
     collectionSetsHandler.setsRequest.toast,
   ], ['success']);
+  useToastListener(toast, [
+    collectionSetsHandler.removeRequest.toast,
+  ], []);
 
   // Return JSX
   return (
@@ -88,23 +93,32 @@ const CollectionSetsPage: React.FC = () => {
           }
           <div className='collection-sets-grid'>
             {collectionSetsHandler.sets.map((set, index) => (
-              <div key={index} className='collection-sets-grid-tem'>
+              <div key={index} className='collection-sets-grid-item'>
                 <SetCard
                   set={set}
                 >
-                  <b>Buttons!</b>
+                  <Button
+                    icon='pi pi-play'
+                    onClick={() => window.location.href = `/revise-flashcards/${set.setUUID}/shuffle`}
+                    outlined
+                  />
+                  <TripleButton
+                    icon='pi pi-bookmark-fill'
+                    severity='info'
+                    onTripleClick={() => collectionSetsHandler.removeFromCollection(set.setUUID)}
+                    disabled={removingSet}
+                    outlined
+                  />
+                  <Button
+                    icon='pi pi-comments'
+                    severity='help'
+                    onClick={() => window.location.href = `/sets/${set.setUUID}/reviews`}
+                    outlined
+                  />
                 </SetCard>
               </div>
             ))}
           </div>
-          {
-            //! Debug Block - Remove Later
-          }
-          <DebugBlock>
-            Params: {JSON.stringify(params, null, 2)}<br/>
-            Window Size: {JSON.stringify(windowSize, null, 2)}<br/>
-            Collection Sets: {JSON.stringify(collectionSetsHandler.sets, null, 2)}
-          </DebugBlock>
         </>
       )}
     </ToolBarPage>

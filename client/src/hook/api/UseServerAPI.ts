@@ -10,6 +10,8 @@ import APIMethods from "../../types/services/APIMethods";
 import APIResponse from "../../types/services/APIResponse";
 import build from "../../static/Build";
 
+//TODO Future me - make this hook store endpoint, body, queries, etc... as states and expose functions to update them instead of doing dodgy param overrides and duplicating functions you dombass
+
 /**
  * React hook to send HTTP requests to the server API
  * @param method HTTP method to use

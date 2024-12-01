@@ -9,6 +9,7 @@ import getReadableTimestamp from '../../functions/global/Timestamps';
 interface CollectionCardProps {
   collection: Collection;
   children: React.ReactNode;
+  simple?: boolean;
 };
 
 /**
@@ -18,6 +19,7 @@ interface CollectionCardProps {
 const CollectionCard: React.FC<CollectionCardProps> = ({
   collection,
   children,
+  simple,
 }) => {
   // Return JSX
   return (
@@ -34,9 +36,11 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
           </b>
           <br/>
         </div>
-        <i>
-          {collection.description}
-        </i>
+        {!simple && (
+          <i>
+            {collection.description}
+          </i>
+        )}
       </div>
       <div className='collection-card-inner-bottom-container'>
         <div className='collection-card-icon-bar'>
@@ -47,16 +51,18 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
             </b>
           </div>
         </div>
-        <div className='collection-card-icon-bar' style={{
-          color: commonColors.LightGreen,
-        }}>
-          <div>
-            Ctd: {` ${getReadableTimestamp(collection.createdAt)}`}
+        {!simple && (
+          <div className='collection-card-icon-bar' style={{
+            color: commonColors.LightGreen,
+          }}>
+            <div>
+              Ctd: {` ${getReadableTimestamp(collection.createdAt)}`}
+            </div>
+            <div>
+              Upd: {` ${getReadableTimestamp(collection.updatedAt)}`}
+            </div>
           </div>
-          <div>
-            Upd: {` ${getReadableTimestamp(collection.updatedAt)}`}
-          </div>
-        </div>
+        )}
         <div className='collection-card-icon-bar'>
           {children}
         </div>

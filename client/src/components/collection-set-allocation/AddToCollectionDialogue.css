@@ -21,12 +21,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
   padding: 10px;
 }
 
 .add-to-collection-dialogue-heading-text {
   padding-top: 10px;
   padding-bottom: 15px;
+  text-align: center;
 }
 
 .add-to-collection-dialogue-loading {
@@ -40,4 +42,13 @@
 
 .add-to-collection-dialogue-padding {
   padding: 10px;
+}
+
+.add-to-collection-dialogue-collection-container {
+  text-align: center;
+  width: 100%;
+}
+
+.add-to-collection-dialogue-collection-card {
+  padding: 2.5px;
 }

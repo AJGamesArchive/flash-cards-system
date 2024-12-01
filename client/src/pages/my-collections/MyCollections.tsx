@@ -15,7 +15,7 @@ import PageLoading from '../../components/core/PageLoading';
 import PageError from '../../components/core/PageError';
 import commonColors from '../../static/Colors';
 import CollectionEditorDialogue from '../../components/my-collections/CollectionEditorDialogue';
-import CollectionCard from '../../components/my-collections/CollectionCard';
+import CollectionCard from '../../components/global/CollectionCard';
 import TripleButton from '../../components/core/TripleButton';
 
 /**
