@@ -18,6 +18,9 @@ export type UseAllSetsHook = {
     error: ErrorWatch;
   };
   castingError: ErrorWatch;
+  selectedSet: Set | null;
+  selectSet: (set: Set) => void;
+  clearSelectedSet: () => void;
 };
 
 /**
@@ -32,6 +35,13 @@ function useAllSets(): UseAllSetsHook {
   );
   const [allSets, setAllSets] = useState<Set[]>([]);
   const [castingError, setCastingError] = useState<ErrorWatch>(null);
+  const [selectedSet, setSelectedSet] = useState<Set | null>(null);
+
+  // Function to select a set
+  const selectSet = (set: Set): void => setSelectedSet(set);
+
+  // Function to clear the selected set
+  const clearSelectedSet = (): void => setSelectedSet(null);
 
   // Hook to type-cast data received from the API
   useEffect(() => {
@@ -53,6 +63,9 @@ function useAllSets(): UseAllSetsHook {
       error: allSetsRequest.error,
     },
     castingError,
+    selectedSet,
+    selectSet,
+    clearSelectedSet,
   };
 };
 

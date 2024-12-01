@@ -10,7 +10,6 @@ import getReadableTimestamp from '../../functions/global/Timestamps';
 
 // Component Props Interface
 interface SetReviewCardProps {
-  key: number;
   review: SetReview;
 };
 
@@ -19,12 +18,11 @@ interface SetReviewCardProps {
  * @returns SetReviewCard Component
  */
 const SetReviewCard: React.FC<SetReviewCardProps> = ({
-  key,
   review,
 }) => {
   // Return JSX
   return (
-    <div key={key} className='set-review-card-container'>
+    <div className='set-review-card-container'>
       <div className='set-review-card-container-card' style={{
         backgroundColor: commonColors.BackgroundDarkBlue,
         borderColor: commonColors.BluePurple,

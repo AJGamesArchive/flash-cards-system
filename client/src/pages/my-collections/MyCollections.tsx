@@ -13,7 +13,6 @@ import useToastListener from '../../hook/core/UseToastListener';
 import ErrorWatch from '../../types/core/ErrorWatch';
 import PageLoading from '../../components/core/PageLoading';
 import PageError from '../../components/core/PageError';
-import DebugBlock from '../../components/core/DebugBlock';
 import commonColors from '../../static/Colors';
 import CollectionEditorDialogue from '../../components/my-collections/CollectionEditorDialogue';
 import CollectionCard from '../../components/my-collections/CollectionCard';
@@ -100,7 +99,7 @@ const MyCollectionsPage: React.FC = () => {
                 >
                   <Button
                     icon='pi pi-folder-open'
-                    onClick={() => {}}
+                    onClick={() => window.location.href = `/my-collections/${collection.collectionUUID}/${collection.name}/sets`}
                     disabled={myCollectionHandler.deletionRequest.loading}
                     outlined
                   />
@@ -132,12 +131,6 @@ const MyCollectionsPage: React.FC = () => {
             selectedCollection={myCollectionHandler.selectedCollection}
             reFetchCollections={myCollectionHandler.myCollectionsRequest.reTrigger}
           />
-          {
-            //! Debug Block - Remove Later
-          }
-          <DebugBlock>
-            Collections: {JSON.stringify(myCollectionHandler.myCollections, null, 2)}<br/>
-          </DebugBlock>
         </>
       )}
     </ToolBarPage>

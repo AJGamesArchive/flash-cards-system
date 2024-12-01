@@ -100,10 +100,11 @@ const SetReviewsPage: React.FC = () => {
             </i>
           )}
           {!reviewHandler.createReview.flag && reviewHandler.reviews.map((review, index) => (
-            <SetReviewCard
-              key={index}
-              review={review}
-            />
+            <div key={index} className='set-review-mapping-container'>
+              <SetReviewCard
+                review={review}
+              />
+            </div>
           ))}
         </>
       )}

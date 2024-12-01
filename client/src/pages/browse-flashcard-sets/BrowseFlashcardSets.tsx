@@ -14,6 +14,7 @@ import PageLoading from '../../components/core/PageLoading';
 import PageError from '../../components/core/PageError';
 import SetCard from '../../components/global/SetCard';
 import { Button } from 'primereact/button';
+import AddToCollectionDialogue from '../../components/collection-set-allocation/AddToCollectionDialogue';
 
 //TODO Add a search box that searches set names and descriptions
 
@@ -86,6 +87,7 @@ const BrowseFlashcardSetsPage: React.FC = () => {
                   <Button
                     icon='pi pi-bookmark'
                     severity='info'
+                    onClick={() => allSetsController.selectSet(set)}
                     outlined
                   />
                   <Button
@@ -98,6 +100,14 @@ const BrowseFlashcardSetsPage: React.FC = () => {
               </div>
             ))}
           </div>
+          {
+            //? Add to Collection Dialogue
+          }
+          <AddToCollectionDialogue
+            toast={toast}
+            set={allSetsController.selectedSet}
+            cancelAction={allSetsController.clearSelectedSet}
+          />
         </>
       )}
     </ToolBarPage>
