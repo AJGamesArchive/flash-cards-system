@@ -15,7 +15,6 @@ import ReviseFlashcardsPage from './pages/revise-flashcards/ReviseFlashcards';
 import MyCollectionsPage from './pages/my-collections/MyCollections';
 import CollectionSetsPage from './pages/collection-sets/CollectionSets';
 import ViewHiddenFlashcardsPage from './pages/view-hidden-flashcards/ViewHiddenFlashcards';
-import AccountSettingsPage from './pages/account-settings/AccountSettings';
 import AdminPage from './pages/admin/Admin';
 
 /**
@@ -52,7 +51,6 @@ const App: React.FC = () => {
         <Route path="/my-collections" Component={MyCollectionsPage}/>
         <Route path="/my-collections/:collectionUUID/:collectionName/sets" Component={CollectionSetsPage}/>
         <Route path="/view-hidden-flashcards" Component={ViewHiddenFlashcardsPage}/>
-        <Route path="/account-settings" Component={AccountSettingsPage}/>
         <Route path="/admin-panel" Component={AdminPage}/>
       </Routes>
     );

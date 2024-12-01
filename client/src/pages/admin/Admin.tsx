@@ -7,6 +7,8 @@ import WindowSize from '../../types/core/WindowSize';
 import useWindowSize from '../../hook/core/UseWindowSize';
 import commonColors from '../../static/Colors';
 
+//TODO Implement this page once endpoints have been created the rate limit bug is fixed!
+
 /**
  * React function to render the admin page
  * @returns AdminPage Component
@@ -25,7 +27,7 @@ const AdminPage: React.FC = () => {
       pageDirection='Column'
       pageVerticalAlignment='Center'
       pageHorizontalAlignment='Center'
-      selectedItemIndex={7}
+      selectedItemIndex={6}
     >
       {windowSize.width > 768 && <h1>Admin Page</h1>}
       {windowSize.width <= 768 && <h2>Admin Page</h2>}
@@ -41,6 +43,16 @@ const AdminPage: React.FC = () => {
       }}>
         {localStorage.getItem('fc-username')}
       </b>
+      <br/><br/>
+      <div style={{
+        color: commonColors.Red,
+        fontSize:
+          (windowSize.width > 768)
+            ? '1.5rem'
+            : '1rem',
+      }}>
+        <b><i>[Implement this page once endpoints have been created the rate limit bug is fixed!]</i></b>
+      </div>
     </ToolBarPage>
   );
 };

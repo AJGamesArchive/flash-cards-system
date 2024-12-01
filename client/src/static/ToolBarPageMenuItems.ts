@@ -4,7 +4,7 @@ import ToolBarPageMenuItems from "../types/tool-bar-page/ToolBarPageMenuItems";
 // Menu Items
 const toolBarPageMenuItems: ToolBarPageMenuItems[] = [
   {
-    itemName: 'Welcome!',
+    itemName: 'Home',
     icon: 'pi pi-home',
     onCLick: () => window.location.href = `/welcome`,
   },
@@ -29,13 +29,8 @@ const toolBarPageMenuItems: ToolBarPageMenuItems[] = [
     onCLick: () => window.location.href = `/my-collections`,
   },
   {
-    itemName: 'Account Settings',
+    itemName: 'Admin Settings',
     icon: 'pi pi-cog',
-    onCLick: () => window.location.href = `/account-settings`,
-  },
-  {
-    itemName: 'Admin',
-    icon: 'pi pi-lock',
     onCLick: () => window.location.href = `/admin-panel`,
   },
 ];

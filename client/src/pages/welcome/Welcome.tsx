@@ -5,6 +5,8 @@ import commonColors from '../../static/Colors';
 import WindowSize from '../../types/core/WindowSize';
 import useWindowSize from '../../hook/core/UseWindowSize';
 
+//TODO Add account status and implement ways for user to edit their account details
+
 /**
  * React function to render the welcome page
  * @returns WelcomePage Component
@@ -63,6 +65,16 @@ const WelcomePage: React.FC = () => {
       }}>
         {localStorage.getItem('fc-uuid')}
       </b>
+      <br/><br/>
+      <div style={{
+        color: commonColors.Red,
+        fontSize:
+          (windowSize.width > 768)
+            ? '1.5rem'
+            : '1rem',
+      }}>
+      <b><i>[Implement account stats and account detail editing methods here!]</i></b>
+      </div>
     </ToolBarPage>
   );
 };
