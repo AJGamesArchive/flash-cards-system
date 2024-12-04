@@ -3,6 +3,7 @@ import getSetCreationLimitConfig from '../../queries/system-config/GetSetCreatio
 import { db } from '../../Server.js';
 import JWTData from '../../types/JWTData.js';
 import SystemConfig from '../../types/SystemConfig.js';
+import getDateString from '../utilities/Timestamp.js';
 
 /**
  * Async function to fetch the set creation limit config and allow or reject new set creations
@@ -21,41 +22,28 @@ async function allowSetCreation(userDate: JWTData): Promise<number> {
 	// Create current date object
 	const today = new Date();
 
-	if (setLimitConfig.currentDate === today) {
-		// Return error if set creation counter for today has been reached
-		if (setLimitConfig.creationCounter >= setLimitConfig.setCreationLimit)
-			return 429;
+	// Check if the creation counter has been reached - return 429 if limit reached otherwise return 200
+	if (getDateString(setLimitConfig.currentDate) === getDateString(today)) {
+		if (
+			setLimitConfig.creationCounter >= setLimitConfig.setCreationLimit
+		) return 429;
+		else return 200;
+	}
 
-		// Increment creation counter
-		try {
-			await db.systemConfig.update({
-				where: {
-					configUUID: '7d6456e7-53f9-4d23-a547-a2590dd5bc30',
-				},
-				data: {
-					creationCounter: setLimitConfig.creationCounter + 1,
-				},
-			});
-		} catch (error: any) {
-			console.error(error);
-			return 500;
-		}
-	} else {
-		// Reset the creation counter for the new day
-		try {
-			await db.systemConfig.update({
-				where: {
-					configUUID: '7d6456e7-53f9-4d23-a547-a2590dd5bc30',
-				},
-				data: {
-					creationCounter: 1,
-					currentDate: today,
-				},
-			});
-		} catch (error: any) {
-			console.error(error);
-			return 500;
-		}
+	// Reset the creation counter for the new day
+	try {
+		await db.systemConfig.update({
+			where: {
+				configUUID: '7d6456e7-53f9-4d23-a547-a2590dd5bc30',
+			},
+			data: {
+				creationCounter: 0,
+				currentDate: today,
+			},
+		});
+	} catch (error: any) {
+		console.error(error);
+		return 500;
 	}
 
 	// Return true all if checks pass and set creation is permitted

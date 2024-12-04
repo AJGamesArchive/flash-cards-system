@@ -13,12 +13,7 @@ async function getSetCreationLimitConfig(): Promise<SystemConfig | null> {
 		},
 	});
 	if (!setLimitConfig) return null;
-	return {
-		configUUID: setLimitConfig.configUUID,
-		setCreationLimit: setLimitConfig.setCreationLimit,
-		creationCounter: setLimitConfig.creationCounter,
-		currentDate: setLimitConfig.currentDate,
-	} as SystemConfig;
+	return setLimitConfig as SystemConfig;
 }
 
 export default getSetCreationLimitConfig;

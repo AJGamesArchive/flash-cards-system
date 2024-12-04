@@ -18,33 +18,21 @@ async function saveFlashcardSet(
 ): Promise<number> {
 	// Generate DB update queries for each set amd flashcard
 	let queries: any[] = [];
-	if (newFlag) { //TODO FIX THIS FUCKERY!!!
+	if (newFlag) {
 		// Increment set creation counter if user is not admin
 		if(!adminFlag) {
-			const config = await db.systemConfig.findUnique({
-				where: {
-					configUUID: '7d6456e7-53f9-4d23-a547-a2590dd5bc30',
-				},
-				select: {
-					creationCounter: true,
-					setCreationLimit: true,
-				},
-			});
-			if(config) {
-				console.log(config, config.creationCounter + 1);
-				// queries.push(
-					db.systemConfig.update({
-						where: {
-							configUUID: '7d6456e7-53f9-4d23-a547-a2590dd5bc30',
+			queries.push(
+				db.systemConfig.update({
+					where: {
+						configUUID: '7d6456e7-53f9-4d23-a547-a2590dd5bc30',
+					},
+					data: {
+						creationCounter: {
+							increment: 1,
 						},
-						data: {
-							creationCounter: config.creationCounter + 1,
-						},
-					})
-				// );
-			} else {
-				console.warn('WARNING: Failed to increment creation counter. Failed to fetch creation config.');
-			};
+					},
+				}),
+			);
 		};
 
 		// Create new set and new flashcards if new flag is present
@@ -139,10 +127,8 @@ async function saveFlashcardSet(
 
 		// Update existing flashcards
 		updatedFlashcards.forEach((flashcard) => {
-			console.log('UPDATE') //! Remove later
 			// Add difficulty foreign key if present, otherwise nullify it
 			if(flashcard.difficulty) {
-				console.log('DIFFICULTY', flashcard.difficulty) //! Remove later
 				queries.push(
 					db.flashCards.update({
 						where: {
