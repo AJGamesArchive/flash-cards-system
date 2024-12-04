@@ -8,7 +8,6 @@ import { UseMySetsHook } from '../../hook/my-sets/UseMySets';
 import commonColors from '../../static/Colors';
 import useLoadingListener from '../../hook/core/UseLoadingListener';
 
-
 // Component Props Interface
 interface DeleteSetDialogueProps {
   mySetsController: UseMySetsHook;

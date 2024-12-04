@@ -10,6 +10,8 @@ import TopBarItem from './TopBarItem';
 import toolBarPageMenuItems from '../../static/ToolBarPageMenuItems';
 import useLogoutHandler, { UseLogoutHandlerHook } from '../../hook/tool-bar-page/UseLogoutHandler';
 
+//TODO Implement the page scroll to top component in both children divs if time permits
+
 // Component Props Interface
 interface ToolBarPageProps {
   children: React.ReactNode;
@@ -66,7 +68,7 @@ const ToolBarPage: React.FC<ToolBarPageProps> = ({
             //? Top Bar Menu Items Mapping
           }
           {toolBarPageMenuItems.map((item, index) => {
-            if(item.itemName === 'Admin' && localStorage.getItem('fc-admin') !== 'true') return;
+            if(item.itemName === 'Admin Settings' && localStorage.getItem('fc-admin') !== 'true') return;
             return (
             <div key={index}>
               <TopBarItem
@@ -128,7 +130,7 @@ const ToolBarPage: React.FC<ToolBarPageProps> = ({
             //? Side Bar Menu Items Mapping
           }
           {toolBarPageMenuItems.map((item, index) => {
-            if(item.itemName === 'Admin' && localStorage.getItem('fc-admin') !== 'true') return;
+            if(item.itemName === 'Admin Settings' && localStorage.getItem('fc-admin') !== 'true') return;
             return (
             <div key={index}>
               <SideBarItem
