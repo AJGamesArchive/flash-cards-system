@@ -1,6 +1,6 @@
 // Imports
-import { db } from '../../Server.js';
 import calculateAverageSetRating from '../../functions/sets/CalculateAverageSetRating.js';
+import { db } from '../../Server.js';
 
 /**
  * Type to define set data returned from the DB
@@ -120,7 +120,9 @@ async function getSets(
 				authorUsername: set.author.username,
 				numReviews: set.setReview.length,
 				numFlashcards: set.flashCards.length,
-				averageRating: calculateAverageSetRating(set.setReview.map((review) => review.starRating)),
+				averageRating: calculateAverageSetRating(
+					set.setReview.map((review) => review.starRating),
+				),
 			}) as FullSet,
 	) as FullSet[];
 }

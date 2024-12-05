@@ -1585,6 +1585,96 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /systemConfig/setCreationLimit:
+    get:
+      summary: "Return the current user set creation limit"
+      tags:
+        - "Completed - System Config"
+      responses:
+        "200":
+          description: "Current set creation limit"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  setCreationLimit:
+                    type: "number"
+                    example: 20
+                  creationCounter:
+                    type: "number"
+                    example: 5
+        "403": 
+          description: "User not admin"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: "No set creation limit found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      summary: "Update the current user set creation limit"
+      tags:
+        - "Completed - System Config"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                setCreationLimit:
+                  type: "number"
+      responses:
+        "200":
+          description: "New set creation limit"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  setCreationLimit:
+                    type: "number"
+                    example: 20
+                  creationCounter:
+                    type: "number"
+                    example: 5
+        "403": 
+          description: "User not admin"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: "Config not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /systemConfig/creationCounter:
+    delete:
+      summary: "Clear the user set creation counter for the current day"
+      tags:
+        - "Completed - System Config"
+      responses:
+        "204":
+          description: "Creation Counter Reset"
+        "403": 
+          description: "User not admin"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: "Config not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
 components:
   schemas:

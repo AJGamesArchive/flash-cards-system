@@ -22,12 +22,12 @@ const routePOSTUsers = async (
 	rep: FastifyReply,
 ): Promise<void> => {
 	// Ensure a username and password have been provided
-	if(!req.body.username || !req.body.password) {
+	if (!req.body.username || !req.body.password) {
 		rep.status(400).send({
 			message: 'Username or Password not provided',
 		} as POSTUsersReplyError);
 		return;
-	};
+	}
 
 	// Create new user object
 	const newUser: FullUser = {

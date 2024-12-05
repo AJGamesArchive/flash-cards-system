@@ -16,14 +16,16 @@ const routeGETSets = async (
 
 	// Map data to reply schema and send data
 	rep.status(200).send(
-		sets.map(
-			(fullSet) =>
-				({
-					...fullSet,
-					createdAt: fullSet.createdAt.toISOString(),
-					updatedAt: fullSet.updatedAt.toISOString(),
-				}) as GETSetsReply200,
-		).sort((a, b) => b.averageRating - a.averageRating) as GETSetsReply200[],
+		sets
+			.map(
+				(fullSet) =>
+					({
+						...fullSet,
+						createdAt: fullSet.createdAt.toISOString(),
+						updatedAt: fullSet.updatedAt.toISOString(),
+					}) as GETSetsReply200,
+			)
+			.sort((a, b) => b.averageRating - a.averageRating) as GETSetsReply200[],
 	);
 	return;
 };

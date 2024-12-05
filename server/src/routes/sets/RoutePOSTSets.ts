@@ -71,8 +71,7 @@ const routePOSTSets = async (
 	const newFlashcards: Flashcard[] = req.body.flashCards.map((flashcard) => {
 		// Get difficulty object for current card
 		const difficulty =
-			difficulties.find((d) => d.value === flashcard.difficulty) ||
-			null;
+			difficulties.find((d) => d.value === flashcard.difficulty) || null;
 		return {
 			cardUUID: uuidGen(),
 			question: flashcard.question,

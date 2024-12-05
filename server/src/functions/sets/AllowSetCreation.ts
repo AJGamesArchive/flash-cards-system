@@ -24,9 +24,8 @@ async function allowSetCreation(userDate: JWTData): Promise<number> {
 
 	// Check if the creation counter has been reached - return 429 if limit reached otherwise return 200
 	if (getDateString(setLimitConfig.currentDate) === getDateString(today)) {
-		if (
-			setLimitConfig.creationCounter >= setLimitConfig.setCreationLimit
-		) return 429;
+		if (setLimitConfig.creationCounter >= setLimitConfig.setCreationLimit)
+			return 429;
 		else return 200;
 	}
 

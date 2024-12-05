@@ -42,7 +42,7 @@ const routeDELETEUserCollectionSetAllocations = async (
 		req.params.collectionUUID,
 		req.params.setUUID,
 	);
-	if(deleteStatus !== 200) {
+	if (deleteStatus !== 200) {
 		rep.status(deleteStatus).send({
 			message:
 				deleteStatus === 403 ? 'User Not Collection Owner' : 'Entity Not Found',

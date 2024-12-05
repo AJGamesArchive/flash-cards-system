@@ -1,7 +1,7 @@
 // Imports
+import calculateAverageSetRating from '../../functions/sets/CalculateAverageSetRating.js';
 import { db } from '../../Server.js';
 import { FullSet } from '../sets/GetSets.js';
-import calculateAverageSetRating from '../../functions/sets/CalculateAverageSetRating.js';
 
 /**
  * Async function to fetch all sets from with a given users collection
@@ -56,7 +56,9 @@ async function getCollectionSets(
 				authorUsername: allocation.set.author.username,
 				numReviews: allocation.set.setReview.length,
 				numFlashcards: allocation.set.flashCards.length,
-				averageRating: calculateAverageSetRating(allocation.set.setReview.map((review) => review.starRating)),
+				averageRating: calculateAverageSetRating(
+					allocation.set.setReview.map((review) => review.starRating),
+				),
 			}) as FullSet,
 	) as FullSet[];
 }

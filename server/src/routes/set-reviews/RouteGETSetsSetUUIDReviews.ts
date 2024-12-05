@@ -24,7 +24,7 @@ const routeGETSetSetUUIDReviews = async (
 			message: 'No Reviews Found',
 		} as GETSetsSetUUIDReviewsReplyError);
 		return;
-	};
+	}
 
 	// Return reviews
 	rep.status(200).send(

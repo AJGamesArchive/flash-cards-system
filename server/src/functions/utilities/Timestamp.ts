@@ -4,14 +4,19 @@
  * @returns Date string in the format of "dd/mm/yyyy"
  */
 function getDateString(date?: Date): string {
-  var timestamp: Date;
-  if(date) {
-    timestamp = date;
-  } else {
-    timestamp = new Date();
-  };
-  const dateString: string = String(timestamp.getDate()).padStart(2, "0") + "/" + String(timestamp.getMonth() + 1).padStart(2, "0") + "/" + timestamp.getFullYear();
-  return dateString;
-};
+	var timestamp: Date;
+	if (date) {
+		timestamp = date;
+	} else {
+		timestamp = new Date();
+	}
+	const dateString: string =
+		String(timestamp.getDate()).padStart(2, '0') +
+		'/' +
+		String(timestamp.getMonth() + 1).padStart(2, '0') +
+		'/' +
+		timestamp.getFullYear();
+	return dateString;
+}
 
 export default getDateString;

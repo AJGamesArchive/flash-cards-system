@@ -73,8 +73,7 @@ const routePUTSetsSetUUID = async (
 	const flashcards: Flashcard[] = req.body.flashCards.map((flashcard) => {
 		// Get difficulty object for current card
 		const difficulty =
-			difficulties.find((d) => d.value === flashcard.difficulty) ||
-			null;
+			difficulties.find((d) => d.value === flashcard.difficulty) || null;
 		return {
 			cardUUID: flashcard.cardUUID,
 			question: flashcard.question,

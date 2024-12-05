@@ -29,12 +29,7 @@ const schemaPOSTFlashcardCardUUIDLog: FastifySchema = {
 			timesFlipped: { type: 'number' },
 			cardUUID: { type: 'string' },
 		},
-		required: [
-			'faceDownTime',
-			'revisionTime',
-			'timesFlipped',
-			'cardUUID',
-		],
+		required: ['faceDownTime', 'revisionTime', 'timesFlipped', 'cardUUID'],
 	},
 	response: {
 		201: {

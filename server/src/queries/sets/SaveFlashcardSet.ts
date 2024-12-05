@@ -20,7 +20,7 @@ async function saveFlashcardSet(
 	let queries: any[] = [];
 	if (newFlag) {
 		// Increment set creation counter if user is not admin
-		if(!adminFlag) {
+		if (!adminFlag) {
 			queries.push(
 				db.systemConfig.update({
 					where: {
@@ -33,7 +33,7 @@ async function saveFlashcardSet(
 					},
 				}),
 			);
-		};
+		}
 
 		// Create new set and new flashcards if new flag is present
 		queries.push(
@@ -54,7 +54,7 @@ async function saveFlashcardSet(
 		);
 		flashcards.forEach((flashcard) => {
 			// Add difficulty foreign key if present, otherwise nullify it
-			if(flashcard.difficulty) {
+			if (flashcard.difficulty) {
 				queries.push(
 					db.flashCards.create({
 						data: {
@@ -98,8 +98,12 @@ async function saveFlashcardSet(
 		});
 	} else {
 		// Split flashcards into two arrays - 1 new flashcards, 1 existing flashcards
-		const newFlashcards: Flashcard[] = flashcards.filter((card) => !card.setUUID);
-		const updatedFlashcards: Flashcard[] = flashcards.filter((card) => card.setUUID);
+		const newFlashcards: Flashcard[] = flashcards.filter(
+			(card) => !card.setUUID,
+		);
+		const updatedFlashcards: Flashcard[] = flashcards.filter(
+			(card) => card.setUUID,
+		);
 
 		// Fetch all flashcards current saved to the set
 		const existingFlashcards = await db.flashCards.findMany({
@@ -128,7 +132,7 @@ async function saveFlashcardSet(
 		// Update existing flashcards
 		updatedFlashcards.forEach((flashcard) => {
 			// Add difficulty foreign key if present, otherwise nullify it
-			if(flashcard.difficulty) {
+			if (flashcard.difficulty) {
 				queries.push(
 					db.flashCards.update({
 						where: {
@@ -160,14 +164,14 @@ async function saveFlashcardSet(
 						},
 					}),
 				);
-			};
+			}
 			return;
 		});
 
 		// Create new flashcards
 		newFlashcards.forEach((flashcard) => {
 			// Add difficulty foreign key if present, otherwise nullify it
-			if(flashcard.difficulty) {
+			if (flashcard.difficulty) {
 				queries.push(
 					db.flashCards.create({
 						data: {
@@ -206,14 +210,16 @@ async function saveFlashcardSet(
 						},
 					}),
 				);
-			};
+			}
 			return;
 		});
 
 		// Delete any flashcards that have been removed from the set
 		existingFlashcards.forEach((flashcard) => {
-			const present: boolean = updatedFlashcards.some((card) => card.cardUUID === flashcard.cardUUID);
-			if(present) return;
+			const present: boolean = updatedFlashcards.some(
+				(card) => card.cardUUID === flashcard.cardUUID,
+			);
+			if (present) return;
 			queries.push(
 				db.flashCards.delete({
 					where: {

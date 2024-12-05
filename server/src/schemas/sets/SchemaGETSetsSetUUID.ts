@@ -43,7 +43,7 @@ const schemaGETSetsSetUUID: FastifySchema = {
 				authorUsername: { type: 'string' },
 				numReviews: { type: 'number' },
 				numFlashcards: { type: 'number' },
-				averageRating: { type: 'number'},
+				averageRating: { type: 'number' },
 			},
 			required: [
 				'setUUID',

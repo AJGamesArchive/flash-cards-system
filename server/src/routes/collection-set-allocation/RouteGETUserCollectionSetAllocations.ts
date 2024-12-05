@@ -52,14 +52,18 @@ const routeGETUserCollectionSetAllocations = async (
 
 	// Return sets
 	rep.status(200).send(
-		sets.map(
-			(set) =>
-				({
-					...set,
-					createdAt: set.createdAt.toISOString(),
-					updatedAt: set.updatedAt.toISOString(),
-				}) as GETUserCollectionSetAllocationsReply200,
-		).sort((a, b) => b.averageRating - a.averageRating) as GETUserCollectionSetAllocationsReply200[],
+		sets
+			.map(
+				(set) =>
+					({
+						...set,
+						createdAt: set.createdAt.toISOString(),
+						updatedAt: set.updatedAt.toISOString(),
+					}) as GETUserCollectionSetAllocationsReply200,
+			)
+			.sort(
+				(a, b) => b.averageRating - a.averageRating,
+			) as GETUserCollectionSetAllocationsReply200[],
 	);
 	return;
 };

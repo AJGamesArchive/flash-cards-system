@@ -27,14 +27,18 @@ const routeUsersUserUUIDSets = async (
 
 	// Return sets
 	rep.status(200).send(
-		sets.map(
-			(fullSet) =>
-				({
-					...fullSet,
-					createdAt: fullSet.createdAt.toISOString(),
-					updatedAt: fullSet.updatedAt.toISOString(),
-				}) as UserUserUUIDSetsReply200,
-		).sort((a, b) => b.averageRating - a.averageRating) as UserUserUUIDSetsReply200[],
+		sets
+			.map(
+				(fullSet) =>
+					({
+						...fullSet,
+						createdAt: fullSet.createdAt.toISOString(),
+						updatedAt: fullSet.updatedAt.toISOString(),
+					}) as UserUserUUIDSetsReply200,
+			)
+			.sort(
+				(a, b) => b.averageRating - a.averageRating,
+			) as UserUserUUIDSetsReply200[],
 	);
 	return;
 };

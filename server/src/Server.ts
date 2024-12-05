@@ -1,10 +1,10 @@
 // Core Imports
-import Fastify from 'fastify';
-import fastifyJWT from '@fastify/jwt';
 import cors from '@fastify/cors';
+import fastifyJWT from '@fastify/jwt';
 import swagger from '@fastify/swagger';
 import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
+import Fastify from 'fastify';
 
 import routeConfirmLogin from './routes/auth/RouteConfirmLogin.js';
 import routeLogin from './routes/auth/RouteLogin.js';
@@ -35,6 +35,9 @@ import routeGETSetSetUUID from './routes/sets/RouteGETSetsSetUUID.js';
 import routePOSTSets from './routes/sets/RoutePOSTSets.js';
 import routePUTSetsSetUUID from './routes/sets/RoutePUTSetsSetUUID.js';
 import routeSetsSetUUIDCards from './routes/sets/RouteSetsSetUUIDCards.js';
+import routeDELETECreationCounter from './routes/system-config/RouteDELETECreationCounter.js';
+import routeGETSetCreationLimit from './routes/system-config/RouteGETSetCreationLimit.js';
+import routePATCHSetCreationLimit from './routes/system-config/RoutePATCHSetCreationLimit.js';
 import routeDELETEUsersUserUUID from './routes/users/RouteDELETEUsersUserUUID.js';
 import routeGETUsers from './routes/users/RouteGETUsers.js';
 import routeGETUsersUserUUID from './routes/users/RouteGETUsersUserUUID.js';
@@ -106,6 +109,11 @@ import schemaPUTSetsSetUUID, {
 	PUTSetsSetUUIDParams,
 } from './schemas/sets/SchemaPUTSetsSetUUID.js';
 import schemaSetsSetUUIDCards from './schemas/sets/SchemaSetsSetUUIDCards.js';
+import schemaDELETECreationCounter from './schemas/system-config/SchemaDELETECreationCounter.js';
+import schemaGETSetCreationLimit from './schemas/system-config/SchemaGETSetCreationLimit.js';
+import schemaPATCHSetCreationLimit, {
+	PATCHSetCreationLimitRequestBody,
+} from './schemas/system-config/SchemaPATCHSetCreationLimit.js';
 import schemaDELETEUsersUserUUID, {
 	DELETEUsersUserUUIDParams,
 } from './schemas/users/SchemaDELETEUsersUserUUID.js';
@@ -354,13 +362,7 @@ server.post(
 	'/logs/flashcards',
 	{
 		schema: schemaPOSTFlashcardCardUUIDLog,
-		preHandler: [
-			guardAuthenticate<
-				POSTFlashcardCardUUIDLogRequest,
-				any,
-				any
-			>,
-		],
+		preHandler: [guardAuthenticate<POSTFlashcardCardUUIDLogRequest, any, any>],
 	},
 	routePOSTFlashcardsCardUUIDlog,
 );
@@ -391,13 +393,7 @@ server.delete(
 	'/hiddenCards/:userUUID/:cardUUID',
 	{
 		schema: schemaDELETEHiddenCardsUserUUID,
-		preHandler: [
-			guardAuthenticate<
-				any,
-				DELETEHiddenCardsUserUUIDParams,
-				any
-			>,
-		],
+		preHandler: [guardAuthenticate<any, DELETEHiddenCardsUserUUIDParams, any>],
 	},
 	routeDELETEHiddenCardUserUUID,
 );
@@ -518,7 +514,34 @@ server.delete(
 	routeDELETEUserCollectionSetAllocations,
 );
 
-//TODO Remember to make API Account management endpoints
+// System configuration endpoints
+server.get(
+	'/systemConfig/setCreationLimit',
+	{
+		schema: schemaGETSetCreationLimit,
+		preHandler: [
+			guardAuthenticate<PATCHSetCreationLimitRequestBody, any, any>,
+			guardIsAdmin<PATCHSetCreationLimitRequestBody, any, any>,
+		],
+	},
+	routeGETSetCreationLimit,
+);
+server.patch(
+	'/systemConfig/setCreationLimit',
+	{
+		schema: schemaPATCHSetCreationLimit,
+		preHandler: [guardAuthenticate<any, any, any>, guardIsAdmin<any, any, any>],
+	},
+	routePATCHSetCreationLimit,
+);
+server.delete(
+	'/systemConfig/creationCounter',
+	{
+		schema: schemaDELETECreationCounter,
+		preHandler: [guardAuthenticate<any, any, any>, guardIsAdmin<any, any, any>],
+	},
+	routeDELETECreationCounter,
+);
 
 // Start server
 server.listen(
