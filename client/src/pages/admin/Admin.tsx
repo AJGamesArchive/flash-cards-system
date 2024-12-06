@@ -5,9 +5,16 @@ import { Toast } from 'primereact/toast';
 import ToolBarPage from '../../components/tool-bar-page/ToolBarPage';
 import WindowSize from '../../types/core/WindowSize';
 import useWindowSize from '../../hook/core/UseWindowSize';
-import commonColors from '../../static/Colors';
-
-//TODO Implement this page once endpoints have been created the rate limit bug is fixed!
+import useAdminConfig, { UseAdminConfigHook } from '../../hook/admin/UseAdminConfig';
+import ErrorWatch from '../../types/core/ErrorWatch';
+import useErrorListener from '../../hook/core/UseErrorListener';
+import useLoadingListener from '../../hook/core/UseLoadingListener';
+import useToastListener from '../../hook/core/UseToastListener';
+import DebugBlock from '../../components/core/DebugBlock';
+import PageLoading from '../../components/core/PageLoading';
+import PageError from '../../components/core/PageError';
+import SetCreationLimitCard from '../../components/system-config/SetCreationLimitCard';
+import getReadableTimestamp from '../../functions/global/Timestamps';
 
 /**
  * React function to render the admin page
@@ -19,6 +26,25 @@ const AdminPage: React.FC = () => {
 
   // Page hooks
   const windowSize: WindowSize = useWindowSize();
+  const adminConfigHandler: UseAdminConfigHook = useAdminConfig();
+  const pageError: ErrorWatch = useErrorListener([
+    adminConfigHandler.getSetCreationConfig.apiError,
+    adminConfigHandler.getSetCreationConfig.castingError,
+  ]);
+  const pageLoading: boolean = useLoadingListener([
+    adminConfigHandler.getSetCreationConfig.loading,
+  ]);
+  const loadingRequest: boolean = useLoadingListener([
+    adminConfigHandler.updateSetCreationLimitRequest.loading,
+    adminConfigHandler.resetCreationCounterRequest.loading,
+  ]);
+  useToastListener(toast, [
+    adminConfigHandler.getSetCreationConfig.toast,
+  ], ['success']);
+  useToastListener(toast, [
+    adminConfigHandler.updateSetCreationLimitRequest.toast,
+    adminConfigHandler.resetCreationCounterRequest.toast,
+  ], []);
 
   // Return JSX
   return (
@@ -29,30 +55,33 @@ const AdminPage: React.FC = () => {
       pageHorizontalAlignment='Center'
       selectedItemIndex={6}
     >
-      {windowSize.width > 768 && <h1>Admin Page</h1>}
-      {windowSize.width <= 768 && <h2>Admin Page</h2>}
-      <b style={{
-        fontSize:
-          (windowSize.width > 768)
-            ? '1.5rem'
-            : '1rem',
-        color:
-          (localStorage.getItem('fc-admin') === 'true')
-            ? commonColors.Green
-            : commonColors.Yellow
-      }}>
-        {localStorage.getItem('fc-username')}
-      </b>
-      <br/><br/>
-      <div style={{
-        color: commonColors.Red,
-        fontSize:
-          (windowSize.width > 768)
-            ? '1.5rem'
-            : '1rem',
-      }}>
-        <b><i>[Implement this page once endpoints have been created the rate limit bug is fixed!]</i></b>
-      </div>
+      {pageError && (
+        <PageError
+          displayError={String(pageError)}
+        />
+      )}
+      {(!pageError && pageLoading) && (
+        <PageLoading/>
+      )}
+      {(!pageError && !pageLoading) && (
+        <>
+          {
+            //? Page Content
+          }
+          <SetCreationLimitCard
+            windowSize={windowSize}
+            adminConfigHandler={adminConfigHandler}
+            loading={loadingRequest}
+          />
+          {
+            //! Debug Block - Remove for production
+          }
+          <DebugBlock>
+            Config: {JSON.stringify(adminConfigHandler.setCreationConfig, null, 2)}<br/>
+            Timestamp: {JSON.stringify(getReadableTimestamp(adminConfigHandler.setCreationConfig?.date, true), null, 2)}
+          </DebugBlock>
+        </>
+      )}
     </ToolBarPage>
   );
 };
