@@ -10,11 +10,9 @@ import ErrorWatch from '../../types/core/ErrorWatch';
 import useErrorListener from '../../hook/core/UseErrorListener';
 import useLoadingListener from '../../hook/core/UseLoadingListener';
 import useToastListener from '../../hook/core/UseToastListener';
-import DebugBlock from '../../components/core/DebugBlock';
 import PageLoading from '../../components/core/PageLoading';
 import PageError from '../../components/core/PageError';
 import SetCreationLimitCard from '../../components/system-config/SetCreationLimitCard';
-import getReadableTimestamp from '../../functions/global/Timestamps';
 
 /**
  * React function to render the admin page
@@ -73,13 +71,6 @@ const AdminPage: React.FC = () => {
             adminConfigHandler={adminConfigHandler}
             loading={loadingRequest}
           />
-          {
-            //! Debug Block - Remove for production
-          }
-          <DebugBlock>
-            Config: {JSON.stringify(adminConfigHandler.setCreationConfig, null, 2)}<br/>
-            Timestamp: {JSON.stringify(getReadableTimestamp(adminConfigHandler.setCreationConfig?.date, true), null, 2)}
-          </DebugBlock>
         </>
       )}
     </ToolBarPage>
