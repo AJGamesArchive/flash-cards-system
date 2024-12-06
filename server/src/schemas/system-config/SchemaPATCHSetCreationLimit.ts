@@ -7,6 +7,7 @@ export interface PATCHSetCreationLimitRequestBody {
 export interface PATCHSetCreationLimitReply200 {
 	setCreationLimit: number;
 	creationCounter: number;
+	date: string;
 }
 
 export interface PATCHSetCreationLimitReplyError {
@@ -27,8 +28,9 @@ const schemaPATCHSetCreationLimit: FastifySchema = {
 			properties: {
 				setCreationLimit: { type: 'number' },
 				creationCounter: { type: 'number' },
+				date: { type: 'string', format: 'date-time' },
 			},
-			required: ['setCreationLimit', 'creationCounter'],
+			required: ['setCreationLimit', 'creationCounter', "date"],
 		},
 		403: {
 			type: 'object',

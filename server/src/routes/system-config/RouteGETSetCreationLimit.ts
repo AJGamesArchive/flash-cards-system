@@ -27,6 +27,7 @@ const routeGETSetCreationLimit = async (
 	rep.status(200).send({
 		setCreationLimit: config.setCreationLimit,
 		creationCounter: config.creationCounter,
+		date: config.currentDate.toISOString(),
 	} as GETSetCreationLimitReply200);
 	return;
 };

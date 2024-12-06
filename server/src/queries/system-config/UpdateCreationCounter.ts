@@ -17,6 +17,7 @@ async function updateCreationCounterConfig(
 			},
 			data: {
 				creationCounter: newCounter,
+				currentDate: new Date(),
 			},
 		});
 		return updatedConfig;

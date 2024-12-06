@@ -3,6 +3,7 @@ import { FastifySchema } from 'fastify';
 export interface GETSetCreationLimitReply200 {
 	setCreationLimit: number;
 	creationCounter: number;
+	date: string;
 }
 
 export interface GETSetCreationLimitReplyError {
@@ -16,8 +17,9 @@ const schemaGETSetCreationLimit: FastifySchema = {
 			properties: {
 				setCreationLimit: { type: 'number' },
 				creationCounter: { type: 'number' },
+				date: { type: 'string', format: 'date-time' },
 			},
-			required: ['setCreationLimit', 'creationCounter'],
+			required: ['setCreationLimit', 'creationCounter', "date"],
 		},
 		403: {
 			type: 'object',

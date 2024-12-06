@@ -30,6 +30,7 @@ const routePATCHSetCreationLimit = async (
 	rep.status(200).send({
 		setCreationLimit: updatedConfig.setCreationLimit,
 		creationCounter: updatedConfig.creationCounter,
+		date: updatedConfig.currentDate.toISOString(),
 	} as PATCHSetCreationLimitReply200);
 	return;
 };
