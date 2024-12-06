@@ -51,6 +51,20 @@
       "outputs": [],
       "cache": false
     },
+    "cypress:open": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [],
+      "cache": false
+    },
+    "cypress:run": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [],
+      "cache": false
+    },
     "database:generate": {
       "outputs": ["database/node_modules/.prisma"]
     },

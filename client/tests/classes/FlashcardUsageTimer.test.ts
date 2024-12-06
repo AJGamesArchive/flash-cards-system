@@ -1,7 +1,7 @@
 import FlashcardUsageTimer from "../../src/classes/FlashcardUsageTimer";
-import FlashcardUsageLog from "../../src/types/global/FlashcardUsageLog";
-import { SetStateAction } from 'react';
-import { jest } from '@jest/globals';
+// import FlashcardUsageLog from "../../src/types/global/FlashcardUsageLog";
+// import { SetStateAction } from 'react';
+import { jest, expect } from '@jest/globals';
 
 describe('FlashcardUsageTimer', () => {
   let timer: FlashcardUsageTimer;

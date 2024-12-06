@@ -41,6 +41,8 @@
     "client:preview": "turbo run preview --filter=@flash-cards-system/client --parallel --no-cache",
     "client:test": "turbo run test --filter=@flash-cards-system/client --parallel --no-cache",
     "client:test-majestic": "turbo run test-majestic --filter=@flash-cards-system/client --parallel --no-cache",
+    "client:cypress:open": "turbo run cypress:open --filter=@flash-cards-system/client --parallel --no-cache",
+    "client:cypress:run": "turbo run cypress:run --filter=@flash-cards-system/client --parallel --no-cache",
     "//////// Database ////////": "",
     "db:generate": "turbo run database:generate --filter=@flash-cards-system/database",
     "db:migrate": "turbo run database:migrate --filter=@flash-cards-system/database"

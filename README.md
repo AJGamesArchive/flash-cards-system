@@ -57,6 +57,8 @@
 - ``yarn client:preview``: Preview the most recent production build of the client.
 - ``yarn client:test``: Run tests on the client.
 - ``yarn client:test-majestic``: Run tests on the client using the Majestic UI tool.
+- ``yarn client:cypress:open``: Open Cypress' GUI and run and monitor e2e and component tests.
+- ``yarn client:cypress:run``: Run all Cypress tests in the CLI.
 
 ### Database
 
@@ -96,7 +98,7 @@ The following section outlines the technology used for client and server code-ba
 - UI Framework: [PrimeReact](https://primereact.org)
 - Build Tool: [Vite](https://vite.dev)
 - Additional Compiler: [Babel](https://babeljs.io)
-- Test Frameworks: [Jest](https://jestjs.io) & [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
+- Test Frameworks: [Jest](https://jestjs.io), [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/), & [Cypress](https://docs.cypress.io/app/get-started/why-cypress)
 - Additional Jest Environment: [JSDom](https://www.npmjs.com/package/jest-environment-jsdom)
 - Additional Test Tools: [Majestic](https://github.com/Raathigesh/majestic)
 - Code Checker: [ESLint](https://eslint.org)
