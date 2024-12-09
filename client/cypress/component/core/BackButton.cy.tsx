@@ -1,7 +1,9 @@
 import React from 'react';
 import { mount } from 'cypress/react';
-import BackButton from '../../src/components/core/BackButton';
+import BackButton from '../../../src/components/core/BackButton';
 import { BrowserRouter as Router } from 'react-router-dom';
+
+//TODO Fix component testing config error???
 
 describe('BackButton Component', () => {
   it('renders with default props', () => {
