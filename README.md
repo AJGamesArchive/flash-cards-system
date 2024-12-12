@@ -8,12 +8,20 @@
 - Database Schema & Migrations: ``./database``
 - Author: **Alex Ward**
 
+## Notes
+
+- Testing is very unfinished and kinda broken as I just ahven't had the time to put into it recently.
+- All core data required for the system to function is seeded into the database upon migration.
+- Both API & Web Client should be fully featured and working.
+- The docker containers are mostly done, however, the server doesn't access the database and I'm not sure if the client can access the API. These containers haven't been tested for over a moth.
+- The API will require you to be running **Node v18** as 1 dependency hasen't been updated to Node v20+ yet.
+
 # Setup & Commands
 
 ## Setup
 
 - Install Yarn Package Manager: ``npm install -g yarn`` or ``choco install yarn``
-- Ensure you're running **NodeJS v18** - *Unfortunately needed for one dependency that is yet to be updated to Node20*
+- Ensure you're running **NodeJS v18** - *Unfortunately needed for one dependency that is yet to be updated to Node20+*
 - Clone Repo: ``git clone https://github.com/AJGamesArchive/flash-cards-system.git``
 - Install Dependencies: ``yarn install``
 - Create a ``.env`` file in the ``./server`` workspace based off the ``.env.example``
@@ -25,6 +33,8 @@
 - - This will run a **server** DEV build on: [localhost:80](http://localhost:80)
 
 ## Default Admin Login
+
+*The following account is seeded into the database upon migration.*
 
 - Username: **TestVar Admin**
 - Password: **TestVar@395012**
