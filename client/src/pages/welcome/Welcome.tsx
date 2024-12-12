@@ -1,23 +1,28 @@
 // Imports
 import './Welcome.css';
+import { useRef } from 'react';
+import { Toast } from 'primereact/toast';
+import { Button } from 'primereact/button';
 import ToolBarPage from '../../components/tool-bar-page/ToolBarPage';
 import commonColors from '../../static/Colors';
 import WindowSize from '../../types/core/WindowSize';
 import useWindowSize from '../../hook/core/UseWindowSize';
-
-//TODO Add account status and implement ways for user to edit their account details
 
 /**
  * React function to render the welcome page
  * @returns WelcomePage Component
  */
 const WelcomePage: React.FC = () => {
+  // Page refs
+  const toast = useRef<Toast>(null);
+
   // Page hooks
   const windowSize: WindowSize = useWindowSize();
 
   // Return JSX
   return (
     <ToolBarPage
+      toastRef={toast}
       pageDirection='Column'
       pageVerticalAlignment='Center'
       pageHorizontalAlignment='Center'
@@ -66,14 +71,19 @@ const WelcomePage: React.FC = () => {
         {localStorage.getItem('fc-uuid')}
       </b>
       <br/><br/>
-      <div style={{
-        color: commonColors.Red,
-        fontSize:
-          (windowSize.width > 768)
-            ? '1.5rem'
-            : '1rem',
-      }}>
-      <b><i>[Implement account stats and account detail editing methods here!]</i></b>
+      <div>
+        <Button
+          label='Edit Account'
+          icon='pi pi-user-edit'
+          severity='help'
+          onClick={() => toast.current?.show({ //TODO Implement this time permitting
+            severity: 'info',
+            summary: 'Feature Not Implemented Yet',
+            closable: false,
+            life: 3000,
+          })}
+          raised
+        />
       </div>
     </ToolBarPage>
   );

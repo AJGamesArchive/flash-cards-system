@@ -100,7 +100,7 @@ const SetCreationLimitCard: React.FC<SetCreationLimitCardProps> = ({
             icon='pi pi-sync'
             onTripleClick={adminConfigHandler.resetCreationCounter}
             disabled={loading}
-            raised
+            outlined
           />
         </div>
       </div>
