@@ -133,7 +133,7 @@ import schemaPOSTUsers from './schemas/users/SchemaPOSTUsers.js';
 import schemaUsersUserUUIDSets from './schemas/users/SchemaUsersUserUUIDSets.js';
 
 // Create API & Database Connection
-const server = Fastify({ logger: true }); //TODO Disable logger for production
+const server = Fastify({ logger: false }); //TODO Disable logger for production
 export const db = new PrismaClient();
 
 // Load ENVs
