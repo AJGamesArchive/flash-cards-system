@@ -6,9 +6,9 @@ import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
 import Fastify from 'fastify';
 
-import routeConfirmLogin from './routes/auth/RouteConfirmLogin.js';
-import routeLogin from './routes/auth/RouteLogin.js';
-import routeLogout from './routes/auth/RouteLogout.js';
+import routeConfirmLogin from './routes/Auth/RouteConfirmLogin.js';
+import routeLogin from './routes/Auth/RouteLogin.js';
+import routeLogout from './routes/Auth/RouteLogout.js';
 import routeDELETEUserCollectionSetAllocations from './routes/collection-set-allocation/RouteDELETEUserCollectionSetAllocations.js';
 import routeGETUserCollectionSetAllocations from './routes/collection-set-allocation/RouteGETUserCollectionSetAllocations.js';
 import routePOSTUserCollectionSetAllocations from './routes/collection-set-allocation/RoutePOSTUserCollectionSetAllocations.js';
@@ -19,7 +19,7 @@ import routeGETUsersUserUUIDCollectionsCollectionUUID from './routes/collections
 import routePATCHUsersUserUUIDCollectionsCollectionUUID from './routes/collections/RoutePATCHUsersUserUUIDCollectionsCollectionUUID.js';
 import routePOSTUsersUserUUIDCollections from './routes/collections/RoutePOSTUsersUserUUIDCollections.js';
 import routePOSTFlashcardsCardUUIDlog from './routes/flashcard-logs/RoutePOSTFlashcardCardUUIDLog.ts.js';
-import routeAPIBuild from './routes/general/RouteAPIBuild.js';
+import routeAPIBuild from './routes/General/RouteAPIBuild.js';
 import guardIsAdmin from './routes/guards/GuardIsAdmin.js';
 import guardAuthenticate from './routes/guards/GuardIsAuthenticated.js';
 import routeDELETEHiddenCardUserUUID from './routes/hidden-card-allocations/RouteDELETEHiddenCardsUserUUID.js';
@@ -45,9 +45,9 @@ import routePATCHUsersUserUUID from './routes/users/RoutePATCHUsersUserUUID.js';
 import routePATCHUsersUserUUIDPassword from './routes/users/RoutePATCHUsersUserUUIDPassword.js';
 import routePOSTUsers from './routes/users/RoutePOSTUsers.js';
 import routeUsersUserUUIDSets from './routes/users/RouteUsersUserUUIDSets.js';
-import schemaConfirmLogin from './schemas/auth/SchemaConfirmLogin.js';
-import schemaLogin from './schemas/auth/SchemaLogin.js';
-import schemaLogout from './schemas/auth/SchemaLogout.js';
+import schemaConfirmLogin from './schemas/Auth/SchemaConfirmLogin.js';
+import schemaLogin from './schemas/Auth/SchemaLogin.js';
+import schemaLogout from './schemas/Auth/SchemaLogout.js';
 import schemaDELETEUserCollectionSetAllocation, {
 	DELETEUserCollectionSetAllocationsParams,
 } from './schemas/collection-set-allocation/SchemaDELETEUserCollectionSetAllocations.js';
@@ -80,7 +80,7 @@ import schemaPOSTUsersUserUUIDCollections, {
 import schemaPOSTFlashcardCardUUIDLog, {
 	POSTFlashcardCardUUIDLogRequest,
 } from './schemas/flashcard-logs/SchemaPOSTFlashcardCardUUIDLog.js';
-import schemaAPIBuild from './schemas/general/SchemaAPIBuild.js';
+import schemaAPIBuild from './schemas/General/SchemaAPIBuild.js';
 import schemaDELETEHiddenCardsUserUUID, {
 	DELETEHiddenCardsUserUUIDParams,
 } from './schemas/hidden-card-allocations/SchemaDELETEHiddenCardsUserUUID.js';

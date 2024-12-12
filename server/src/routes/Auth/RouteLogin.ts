@@ -10,7 +10,7 @@ import {
 	LoginRequest,
 	LoginReply200,
 	LoginReplyError,
-} from '../../schemas/auth/SchemaLogin.js';
+} from '../../schemas/Auth/SchemaLogin.js';
 import server from '../../Server.js';
 
 /**

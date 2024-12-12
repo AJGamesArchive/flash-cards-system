@@ -3,7 +3,7 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 
 import castJWTPayload from '../../functions/utilities/CastJWTPayload.js';
 import setUserToken from '../../queries/auth/SetUserToken.js';
-import { LogoutReply } from '../../schemas/auth/SchemaLogout.js';
+import { LogoutReply } from '../../schemas/Auth/SchemaLogout.js';
 import JWTData from '../../types/JWTData.js';
 
 /**

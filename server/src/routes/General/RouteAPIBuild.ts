@@ -1,7 +1,7 @@
 // Imports
 import { FastifyRequest, FastifyReply } from 'fastify';
 
-import { APIBuildReply } from '../../schemas/general/SchemaAPIBuild.js';
+import { APIBuildReply } from '../../schemas/General/SchemaAPIBuild.js';
 import buildNum from '../../static/Build.js';
 
 /**

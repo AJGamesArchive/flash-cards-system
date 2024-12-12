@@ -5,7 +5,7 @@ import isUserTokenCurrent from '../../queries/auth/IsUserTokenCurrent.js';
 import {
 	ConfirmLoginReply200,
 	ConfirmLoginReply401,
-} from '../../schemas/auth/SchemaConfirmLogin.js';
+} from '../../schemas/Auth/SchemaConfirmLogin.js';
 import JWTData from '../../types/JWTData.js';
 
 /**
