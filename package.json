@@ -47,7 +47,7 @@
     "db:generate": "turbo run database:generate --filter=@flash-cards-system/database",
     "db:migrate": "turbo run database:migrate --filter=@flash-cards-system/database"
   },
-  "packageManager": "yarn@1.22.22",
+  "packageManager": "yarn@4.0.2",
   "devDependencies": {
     "turbo": "^2.1.3"
   }
